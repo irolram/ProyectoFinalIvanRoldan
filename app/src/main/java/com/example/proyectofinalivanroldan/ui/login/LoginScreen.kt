@@ -1,0 +1,100 @@
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.proyectofinalivanroldan.dominio.model.Usuario
+import com.example.proyectofinalivanroldan.ui.viewModel.LoginState
+import com.example.proyectofinalivanroldan.ui.viewmodel.LoginViewModel
+
+@Composable
+fun LoginScreen(
+    onLoginSuccess: (Usuario) -> Unit,
+    viewModel: LoginViewModel
+) {
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
+    // Observamos el estado del flujo (StateFlow)
+    val loginState by viewModel.loginState.collectAsState()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = "Proyecto Instituto QR", style = MaterialTheme.typography.headlineMedium)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text("Usuario") },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = loginState !is LoginState.Loading // Bloqueamos mientras carga
+        )
+
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Contraseña") },
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = loginState !is LoginState.Loading
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        if (loginState is LoginState.Loading) {
+            CircularProgressIndicator() // Feedback visual de carga
+        } else {
+            Button(
+                onClick = { viewModel.login(username, password) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Iniciar Sesión")
+            }
+        }
+
+        // Manejo de errores
+        val currentState = loginState
+        if (currentState is LoginState.Error) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = currentState.mensaje,
+                color = Color.Red,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+
+        // Manejo de éxito
+        LaunchedEffect(loginState) {
+            if (loginState is LoginState.Success) {
+                onLoginSuccess((loginState as LoginState.Success).usuario)
+            }
+        }
+    }
+}

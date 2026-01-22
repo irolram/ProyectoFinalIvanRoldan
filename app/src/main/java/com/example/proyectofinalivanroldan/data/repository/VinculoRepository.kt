@@ -1,56 +1,50 @@
 package com.example.proyectofinalivanroldan.data.repository
 
+
 import android.content.Context
-import com.example.proyectofinalivanroldan.dominio.model.Alumno
+import com.example.proyectofinalivanroldan.dominio.model.Vinculo
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
 
-class AlumnoRepository(private val context: Context) : IAlumnoRepo {
+class VinculoRepository(private val context: Context) : IVinculoRepo {
 
     private val gson = Gson()
-    private val fileName = "alumnos.json"
+    private val fileName = "vinculos.json"
     private val file = File(context.filesDir, fileName)
 
-    override fun getAll(): List<Alumno> {
+    override fun getAll(): List<Vinculo> {
         if (!file.exists()) return emptyList()
         return try {
             val jsonString = file.readText()
-            val type = object : TypeToken<List<Alumno>>() {}.type
+            val type = object : TypeToken<List<Vinculo>>() {}.type
             gson.fromJson(jsonString, type) ?: emptyList()
         } catch (e: Exception) {
-            e.printStackTrace()
             emptyList()
         }
     }
 
-    override fun getAlumnoById(id: String): Alumno? {
-        return getAll().find { it.id == id }
-    }
-
-    override fun addAlumno(alumno: Alumno) {
+    override fun addVinculo(vinculo: Vinculo) {
         val lista = getAll().toMutableList()
-        lista.add(alumno)
-        guardarArchivo(lista)
-    }
-
-    override fun updateAlumno(alumno: Alumno) {
-        val lista = getAll().toMutableList()
-        val index = lista.indexOfFirst { it.id == alumno.id }
-        if (index != -1) {
-            lista[index] = alumno
+        // Evitamos duplicados
+        if (!lista.any { it.idTutor == vinculo.idTutor && it.idAlumno == vinculo.idAlumno }) {
+            lista.add(vinculo)
             guardarArchivo(lista)
         }
     }
 
-    override fun deleteAlumno(id: String) {
+    override fun deleteVinculo(idTutor: String, idAlumno: String) {
         val lista = getAll().toMutableList()
-        if (lista.removeAll { it.id == id }) {
+        if (lista.removeAll { it.idTutor == idTutor && it.idAlumno == idAlumno }) {
             guardarArchivo(lista)
         }
     }
 
-    private fun guardarArchivo(lista: List<Alumno>) {
+    override fun getAlumnosByTutor(idTutor: String): List<String> {
+        return getAll().filter { it.idTutor == idTutor }.map { it.idAlumno }
+    }
+
+    private fun guardarArchivo(lista: List<Vinculo>) {
         try {
             val jsonString = gson.toJson(lista)
             file.writeText(jsonString)

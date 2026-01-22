@@ -1,8 +1,8 @@
 package com.example.proyectofinalivanroldan.util
 
-enum class Role {
+enum class Roles {
     TUTOR,
     PROFESOR,
-    CONSERJE,
-    ADMIN
+    ADMIN,
+    CONSERJE
 }

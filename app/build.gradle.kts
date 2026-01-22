@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.proyectofinalivanroldan"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -50,6 +50,9 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -58,4 +61,12 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.google.zxing:core:3.5.3")
+    val cameraxVersion = "1.3.0"
+    implementation("androidx.camera:camera-core:$cameraxVersion")
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")
+    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation("androidx.camera:camera-view:$cameraxVersion")
+    implementation("com.google.mlkit:barcode-scanning:17.2.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 }
