@@ -39,16 +39,16 @@ fun AdminScreen(viewModel: AdminViewModel) {
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                // CORRECCIÓN AQUÍ: Ahora manejamos las 3 pestañas
                 when (selectedTab) {
                     0 -> showUserDialog = true
                     1 -> showAlumnoDialog = true
-                    2 -> showVinculoDialog = true // Esto abrirá el de los desplegables
+                    2 -> showVinculoDialog = true
                 }
             }) {
                 Icon(Icons.Default.Add, contentDescription = "Añadir")
             }
         }
+
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
             TabRow(selectedTabIndex = selectedTab) {
@@ -103,7 +103,7 @@ fun AdminScreen(viewModel: AdminViewModel) {
                     }
                 }
                 2 -> {
-                    // Lista de Vínculos actuales
+
                     Text("Relaciones Tutor-Alumno", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(16.dp))
                     LazyColumn {
                         items(vinculos) { vinculo ->
@@ -126,7 +126,6 @@ fun AdminScreen(viewModel: AdminViewModel) {
             }
         }
 
-        // --- GESTIÓN DE DIÁLOGOS ---
 
         if (showUserDialog) {
             AddUserDialog(
@@ -143,7 +142,6 @@ fun AdminScreen(viewModel: AdminViewModel) {
         }
 
         if (showVinculoDialog) {
-            // Este es el diálogo que tiene los desplegables
             AddVinculoDialog(
                 tutores = usuarios.filter { it.rol == Roles.TUTOR },
                 alumnos = alumnos,

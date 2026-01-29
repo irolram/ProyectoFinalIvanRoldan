@@ -1,11 +1,10 @@
-package com.example.proyectofinalivanroldan.ui.viewModel
+package com.example.proyectofinalivanroldan.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.proyectofinalivanroldan.data.repository.AlumnoRepository
 import com.example.proyectofinalivanroldan.data.repository.UsuarioRepository
 import com.example.proyectofinalivanroldan.data.repository.VinculoRepository
-import com.example.proyectofinalivanroldan.ui.viewmodel.AdminViewModel
 
 class AdminViewModelFactory(
     private val userRepo: UsuarioRepository,

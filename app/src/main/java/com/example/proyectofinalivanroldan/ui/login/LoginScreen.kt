@@ -22,9 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.proyectofinalivanroldan.dominio.model.Usuario
-import com.example.proyectofinalivanroldan.ui.viewModel.LoginState
+import com.example.proyectofinalivanroldan.ui.viewmodel.LoginState
 import com.example.proyectofinalivanroldan.ui.viewmodel.LoginViewModel
 
 @Composable
@@ -79,7 +78,6 @@ fun LoginScreen(
             }
         }
 
-        // Manejo de errores
         val currentState = loginState
         if (currentState is LoginState.Error) {
             Spacer(modifier = Modifier.height(8.dp))
@@ -90,7 +88,6 @@ fun LoginScreen(
             )
         }
 
-        // Manejo de éxito
         LaunchedEffect(loginState) {
             if (loginState is LoginState.Success) {
                 onLoginSuccess((loginState as LoginState.Success).usuario)

@@ -3,8 +3,6 @@ package com.example.proyectofinalivanroldan.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyectofinalivanroldan.data.repository.UsuarioRepository
-import com.example.proyectofinalivanroldan.dominio.model.Usuario
-import com.example.proyectofinalivanroldan.ui.viewModel.LoginState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
