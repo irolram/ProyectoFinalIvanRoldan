@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
@@ -21,7 +22,7 @@ import com.example.proyectofinalivanroldan.util.Roles
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AdminScreen(viewModel: AdminViewModel) {
+fun AdminScreen(viewModel: AdminViewModel, onLogout: () -> Unit) {
     val usuarios by viewModel.usuarios.collectAsState()
     val alumnos by viewModel.alumnos.collectAsState()
     val vinculos by viewModel.vinculos.collectAsState()
@@ -35,7 +36,18 @@ fun AdminScreen(viewModel: AdminViewModel) {
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Panel de Administración") })
+            TopAppBar(
+                title = { Text("Panel de Administración") },
+                actions = {
+                    IconButton(onClick = onLogout) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                            contentDescription = "Cerrar Sesión",
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                    }
+                }
+            )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
@@ -48,9 +60,8 @@ fun AdminScreen(viewModel: AdminViewModel) {
                 Icon(Icons.Default.Add, contentDescription = "Añadir")
             }
         }
-
     ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
+        Column(modifier = Modifier.padding(padding).fillMaxSize()) {
             TabRow(selectedTabIndex = selectedTab) {
                 tabs.forEachIndexed { index, title ->
                     Tab(
@@ -62,10 +73,9 @@ fun AdminScreen(viewModel: AdminViewModel) {
             }
 
             when (selectedTab) {
-
                 0 -> {
                     Text("Gestión de Usuarios", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(16.dp))
-                    LazyColumn {
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
                         items(usuarios) { usuario ->
                             Card(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
                                 Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -84,7 +94,7 @@ fun AdminScreen(viewModel: AdminViewModel) {
                 }
                 1 -> {
                     Text("Gestión de Alumnos", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(16.dp))
-                    LazyColumn {
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
                         items(alumnos) { alumno ->
                             Card(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
                                 Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -93,7 +103,6 @@ fun AdminScreen(viewModel: AdminViewModel) {
                                         Text(alumno.nombre, style = MaterialTheme.typography.titleLarge)
                                         Text("Curso: ${alumno.curso}")
                                     }
-                                    // Aquí podrías añadir también un método borrarAlumno en tu ViewModel
                                     IconButton(onClick = { viewModel.borrarAlumno(alumno.id) }) {
                                         Icon(Icons.Default.Delete, contentDescription = "Borrar", tint = Color.Red)
                                     }
@@ -103,9 +112,8 @@ fun AdminScreen(viewModel: AdminViewModel) {
                     }
                 }
                 2 -> {
-
                     Text("Relaciones Tutor-Alumno", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(16.dp))
-                    LazyColumn {
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
                         items(vinculos) { vinculo ->
                             val tutor = usuarios.find { it.id == vinculo.idTutor }
                             val alumno = alumnos.find { it.id == vinculo.idAlumno }
@@ -125,7 +133,6 @@ fun AdminScreen(viewModel: AdminViewModel) {
                 }
             }
         }
-
 
         if (showUserDialog) {
             AddUserDialog(
@@ -154,5 +161,3 @@ fun AdminScreen(viewModel: AdminViewModel) {
         }
     }
 }
-
-

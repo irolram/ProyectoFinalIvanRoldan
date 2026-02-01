@@ -12,6 +12,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -32,7 +34,8 @@ import java.util.concurrent.Executors
 @Composable
 fun ConserjeScreen(
     alumnoRepo: AlumnoRepository,
-    vinculoRepo: VinculoRepository
+    vinculoRepo: VinculoRepository,
+    onLogout: () -> Unit
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -50,7 +53,20 @@ fun ConserjeScreen(
     }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Escáner de Conserjería") }) }
+        topBar = {
+            TopAppBar(
+                title = { Text("Escáner de Conserjería") },
+                actions = {
+                    IconButton(onClick = onLogout) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                            contentDescription = "Cerrar Sesión",
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                    }
+                }
+            )
+        }
     ) { padding ->
         Column(modifier = Modifier.padding(padding).fillMaxSize()) {
 

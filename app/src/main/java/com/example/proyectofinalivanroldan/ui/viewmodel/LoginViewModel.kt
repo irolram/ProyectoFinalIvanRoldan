@@ -14,11 +14,14 @@ class LoginViewModel(private val repository: UsuarioRepository) : ViewModel() {
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
     val loginState: StateFlow<LoginState> = _loginState
 
+
+
     fun login(username: String, pass: String) {
         if (username.isBlank() || pass.isBlank()) {
             _loginState.value = LoginState.Error("Rellena todos los campos")
             return
         }
+
 
         viewModelScope.launch {
             _loginState.value = LoginState.Loading

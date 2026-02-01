@@ -72,24 +72,30 @@ class MainActivity : ComponentActivity() {
 
                 // --- ADMIN ---
                 composable("admin") {
-                    AdminScreen(viewModel = adminViewModel)
+                    AdminScreen(
+                        viewModel = adminViewModel,
+                        onLogout = {
+                            loginViewModel.resetState() // LIMPIAR ESTADO PARA QUE NO REDIRIJA SOLO
+                            navController.navigate("login") {
+                                popUpTo("login") { inclusive = true }
+                            }
+                        }
+                    )
                 }
 
-                // --- TUTOR (CORREGIDO AQUÍ) ---
+                // --- TUTOR ---
                 composable("tutor/{userId}") { backStackEntry ->
                     val userId = backStackEntry.arguments?.getString("userId")
-                    // Recuperamos el objeto usuario completo usando el ID
                     val tutorUsuario = userRepo.getUsuarioById(userId ?: "")
 
                     if (tutorUsuario != null) {
-                        // Aquí pasamos los datos desglosados como pide la nueva pantalla
                         TutorScreen(
                             tutorId = tutorUsuario.id,
                             tutorNombre = tutorUsuario.nombre,
                             alumnoRepo = alumnoRepo,
                             vinculoRepo = vinculoRepo,
                             onLogout = {
-                                // Lógica de Logout: Volver al login y borrar historial
+                                loginViewModel.resetState() // LIMPIAR ESTADO PARA QUE NO REDIRIJA SOLO
                                 navController.navigate("login") {
                                     popUpTo("login") { inclusive = true }
                                 }
@@ -103,9 +109,17 @@ class MainActivity : ComponentActivity() {
                     val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
 
                     if (cameraPermissionState.status.isGranted) {
-                        ConserjeScreen(alumnoRepo, vinculoRepo)
+                        ConserjeScreen(
+                            alumnoRepo = alumnoRepo,
+                            vinculoRepo = vinculoRepo,
+                            onLogout = {
+                                loginViewModel.resetState() // LIMPIAR ESTADO PARA QUE NO REDIRIJA SOLO
+                                navController.navigate("login") {
+                                    popUpTo("login") { inclusive = true }
+                                }
+                            }
+                        )
                     } else {
-                        // Si no tienes creada PermissionRequestScreen, usa un Text simple de momento
                         PermissionRequestScreen {
                             cameraPermissionState.launchPermissionRequest()
                         }
