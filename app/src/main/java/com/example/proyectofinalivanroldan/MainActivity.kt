@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
 
             NavHost(navController = navController, startDestination = "login") {
 
-                // --- LOGIN ---
+                // LOGIN
                 composable("login") {
                     LoginScreen(
                         viewModel = loginViewModel,
@@ -70,7 +70,7 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
-                // --- ADMIN ---
+                // ADMIN
                 composable("admin") {
                     AdminScreen(
                         viewModel = adminViewModel,
@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
-                // --- TUTOR ---
+                // TUTOR
                 composable("tutor/{userId}") { backStackEntry ->
                     val userId = backStackEntry.arguments?.getString("userId")
                     val tutorUsuario = userRepo.getUsuarioById(userId ?: "")
@@ -104,7 +104,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                // --- CONSERJE ---
+                // CONSERJE
                 composable("conserje") {
                     val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
 

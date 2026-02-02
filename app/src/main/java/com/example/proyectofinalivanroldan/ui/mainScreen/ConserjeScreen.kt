@@ -40,7 +40,7 @@ fun ConserjeScreen(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    // Hilo dedicado para el análisis de imagen
+
     val cameraExecutor = remember { Executors.newSingleThreadExecutor() }
 
     // Estados para controlar el escaneo y los resultados
@@ -70,7 +70,7 @@ fun ConserjeScreen(
     ) { padding ->
         Column(modifier = Modifier.padding(padding).fillMaxSize()) {
 
-            // --- SECCIÓN 1: CÁMARA ---
+            // CÁMARA
             Box(
                 modifier = Modifier
                     .weight(1.2f)
@@ -90,7 +90,6 @@ fun ConserjeScreen(
                                 it.setSurfaceProvider(previewView.surfaceProvider)
                             }
 
-                            // NUEVO: Selector de resolución (Sustituye a setTargetResolution)
                             val resolutionSelector = ResolutionSelector.Builder()
                                 .setResolutionStrategy(
                                     ResolutionStrategy(
@@ -132,7 +131,7 @@ fun ConserjeScreen(
                 )
             }
 
-            // --- SECCIÓN 2: RESULTADOS ---
+            // RESULTADOS
             Card(
                 modifier = Modifier
                     .weight(0.8f)

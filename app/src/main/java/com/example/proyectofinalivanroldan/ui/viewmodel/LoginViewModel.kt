@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(private val repository: UsuarioRepository) : ViewModel() {
 
-    // El StateFlow que observará la UI de Compose
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
     val loginState: StateFlow<LoginState> = _loginState
 

@@ -33,8 +33,6 @@ fun LoginScreen(
 ) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-
-    // Observamos el estado del flujo (StateFlow)
     val loginState by viewModel.loginState.collectAsState()
 
     Column(
@@ -68,7 +66,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         if (loginState is LoginState.Loading) {
-            CircularProgressIndicator() // Feedback visual de carga
+            CircularProgressIndicator()
         } else {
             Button(
                 onClick = { viewModel.login(username, password) },

@@ -53,7 +53,7 @@ fun TutorScreen(
             )
         },
         bottomBar = {
-            // AQUÍ ESTÁN LOS BOTONES DE DEBAJO QUE PEDÍAS
+
             NavigationBar {
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Face, contentDescription = "Alumnos") },
@@ -82,7 +82,7 @@ fun TutorScreen(
     }
 }
 
-// --- SUB-VISTA: LISTA DE ALUMNOS ---
+// LISTA DE ALUMNOS
 @Composable
 fun VistaAlumnos(nombreTutor: String, listaAlumnos: List<Alumno>) {
     Column(
@@ -127,7 +127,7 @@ fun VistaAlumnos(nombreTutor: String, listaAlumnos: List<Alumno>) {
     }
 }
 
-// --- SUB-VISTA: CÓDIGO QR ---
+// CÓDIGO QR
 @Composable
 fun VistaQR(tutorId: String, nombreTutor: String) {
     // Generamos el QR solo cuando se entra en esta vista

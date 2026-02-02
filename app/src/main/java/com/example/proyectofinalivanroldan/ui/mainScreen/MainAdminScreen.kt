@@ -9,16 +9,19 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.proyectofinalivanroldan.ui.components.AddAlumnoDialog
 import com.example.proyectofinalivanroldan.ui.components.AddVinculoDialog
 import com.example.proyectofinalivanroldan.ui.viewmodel.AdminViewModel
 import com.example.proyectofinalivanroldan.util.Roles
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,6 +29,9 @@ fun AdminScreen(viewModel: AdminViewModel, onLogout: () -> Unit) {
     val usuarios by viewModel.usuarios.collectAsState()
     val alumnos by viewModel.alumnos.collectAsState()
     val vinculos by viewModel.vinculos.collectAsState()
+    val context = LocalContext.current
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     var showUserDialog by remember { mutableStateOf(false) }
     var showAlumnoDialog by remember { mutableStateOf(false) }
@@ -35,10 +41,25 @@ fun AdminScreen(viewModel: AdminViewModel, onLogout: () -> Unit) {
     val tabs = listOf("Usuarios", "Alumnos", "Vínculos")
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = { Text("Panel de Administración") },
                 actions = {
+                    // Botón para generar Informe (RA5 de la Rúbrica)
+                    IconButton(onClick = {
+                        val resultado = viewModel.generarInformeCSV(context)
+                        // Mostramos el resultado en un Snackbar
+                        scope.launch {
+                            snackbarHostState.showSnackbar(resultado)
+                        }
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Description,
+                            contentDescription = "Generar Informe CSV"
+                        )
+                    }
+
                     IconButton(onClick = onLogout) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ExitToApp,

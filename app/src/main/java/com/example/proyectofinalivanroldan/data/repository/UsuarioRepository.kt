@@ -27,7 +27,6 @@ class UsuarioRepository(private val context: Context) : IUsuarioRepo {
 
     override fun getAll(): List<Usuario> {
         if (!file.exists()) {
-            // Aprovecha para ver qué pusimos por defecto
             println("REPOSITORIO: El archivo no existe todavía.")
             return emptyList()
         }
