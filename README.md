@@ -28,7 +28,12 @@ Este proyecto ha sido desarrollado siguiendo los Resultados de Aprendizaje (RA) 
 * **Tecnología:** Uso de `CameraX` + `ML Kit` para un escaneo rápido y preciso.
 
 ### 3. Componentes Reutilizables (RA3)
-* **Modularidad:** Desarrollo de componentes aislados como `AddAlumnoDialog`, `AddUserDialog` y `QrAnalyzer` para facilitar el mantenimiento y la reutilización en otras vistas (**RA3.b, c, d**).
+* **Modularidad:** Desarrollo de componentes aislados como
+* `AlumnoDialog` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/0b7d4793195f3329389237d12d43482f1ac9c9d6/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/AlumnoDialog.kt#L1-L77,
+* `AddVinculoDialog` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/31ae5bca3653060cdfe6888e266b1db9c188bb1b/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/AddVinculoDialog.kt#L1-L104,
+* `PermissionRequest` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/31ae5bca3653060cdfe6888e266b1db9c188bb1b/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/PermissionRequest.kt#L1-L24
+*
+* para facilitar el mantenimiento y la reutilización en otras vistas (**RA3.b, c, d**).
 
 ### 4. Estándares y Usabilidad (RA4)
 * **Navegación Intuitiva:** Implementación de `NavigationBar` para tutores y menús contextuales para administradores (**RA4.c, d, e**).
