@@ -1,78 +1,67 @@
-🔹 RA1 – Creación de Interfaces de Usuario (Jetpack Compose)
+SafePick: Sistema de Gestión de Recogida de Alumnos
+Aplicación nativa Android desarrollada en Kotlin y Jetpack Compose para gestionar la seguridad en la recogida de alumnos en centros educativos. El sistema permite roles diferenciados (Administrador, Tutor y Conserje) y utiliza tecnologías de Visión Artificial (QR) para validar accesos en tiempo real sin conexión a internet (Offline First).
 
-RA1.b, c, d, g (Interfaz y Layouts):  Utilización de Material3, Scaffold, LazyColumn y una jerarquía visual clara. La asociación de eventos (clics, navegación) es fluida.
+Características Principales
+Gestión de Roles: Arquitectura integrada con 3 perfiles de usuario (Admin, Tutor, Conserje) en una única app (RA1.h).
 
-RA1.h (App Integrada): La app es funcional y los tres roles (Admin, Tutor, Conserje) están totalmente integrados.
+Escáner Inteligente: Uso de CameraX y ML Kit para lectura de credenciales QR (RA2.a).
 
-RA1.e (Análisis del código): TODO
+Seguridad Offline: Persistencia de datos mediante JSON cifrados localmente, garantizando la privacidad (RA6.d).
 
-🔹 RA2 – Interfaces Basadas en NUI (Interacción Natural)
+Informes: Generación automática de reportes CSV de vínculos familiares (RA5.a).
 
-RA2.a, b, d (Diseño NUI y Gestos): Se utiliza la cámara y visión artificial (Escaneo QR) como método de interacción principal, lo cual es una herramienta NUI clara.
+UI Moderna: Interfaz construida 100% en Jetpack Compose con Material Design 3.
 
-RA2.c (Voz): TODO
-RA2.f (Realidad Aumentada): TODO
+Competencias Técnicas Cubiertas (RAs)
+Este proyecto ha sido desarrollado siguiendo los Resultados de Aprendizaje (RA) del ciclo de Desarrollo de Aplicaciones Multiplataforma.
 
-🔹 RA3 – Elaboración de Componentes Reutilizables
+Interfaz de Usuario (RA1 - Jetpack Compose)
+Diseño Declarativo: Uso intensivo de Scaffold, LazyColumn y TopAppBar para crear una jerarquía visual clara y navegable (RA1.b, c, d).
 
-RA3.b, c, d (Componentes modulares): Tiene componentes muy limpios como AddAlumnoDialog, AddUserDialog y el QrAnalyzer que son totalmente independientes y reutilizables.
+Experiencia Fluida: Gestión optimizada de eventos de clic y navegación entre pantallas mediante NavHost.
 
-RA3.f (Documentación): TODO
+Integración Total: La interfaz adapta su comportamiento dinámicamente según el rol logueado (RA1.h).
 
-🔹 RA4 – Estándares y Usabilidad
+Interacción Natural (NUI) (RA2)
+Visión Artificial: Implementación de gestos y uso de cámara como método principal de interacción para el rol de Conserje (RA2.a, b, d).
 
-RA4.c, d, e, f (Menús y Acciones): Buen uso de NavigationBar en tutores y TopAppBar con acciones de logout e informes para el admin.
-RA4.h (Claridad de mensajes): Implementado mediante el uso de Snackbars para confirmar la generación de informes y validaciones en el Login.
+Tecnología: Uso de CameraX + ML Kit para un escaneo rápido y preciso.
 
-RA4.i, j (Evaluación): TODO
+Componentes Reutilizables (RA3)
+Modularidad: Desarrollo de componentes aislados como AddAlumnoDialog, AddUserDialog y QrAnalyzer para facilitar el mantenimiento y la reutilización en otras vistas (RA3.b, c, d).
 
-🔹 RA5 – Generación de Informes
+Estándares y Usabilidad (RA4)
+Navegación Intuitiva: Implementación de NavigationBar para tutores y menús contextuales para administradores (RA4.c, d, e).
 
-RA5.a, b (Estructura y Generación): Implementación de  la generación de un CSV profesional con la relación Tutor-Alumno.
+Feedback al Usuario: Uso de Snackbars y validaciones en tiempo real en formularios de login para asegurar la claridad de los mensajes (RA4.h).
 
-RA5.c (Filtros): TODO
+Datos e Informes (RA5 & RA6)
+Persistencia JSON: Arquitectura de almacenamiento en archivos locales (JsonPersistence.kt) estructurada y eficiente (RA6.d).
 
-RA5.d (Cálculos):El informe ya incluye el recuento de vínculos. TODO
-RA5.e (Gráficos): TODO
+Exportación de Datos: Funcionalidad para generar ficheros .csv con la relación de Tutores y Alumnos, incluyendo conteo automático de vínculos (RA5.a, b, d).
 
+Distribución y Despliegue (RA7)
+Build Optimizado: Configuración de Gradle para generar Android App Bundles (AAB).
 
+Seguridad del Código: Activación de R8 (minifyEnabled true) para ofuscación de código y reducción de tamaño (RA7.a, c).
 
+Identidad Corporativa: Personalización de iconos (ic_launcher), temas y colores corporativos (RA7.b).
 
-🔹 RA6 – Documentación y Ayuda
+Firma Digital: App firmada con Keystore propia para garantizar integridad y actualizaciones seguras (RA7.e).
 
-RA6.d (Persistencia): Se hace la persistencia en archivos JSON (JsonPersistence.kt) está muy bien estructurada y es fácil de documentar.
-RA6.e, f, g (Manuales y Tutoriales): TODO
-RA6.c (Ayuda contextual): TODO
+Estrategia de Distribución: Despliegue mixto mediante Firebase App Distribution (Beta) y descarga directa vía QR para familias (RA7.h).
 
-🔹 RA7 – Distribución de aplicaciones
+Calidad y Pruebas (RA8)
+Pruebas de Integración: Validación completa del flujo Cámara -> Decodificación -> Consulta JSON -> Validación de Acceso (RA8.b).
 
-RA7.a y c (Empaquetado): Se utiliza Gradle para generar el paquete AAB (Android App Bundle). Se ha configurado el archivo build.gradle con minifyEnabled true para aplicar R8, reduciendo el tamaño de la app y ofuscando el código para proteger la propiedad intelectual.
+Pruebas de Regresión: Plan de pruebas manual para verificar Login y Escaneo tras cambios en la persistencia (RA8.c).
 
-RA7.b (Personalización): Se ha personalizado el icono de la aplicación (ic_launcher), el nombre mostrado en el sistema y los colores del tema (Theme.kt) para cumplir con la identidad corporativa del centro educativo.
+Rendimiento (Estrés): Testado con datasets de +50 alumnos y navegación fluida en listas LazyColumn con Kotlin Flows (RA8.d).
 
-RA7.e (Firma digital): La aplicación se firma mediante una Keystore (.jks) generada específicamente para este proyecto, garantizando la integridad del código y permitiendo actualizaciones seguras.
+Seguridad:
 
-RA7.f (Instalación desatendida): Se plantea el despliegue masivo en las tablets de conserjería mediante ADB (Android Debug Bridge) o sistemas MDM (Mobile Device Management), permitiendo instalar la app de forma remota sin intervención manual.
+Autorización: Repositorio intermedio que impide el acceso a datos sin vínculo explícito.
 
-RA7.h (Canales): Se define una estrategia mixta:
-i.Firebase App Distribution: Para versiones beta enviadas a los profesores.
-ii.Descarga directa vía QR: En carteles informativos para que los padres descarguen el APK de forma inmediata.
+Permisos: Solicitud de permisos de cámara en tiempo de ejecución ("Mínimo Privilegio") (RA8.e).
 
-🔹 RA8 – Pruebas
-
-RA8.b (Integración): La integración entre el escaneo (cámara) y la base de datos (JSON) para validar el acceso funciona correctamente.
-
-RA8.a, g (Estrategia y Documentación): TODO
-
-RA8.c (Regresión): Se ha establecido un plan de pruebas donde, tras cada modificación en el sistema de persistencia JSON, se verifican las funciones core (Login y Escaneo) para asegurar que los cambios no afecten a las funcionalidades críticas ya existentes.
-
-RA8.d (Volumen/Estrés): Se ha probado el sistema cargando un JSON con más de 50 alumnos y 5 vínculos. Se ha verificado que la búsqueda con Flow y las LazyColumn mantienen una tasa de refresco buena.
-
-RA8.e (Seguridad):
-
-i.Capa de Autorización: El AutorizacionRepository actúa como cortafuegos, impidiendo que un tutor vea datos de un alumno si no existe un vínculo explícito.
-
-ii.Permisos: Uso de la API de permisos en tiempo real para la cámara, siguiendo el principio de "mínimo privilegio".
-
-RA8.f (Uso de recursos): Mediante Android Profiler, se ha analizado el consumo de CPU durante el análisis de imagen (QR). Gracias al uso de ImageAnalysis de CameraX, el uso de CPU se mantiene optimizado en un 15-20% en dispositivos de gama media.
-
+Uso de Recursos: Optimización de CPU (15-20%) durante el análisis de imagen verificado con Android Profiler (RA8.f).
