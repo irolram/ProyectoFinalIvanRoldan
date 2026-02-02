@@ -122,13 +122,15 @@ Se ha implementado la exportación en formato estándar **CSV (Comma-Separated V
 
 ## RA5.b – Generación desde Fuentes de Datos
 
-El informe se genera dinámicamente combinando datos de múltiples fuentes (`UsuarioRepository` y `VinculoRepository`). El sistema cruza usuarios y permisos en tiempo real y utiliza la API `MediaStore` de Android para guardar el resultado en la carpeta de descargas pública, facilitando su uso externo.
+El informe se genera dinámicamente combinando datos de múltiples fuentes (`UsuarioRepository`https://github.com/irolram/ProyectoFinalIvanRoldan/blob/bc5f6ab91d547b6eb3e88c9786577ea07bd4d06a/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/UsuarioRepository.kt#L1-L77
+y `VinculoRepository` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/bc5f6ab91d547b6eb3e88c9786577ea07bd4d06a/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/VinculoRepository.kt#L1-L55). 
+El sistema cruza usuarios y permisos en tiempo real y utiliza la API `MediaStore` de Android para guardar el resultado en la carpeta de descargas pública, facilitando su uso externo.
 
 ## RA5.c – Filtros sobre Valores
 
 Se aplica lógica de negocio para filtrar los datos brutos antes de la exportación:
 * **Filtro por Rol:** Se excluyen administradores y conserjes, listando únicamente a los Tutores activos.
-* **Filtro de Privacidad:** Se eliminan datos sensibles (contraseñas, tokens), dejando solo la información pública necesaria para la gestión de recogidas.
+* **Filtro de Privacidad:** Se eliminan datos sensibles como contraseñas, dejando solo la información pública necesaria para la gestión de recogidas.
 
 ## RA5.d – Valores Calculados y Totales
 
