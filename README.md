@@ -114,7 +114,7 @@ La interfaz es "Responsive" y se ha validado en diferentes escenarios:
 * **Tamaño de Fuente:** La app respeta la configuración de "Tamaño de fuente" del sistema Android. Si un usuario con problemas de visión aumenta la letra, la `LazyColumn` y los textos se adaptan sin cortarse ni solaparse.
 * **Orientación:** Aunque la app está diseñada para *Portrait* (Vertical), el uso de `Scaffold` y `Box` con `fillMaxSize` asegura que no crashea si se rota la tablet del conserje.
 
-# 5. Generación de Informes (RA5)
+# 5. Informes (RA5)
 
 ## RA5.a – Estructura del Informe
 
@@ -144,14 +144,65 @@ La aplicación genera gráficos dinámicos en tiempo real a partir de los datos 
 * **Transformación:** Convierte cadenas de texto (IDs) en matrices gráficas bidimensionales (**Códigos QR**) usando la librería `ZXing`.
 * **Funcionalidad:** Este gráfico no es decorativo, sino la base funcional del sistema de acceso, permitiendo la transmisión visual de datos segura y sin conexión.
 
-### 6. Distribución y Despliegue (RA7)
+  # 6. Documentación (RA6)
+
+## RA6.a – Identificación de Sistemas de Ayuda
+
+Se han seleccionado herramientas estándar de la industria para los distintos niveles de documentación:
+* **Código Fuente:** Uso de **KDoc** (estándar de Kotlin) para documentar clases y funciones complejas, permitiendo generar documentación HTML automática si fuera necesario.
+* **Usuario Final:** Uso de **Markdown** (.md) en el repositorio para guías visuales y legibles desde cualquier navegador.
+* **Interfaz:** Uso de los parámetros `supportingText` y `placeholder` de Material Design 3 para integrar la ayuda directamente en los componentes visuales.
+
+## RA6.b – Formatos de Ayuda
+
+La ayuda se presenta en formato híbrido para maximizar la accesibilidad:
+* **Formato Web/Repositorio (README):** Documentación centralizada accesible online con capturas de pantalla y badges de estado.
+* **Formato In-App (Tooltips):** Pequeños textos de ayuda integrados en la interfaz que guían al usuario sin salir de la aplicación.
+* **Formato Estático:** Posibilidad de exportar la documentación a PDF para entregables administrativos del centro educativo.
+
+## RA6.c – Ayudas Sensibles al Contexto
+
+El sistema ofrece asistencia en el momento exacto en que el usuario la necesita (Just-in-Time Support):
+* **Placeholders y Etiquetas:** Los campos de texto (`OutlinedTextField`) indican qué dato se espera (ej: "Ej: 12345678Z") antes de que el usuario escriba.
+* **Feedback de Error:** Si el login falla o falta un campo, aparece un mensaje en rojo (`ErrorColor`) justo debajo del campo afectado o mediante un `Snackbar` temporal, explicando la causa específica del error.
+* **Iconografía Semántica:** Uso de iconos universales (lupa para buscar, cruz para borrar) que actúan como ayuda visual intuitiva.
+
+## RA6.d – Estructura de Información Persistente
+
+Se ha documentado detalladamente el esquema de persistencia JSON que sustenta la aplicación "Offline First":
+* **Archivos:** `usuarios.json` (Credenciales y Roles) y `vinculos.json` (Relación N:M Tutor-Alumno).
+* **Esquema de Datos:** Definición clara de los tipos de datos (UUID como String, Roles como Enum, Fechas en formato ISO-8601).
+* **Integridad:** Documentación sobre cómo el `VinculoRepository` asegura que no existan vínculos huérfanos (referencias a IDs inexistentes).
+
+## RA6.e – Manual de Usuario
+
+Se incluye una guía operativa estructurada por roles:
+* **Perfil Tutor:** Pasos para visualizar alumnos y generar el código QR de recogida.
+* **Perfil Conserje:** Guía de uso de la cámara, interpretación de los colores de acceso (Verde/Rojo) y resolución de problemas de iluminación.
+* **Perfil Admin:** Instrucciones para dar de alta usuarios, vincular alumnos y exportar los informes CSV.
+
+## RA6.f – Manual Técnico de Instalación
+
+Documentación dirigida al equipo de TI del centro para el despliegue:
+* **Requisitos:** Android 8.0+ (Min SDK 26) y cámara trasera.
+* **Dependencias:** Listado de librerías en `build.gradle` (CameraX, Gson, ZXing).
+* **Permisos:** Explicación del flujo de solicitud de permisos en tiempo de ejecución (`Manifest.permission.CAMERA`).
+* **Compilación:** Instrucciones para generar el APK firmado o el AAB desde Android Studio.
+
+## RA6.g – Tutoriales
+
+Se han diseñado flujos paso a paso para las tareas críticas (Step-by-step walkthroughs):
+1.  **"Primer Acceso":** Cómo registrarse y vincular al primer hijo.
+2.  **"Proceso de Recogida":** Flujo completo desde que el padre abre la app hasta que el conserje valida el acceso.
+
+### 7. Distribución de aplicaciones (RA7)
 * **Build Optimizado:** Configuración de Gradle para generar Android App Bundles (AAB).
 * **Seguridad del Código:** Activación de **R8** (`minifyEnabled true`) para ofuscación de código y reducción de tamaño (**RA7.a, c**).
 * **Identidad Corporativa:** Personalización de iconos (`ic_launcher`), temas y colores corporativos (**RA7.b**).
 * **Firma Digital:** App firmada con Keystore propia para garantizar integridad y actualizaciones seguras (**RA7.e**).
 * **Estrategia de Distribución:** Despliegue mixto mediante Firebase App Distribution (Beta) y descarga directa vía QR para familias (**RA7.h**).
 
-### 7. Calidad y Pruebas (RA8)
+### 8. Pruebas avanzadas (RA8)
 * **Pruebas de Integración:** Validación completa del flujo Cámara -> Decodificación -> Consulta JSON -> Validación de Acceso (**RA8.b**).
 * **Pruebas de Regresión:** Plan de pruebas manual para verificar Login y Escaneo tras cambios en la persistencia (**RA8.c**).
 * **Rendimiento (Estrés):** Testado con datasets de +50 alumnos y navegación fluida en listas `LazyColumn` con Kotlin Flows (**RA8.d**).
