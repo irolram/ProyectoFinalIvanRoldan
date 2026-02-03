@@ -3,6 +3,7 @@
 Aplicación nativa Android desarrollada en **Kotlin** y **Jetpack Compose** para gestionar la seguridad en la recogida de alumnos en centros educativos. El sistema permite roles diferenciados (Administrador, Tutor y Conserje) y utiliza tecnologías de **Visión Artificial (QR)** para validar accesos en tiempo real sin conexión a internet (*Offline First*).
 
 ---
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/8e1f5e0ce2b7643dc5a35599712ab57c966145ed/app/src/main/java/com/example/proyectofinalivanroldan/ui/login/LoginScreen.kt#L1-L95
 
 ## Características Principales
 
