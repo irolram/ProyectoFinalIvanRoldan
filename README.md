@@ -32,13 +32,11 @@ Este proyecto ha sido desarrollado siguiendo los Resultados de Aprendizaje (RA) 
 * `AlumnoDialog` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/0b7d4793195f3329389237d12d43482f1ac9c9d6/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/AlumnoDialog.kt#L1-L77,
 * `AddVinculoDialog` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/31ae5bca3653060cdfe6888e266b1db9c188bb1b/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/AddVinculoDialog.kt#L1-L104,
 * `PermissionRequest` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/31ae5bca3653060cdfe6888e266b1db9c188bb1b/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/PermissionRequest.kt#L1-L24
-*
 * para facilitar el mantenimiento y la reutilización en otras vistas (**RA3.b, c, d**).
 
 # 4. Estándares y Usabilidad (RA4)
 
 ## RA4.a Estándares de Aplicación
-**Calificación Objetivo:** Excelente aplicación (2 puntos).
 
 El proyecto se ha desarrollado siguiendo estrictamente el estándar **Material Design 3 (M3)** de Google, implementado a través de la biblioteca **Jetpack Compose**. Esto garantiza una consistencia visual y de comportamiento con el ecosistema Android actual.
 
@@ -47,7 +45,6 @@ El proyecto se ha desarrollado siguiendo estrictamente el estándar **Material D
 * **Iconografía:** Uso de la librería `androidx.compose.material:material-icons-extended` para iconos estandarizados (Filled y Outlined) reconocibles universalmente.
 
 ## RA4.b Valoración de Estándares
-**Calificación Objetivo:** Reflexión profunda (2 puntos).
 
 La adhesión a los estándares de Material Design no es solo una decisión estética, sino funcional y económica:
 
@@ -56,7 +53,6 @@ La adhesión a los estándares de Material Design no es solo una decisión esté
 3.  **Eficiencia en Desarrollo:** Permite centrar el esfuerzo en la lógica de negocio (Gestión de QR y JSON) en lugar de reinventar componentes visuales básicos.
 
 ## RA4.c Menús y Navegación
-**Calificación Objetivo:** Profesionales (2 puntos).
 
 La estructura de navegación se adapta al rol del usuario para maximizar la eficiencia:
 
@@ -144,7 +140,7 @@ La aplicación genera gráficos dinámicos en tiempo real a partir de los datos 
 * **Transformación:** Convierte cadenas de texto (IDs) en matrices gráficas bidimensionales (**Códigos QR**) usando la librería `ZXing`.
 * **Funcionalidad:** Este gráfico no es decorativo, sino la base funcional del sistema de acceso, permitiendo la transmisión visual de datos segura y sin conexión.
 
-  # 6. Documentación (RA6)
+# 6. Documentación (RA6)
 
 ## RA6.a – Identificación de Sistemas de Ayuda
 
@@ -165,7 +161,6 @@ La ayuda se presenta en formato híbrido para maximizar la accesibilidad:
 El sistema ofrece asistencia en el momento exacto en que el usuario la necesita (Just-in-Time Support):
 * **Placeholders y Etiquetas:** Los campos de texto (`OutlinedTextField`) indican qué dato se espera (ej: "Ej: 12345678Z") antes de que el usuario escriba.
 * **Feedback de Error:** Si el login falla o falta un campo, aparece un mensaje en rojo (`ErrorColor`) justo debajo del campo afectado o mediante un `Snackbar` temporal, explicando la causa específica del error.
-* **Iconografía Semántica:** Uso de iconos universales (lupa para buscar, cruz para borrar) que actúan como ayuda visual intuitiva.
 
 ## RA6.d – Estructura de Información Persistente
 
@@ -174,13 +169,86 @@ Se ha documentado detalladamente el esquema de persistencia JSON que sustenta la
 * **Esquema de Datos:** Definición clara de los tipos de datos (UUID como String, Roles como Enum, Fechas en formato ISO-8601).
 * **Integridad:** Documentación sobre cómo el `VinculoRepository` asegura que no existan vínculos huérfanos (referencias a IDs inexistentes).
 
-## RA6.e – Manual de Usuario
+## RA6.e,g – Manual de Usuario
 
-Se incluye una guía operativa estructurada por roles:
-* **Perfil Tutor:** Pasos para visualizar alumnos y generar el código QR de recogida.
-* **Perfil Conserje:** Guía de uso de la cámara, interpretación de los colores de acceso (Verde/Rojo) y resolución de problemas de iluminación.
-* **Perfil Admin:** Instrucciones para dar de alta usuarios, vincular alumnos y exportar los informes CSV.
+# Manual de Usuario - SafePick
 
+Bienvenido a **SafePick**, la aplicación segura para la gestión de recogida de alumnos. Esta guía le ayudará a utilizar la aplicación según su perfil de usuario (Administrador, Tutor o Conserje).
+
+---
+
+## 1. Primeros Pasos: Acceso al Sistema
+
+Al abrir la aplicación, verá la pantalla de inicio de sesión.
+
+1.  Introduzca su **Nombre de Usuario** y **Contraseña**.
+2.  Pulse el botón **"Entrar"**.
+3.  Si faltan datos, el sistema le avisará con un mensaje en rojo.
+
+> **Nota:** La aplicación detectará automáticamente su rol y le dirigirá a su pantalla correspondiente.
+
+---
+
+## 2. Perfil TUTOR (Familias)
+
+Su función principal es identificarse en la puerta del colegio para recoger a sus hijos.
+
+### 2.1. Ver mis Alumnos vinculados
+Al entrar, verá la pestaña **"Mis Alumnos"** en la barra inferior.
+
+* Aquí aparece una lista con el nombre y curso de los hijos que tiene asignados.
+* Si la lista está vacía, contacte con Administración.
+
+### 2.2. Generar Pase de Recogida (QR)
+Para recoger al alumno, siga estos pasos:
+
+1.  Pulse el botón **"Pase QR"** en la barra de navegación inferior.
+2.  Se generará automáticamente un código QR único en su pantalla.
+3.  Muestre este código al personal de conserjería en la puerta.
+
+> **Consejo:** Aumente el brillo de su móvil si el escáner no detecta el código rápidamente.
+
+---
+
+## 3. Perfil CONSERJE (Seguridad)
+
+Su función es validar si la persona que viene a recoger al alumno tiene autorización.
+
+### 3.1. Uso del Escáner
+1.  Al iniciar sesión, la cámara se activará automáticamente.
+2.  Si es la primera vez, pulse **"Permitir"** cuando la app solicite acceso a la cámara.
+3.  Apunte con la cámara al código QR del tutor.
+
+### 3.2. Interpretación de Resultados
+El sistema le dará una respuesta visual inmediata:
+
+* **PANTALLA VERDE + "ACCESO AUTORIZADO":** El tutor es válido. Aparecerá el nombre del tutor y la lista de alumnos que puede llevarse.
+* **PANTALLA ROJA + "ACCESO DENEGADO":** El código no existe o no es válido. **No entregue al alumno.**
+
+---
+
+## 4. Perfil ADMINISTRADOR (Gestión)
+
+Usted es el encargado de gestionar la base de datos del centro.
+
+### 4.1. Gestión de Usuarios
+* **Añadir Usuario:** Pulse el botón flotante `+` y seleccione **"Añadir Usuario"**. Rellene los datos (Nombre, Contraseña, Rol).
+* **Ver Usuarios:** La pantalla principal muestra el listado de todos los usuarios registrados.
+
+### 4.2. Gestión de Alumnos y Vínculos
+Para asignar un alumno a un tutor:
+
+1.  Pulse sobre la tarjeta de un Tutor en la lista.
+2.  Seleccione la opción **"Vincular Alumno"**.
+3.  Introduzca los datos del alumno (Nombre, Curso).
+
+### 4.3. Informes y Auditoría
+Para obtener un registro de las autorizaciones actuales:
+
+1.  Pulse el menú de opciones (tres puntos) en la esquina superior derecha.
+2.  Seleccione **"Exportar CSV"**.
+3.  El archivo `informe_recogidas.csv` se guardará en la carpeta de **Descargas** de su dispositivo.
+   
 ## RA6.f – Manual Técnico de Instalación
 
 Documentación dirigida al equipo de TI del centro para el despliegue:
@@ -188,12 +256,6 @@ Documentación dirigida al equipo de TI del centro para el despliegue:
 * **Dependencias:** Listado de librerías en `build.gradle` (CameraX, Gson, ZXing).
 * **Permisos:** Explicación del flujo de solicitud de permisos en tiempo de ejecución (`Manifest.permission.CAMERA`).
 * **Compilación:** Instrucciones para generar el APK firmado o el AAB desde Android Studio.
-
-## RA6.g – Tutoriales
-
-Se han diseñado flujos paso a paso para las tareas críticas (Step-by-step walkthroughs):
-1.  **"Primer Acceso":** Cómo registrarse y vincular al primer hijo.
-2.  **"Proceso de Recogida":** Flujo completo desde que el padre abre la app hasta que el conserje valida el acceso.
 
 ### 7. Distribución de aplicaciones (RA7)
 * **Build Optimizado:** Configuración de Gradle para generar Android App Bundles (AAB).
