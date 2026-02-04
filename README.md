@@ -27,6 +27,28 @@ Este proyecto ha sido desarrollado siguiendo los Resultados de Aprendizaje (RA) 
 * **Visión Artificial:** Implementación de gestos y uso de cámara como método principal de interacción para el rol de Conserje (**RA2.a, b, d**).
 * **Tecnología:** Uso de `CameraX` + `ML Kit` para un escaneo rápido y preciso.
 
+### Posibles mejoras RA2.c, e, f
+Aunque SafePick utiliza la Visión Artificial como eje central, se ha realizado un análisis crítico sobre la viabilidad de otras interfaces naturales para cumplir con los estándares de innovación y accesibilidad:
+
+2.1. Interacción por Voz (RA2.c)
+Se evaluó la implementación de un sistema Speech-to-Text (STT) para permitir al conserje activar el escáner mediante comandos de voz.
+
+Decisión: Se descartó su inclusión en la versión actual para evitar falsos positivos derivados del ruido ambiente típico en las salidas escolares.
+
+Valoración de futuro: Se considera una mejora necesaria para la accesibilidad universal, permitiendo que tutores con diversidad funcional motórica puedan interactuar con la aplicación sin necesidad de contacto físico con el dispositivo.
+
+2.2. Detección Facial y Corporal (RA2.e)
+Se analizó la posibilidad de sustituir el código QR por reconocimiento biométrico facial para la identificación de los tutores.
+
+Decisión: Se desestimó por implicaciones éticas y legales. Bajo el marco del RGPD, el tratamiento de datos biométricos de alta sensibilidad en un entorno con presencia de menores requiere una infraestructura de seguridad y consentimientos legales que exceden el propósito de agilidad del sistema. El código QR actúa como un "token" físico que garantiza un equilibrio óptimo entre seguridad y privacidad.
+
+2.3. Realidad Aumentada (RA2.f)
+Se ha diseñado conceptualmente la integración de capas de RA sobre el preview de la cámara.
+
+Propuesta técnica: Uso de la librería ARCore para proyectar un indicador visual dinámico (bounding box) y guías de profundidad sobre la interfaz.
+
+Utilidad: Esto facilitaría el trabajo del conserje en condiciones de baja luminosidad o gran distancia, indicando visualmente el área exacta donde el algoritmo de ML Kit está detectando el patrón del código QR antes de realizar la validación.
+
 ### 3. Componentes Reutilizables (RA3)
 * **Modularidad:** Desarrollo de componentes aislados como
 * `AlumnoDialog` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/0b7d4793195f3329389237d12d43482f1ac9c9d6/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/AlumnoDialog.kt#L1-L77,
@@ -265,10 +287,19 @@ Documentación dirigida al equipo de TI del centro para el despliegue:
 * **Estrategia de Distribución:** Despliegue mixto mediante Firebase App Distribution (Beta) y descarga directa vía QR para familias (**RA7.h**).
 
 ### 8. Pruebas avanzadas (RA8)
+### RA8.g – Documentación de Pruebas y Resultados
+Para garantizar la fiabilidad de SafePick, se ha generado un informe de resultados basado en las pruebas automáticas y manuales realizadas. La evidencia técnica principal reside en la suite de Tests Unitarios, que permite verificar el comportamiento del software de forma objetiva.
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/88c2bb56c6de76a7f9a3123c1b89c1ad4a72c058/app/src/test/java/com/example/proyectofinalivanroldan/SafewPickLogicTest.kt#L1-L43
+
+* Se ha implementado la clase de prueba AccesoValidatorTest para validar el motor de seguridad. A continuación, se detalla el resultado de la ejecución en el entorno de desarrollo (Android Studio):
+
+* Prueba acceso_concedido_cuando_tutor_y_alumno_estan_vinculados: El sistema confirmó correctamente la relación existente en el JSON simulado. Estado: PASSED 
+
+* Prueba acceso_denegado_cuando_tutor_no_esta_vinculado_al_alumno: El sistema bloqueó con éxito un intento de acceso con un ID de alumno no relacionado. Estado: PASSED 
+
 * **Pruebas de Integración:** Validación completa del flujo Cámara -> Decodificación -> Consulta JSON -> Validación de Acceso (**RA8.b**).
 * **Pruebas de Regresión:** Plan de pruebas manual para verificar Login y Escaneo tras cambios en la persistencia (**RA8.c**).
 * **Rendimiento (Estrés):** Testado con datasets de +50 alumnos y navegación fluida en listas `LazyColumn` con Kotlin Flows (**RA8.d**).
 * **Seguridad:**
     * *Autorización:* Repositorio intermedio que impide el acceso a datos sin vínculo explícito.
     * *Permisos:* Solicitud de permisos de cámara en tiempo de ejecución ("Mínimo Privilegio") (**RA8.e**).
-* **Uso de Recursos:** Optimización de CPU (15-20%) durante el análisis de imagen verificado con Android Profiler (**RA8.f**).
