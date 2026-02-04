@@ -9,6 +9,15 @@ import com.example.proyectofinalivanroldan.dominio.model.Alumno
 import com.example.proyectofinalivanroldan.dominio.model.Usuario
 import com.example.proyectofinalivanroldan.dominio.model.Vinculo
 
+/**
+ * Componente de interfaz que proporciona un diálogo interactivo para la creación de vínculos.
+ *
+ * Utiliza componentes avanzados de Material Design 3, como [ExposedDropdownMenuBox],
+ * para permitir la selección bidireccional entre las entidades Usuario (Tutor) y Alumno.
+ * El componente implementa validación de estado en tiempo real, manteniendo el botón
+ * de confirmación deshabilitado hasta que ambos campos requeridos han sido seleccionados,
+ * asegurando así la integridad de la relación N:M antes de su persistencia.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddVinculoDialog(

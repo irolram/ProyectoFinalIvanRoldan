@@ -30,6 +30,15 @@ import com.example.proyectofinalivanroldan.dominio.model.Alumno
 import com.example.proyectofinalivanroldan.util.QrAnalyzer
 import java.util.concurrent.Executors
 
+
+/**
+ * Pantalla operativa para el perfil Conserje centrada en la validación de accesos.
+ * * Implementa un flujo de visión artificial mediante [CameraX] y [ImageAnalysis]
+ * para la decodificación de códigos QR en tiempo real. Gestiona de forma reactiva
+ * la consulta cruzada entre repositorios para validar la autorización de recogida,
+ * proporcionando feedback visual inmediato (Acceso Autorizado/Denegado) y optimizando
+ * el uso de recursos mediante el ciclo de vida del componente.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConserjeScreen(

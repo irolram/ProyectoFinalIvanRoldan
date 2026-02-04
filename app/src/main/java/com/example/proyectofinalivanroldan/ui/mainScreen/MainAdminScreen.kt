@@ -23,6 +23,15 @@ import com.example.proyectofinalivanroldan.ui.viewmodel.AdminViewModel
 import com.example.proyectofinalivanroldan.util.Roles
 import kotlinx.coroutines.launch
 
+
+/**
+ * Panel de control integral para el perfil de Administrador.
+ * * Centraliza la gestión de usuarios, alumnos y sus vinculaciones mediante una interfaz
+ * organizada por pestañas ([TabRow]). Integra la funcionalidad de generación de
+ * informes CSV (RA5) y orquesta la apertura de diálogos de creación ([AddAlumnoDialog],
+ * [AddVinculoDialog]) mediante una arquitectura reactiva basada en estados, garantizando
+ * una administración fluida de la persistencia local del centro.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdminScreen(viewModel: AdminViewModel, onLogout: () -> Unit) {

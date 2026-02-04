@@ -6,6 +6,14 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
 
+
+/**
+ * Repositorio encargado de la gestión de persistencia de los datos de alumnos.
+ * * Implementa una estrategia de almacenamiento **Offline First** mediante el uso de archivos
+ * JSON en el almacenamiento interno de la aplicación. Utiliza la librería [Gson] para
+ * la serialización/deserialización de objetos y garantiza la integridad de la información
+ * durante las operaciones CRUD.
+ */
 class AlumnoRepository(private val context: Context) : IAlumnoRepo {
 
     private val gson = Gson()

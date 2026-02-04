@@ -7,6 +7,14 @@ import com.google.zxing.qrcode.QRCodeWriter
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.set
 
+/**
+ * Motor de generación de gráficos bidimensionales para la identificación de usuarios.
+ * * Este objeto encapsula la lógica de conversión de cadenas de texto en mapas de bits
+ * utilizando el estándar [BarcodeFormat.QR_CODE]. Implementa un algoritmo de renderizado
+ * directo sobre un [Bitmap] con configuración de color optimizada (RGB_565), permitiendo
+ * la creación de credenciales dinámicas que sirven como base para el sistema de
+ * acceso sin conexión de la aplicación.
+ */
 object QrGenerator {
     fun generarQr(contenido: String, size: Int = 512): Bitmap? {
         return try {

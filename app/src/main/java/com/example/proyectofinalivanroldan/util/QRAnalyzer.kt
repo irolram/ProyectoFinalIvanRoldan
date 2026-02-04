@@ -8,6 +8,14 @@ import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 
+/**
+ * Analizador de frames de cámara optimizado para la detección de simbología QR.
+ * * Implementa la interfaz [ImageAnalysis.Analyzer] de CameraX, integrando el SDK de
+ * [ML Kit] para el procesamiento de imágenes en tiempo real. La clase gestiona la
+ * conversión de buffers de imagen nativos a [InputImage] y procesa de forma
+ * asíncrona los metadatos de los códigos de barras, notificando mediante un
+ * callback la detección exitosa del identificador del tutor.
+ */
 class QrAnalyzer(
     private val onQrDetected: (String) -> Unit
 ) : ImageAnalysis.Analyzer {

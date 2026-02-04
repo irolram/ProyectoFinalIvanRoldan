@@ -26,6 +26,15 @@ import com.example.proyectofinalivanroldan.dominio.model.Usuario
 import com.example.proyectofinalivanroldan.ui.viewmodel.LoginState
 import com.example.proyectofinalivanroldan.ui.viewmodel.LoginViewModel
 
+
+/**
+ * Pantalla de autenticación principal y control de acceso por roles.
+ *
+ * Implementa un flujo reactivo basado en [LoginState] para gestionar los estados
+ * de carga, éxito y error. Garantiza la seguridad de la interfaz mediante
+ * transformaciones visuales de contraseña y validaciones en tiempo real,
+ * actuando como la puerta de entrada jerárquica según el perfil de usuario.
+ */
 @Composable
 fun LoginScreen(
     onLoginSuccess: (Usuario) -> Unit,

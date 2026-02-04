@@ -7,6 +7,13 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
 
+/**
+ * Repositorio encargado de gestionar la lógica de asociación entre tutores y alumnos.
+ * * Administra la persistencia de relaciones N:M (muchos a muchos) mediante un sistema
+ * de archivos JSON local. Su función principal es validar y filtrar qué alumnos
+ * están autorizados para ser recogidos por cada tutor, sirviendo como núcleo de
+ * seguridad para la generación y validación de códigos QR en el sistema.
+ */
 class VinculoRepository(private val context: Context) : IVinculoRepo {
 
     private val gson = Gson()

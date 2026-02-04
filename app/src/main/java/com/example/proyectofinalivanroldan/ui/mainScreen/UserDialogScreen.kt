@@ -21,6 +21,14 @@ import androidx.compose.ui.unit.dp
 import com.example.proyectofinalivanroldan.dominio.model.Usuario
 import com.example.proyectofinalivanroldan.util.Roles
 
+/**
+ * Diálogo de creación de identidades con asignación dinámica de privilegios.
+ * * Implementa un formulario de registro que permite definir el perfil operativo
+ * (Tutor o Conserje) mediante selectores de tipo [RadioButton]. El componente
+ * encapsula la lógica de instanciación de usuarios, delegando la persistencia
+ * mediante un callback y asegurando que cada nueva entidad posea un identificador
+ * único universal ([UUID]) para mantener la integridad en el repositorio de usuarios.
+ */
 @Composable
 fun AddUserDialog(
     onDismiss: () -> Unit,

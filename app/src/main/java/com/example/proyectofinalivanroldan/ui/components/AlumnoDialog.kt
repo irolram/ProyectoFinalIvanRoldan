@@ -18,6 +18,16 @@ import androidx.compose.ui.unit.dp
 import com.example.proyectofinalivanroldan.dominio.model.Alumno
 import java.util.UUID
 
+
+/**
+ * Diálogo modal diseñado para la captura de datos y registro de nuevas entidades Alumno.
+ * * Este componente implementa un formulario reactivo utilizando [OutlinedTextField] para
+ * asegurar la consistencia visual con el estándar Material Design 3. Gestiona de forma
+ * interna el estado de los campos "nombre" y "curso", integrando una lógica de
+ * validación que impide el registro de campos vacíos. La generación de identificadores
+ * únicos mediante [UUID] garantiza la integridad referencial necesaria para la posterior
+ * vinculación con tutores en el sistema de persistencia.
+ */
 @Composable
 fun AddAlumnoDialog(
     onDismiss: () -> Unit,

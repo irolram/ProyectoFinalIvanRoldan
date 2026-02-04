@@ -7,6 +7,16 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
 
+
+/**
+ * Repositorio centralizado para la gestión de credenciales y perfiles de usuario.
+ *
+ * Esta clase administra la persistencia de datos mediante archivos JSON cifrados localmente,
+ * garantizando la seguridad de la información bajo un esquema "Offline First".
+ * Implementa la lógica de inicialización del sistema mediante la creación de un perfil
+ * administrador por defecto y provee operaciones CRUD completas para los distintos
+ * roles del centro educativo (Admin, Tutor, Conserje).
+ **/
 class UsuarioRepository(private val context: Context) : IUsuarioRepo {
     private val gson = Gson()
     private val fileName = "usuarios.json"
