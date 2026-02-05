@@ -303,7 +303,19 @@ https://github.com/irolram/ProyectoFinalIvanRoldan/blob/88c2bb56c6de76a7f9a3123c
 * **Seguridad:**
     * *Autorización:* Repositorio intermedio que impide el acceso a datos sin vínculo explícito.
     * *Permisos:* Solicitud de permisos de cámara en tiempo de ejecución ("Mínimo Privilegio") (**RA8.e**).
- 
+
+
+### Código del proyecto
+
+---
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/e6b8d918dde3436c277859415a1d2cf9228edf0d/app/src/test/java/com/example/proyectofinalivanroldan/SafewPickLogicTest.kt#L1-L43
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/e6b8d918dde3436c277859415a1d2cf9228edf0d/app/src/main/java/com/example/proyectofinalivanroldan/data/local/jsonPersistence/JsonPersistence.kt#L1-L29
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/e6b8d918dde3436c277859415a1d2cf9228edf0d/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/AlumnoRepository.kt#L1-L69
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/e6b8d918dde3436c277859415a1d2cf9228edf0d/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/AutorizacionRepository.kt#L1-L9
 
 ### Video 
 ---
