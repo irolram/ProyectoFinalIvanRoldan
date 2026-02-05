@@ -341,6 +341,16 @@ https://github.com/irolram/ProyectoFinalIvanRoldan/blob/acb072bac9980ff2aad04eb5
 
 https://github.com/irolram/ProyectoFinalIvanRoldan/blob/acb072bac9980ff2aad04eb5e1aeecafb4b4d01a/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/PermissionRequest.kt#L1-L35
 
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/847a2ff7a71ccd31e4af99dfbe9248a334d32739/app/src/main/java/com/example/proyectofinalivanroldan/ui/login/LoginScreen.kt#L1-L104
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/847a2ff7a71ccd31e4af99dfbe9248a334d32739/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt#L1-L211
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/847a2ff7a71ccd31e4af99dfbe9248a334d32739/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L1-L193
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/847a2ff7a71ccd31e4af99dfbe9248a334d32739/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/TutorScreen.kt#L1-L201
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/847a2ff7a71ccd31e4af99dfbe9248a334d32739/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/UserDialogScreen.kt#L1-L77
+
 ### Video 
 ---
 
