@@ -317,6 +317,18 @@ https://github.com/irolram/ProyectoFinalIvanRoldan/blob/e6b8d918dde3436c27785941
 
 https://github.com/irolram/ProyectoFinalIvanRoldan/blob/e6b8d918dde3436c277859415a1d2cf9228edf0d/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/AutorizacionRepository.kt#L1-L9
 
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/837abfc90628ef5df34bfab646ad5efeb5b3291b/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/IAlumnoRepo.kt#L1-L11
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/837abfc90628ef5df34bfab646ad5efeb5b3291b/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/IAutorizacionRepo.kt#L1-L6
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/837abfc90628ef5df34bfab646ad5efeb5b3291b/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/IUsuarioRepo.kt#L1-L12
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/837abfc90628ef5df34bfab646ad5efeb5b3291b/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/IVinculoRepo.kt#L1-L11
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/837abfc90628ef5df34bfab646ad5efeb5b3291b/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/UsuarioRepository.kt#L1-L86
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/837abfc90628ef5df34bfab646ad5efeb5b3291b/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/VinculoRepository.kt#L1-L62
+
 ### Video 
 ---
 
