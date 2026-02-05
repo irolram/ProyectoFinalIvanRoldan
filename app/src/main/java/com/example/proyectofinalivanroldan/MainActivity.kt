@@ -10,22 +10,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-
-// Permisos (Accompanist) - Asegúrate de tener la librería en build.gradle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.isGranted
-
-// Repositorios
 import com.example.proyectofinalivanroldan.data.repository.*
-
-// Pantallas
 import com.example.proyectofinalivanroldan.ui.mainScreen.AdminScreen
 import com.example.proyectofinalivanroldan.ui.mainScreen.ConserjeScreen
 import com.example.proyectofinalivanroldan.ui.mainScreen.TutorScreen
-
-
-// ViewModels
 import com.example.proyectofinalivanroldan.ui.viewmodel.AdminViewModelFactory
 import com.example.proyectofinalivanroldan.ui.viewmodel.LoginViewModelFactory
 import com.example.proyectofinalivanroldan.ui.viewmodel.AdminViewModel
