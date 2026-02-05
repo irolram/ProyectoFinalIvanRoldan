@@ -329,6 +329,18 @@ https://github.com/irolram/ProyectoFinalIvanRoldan/blob/837abfc90628ef5df34bfab6
 
 https://github.com/irolram/ProyectoFinalIvanRoldan/blob/837abfc90628ef5df34bfab646ad5efeb5b3291b/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/VinculoRepository.kt#L1-L62
 
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/acb072bac9980ff2aad04eb5e1aeecafb4b4d01a/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Alumno.kt#L1-L7
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/acb072bac9980ff2aad04eb5e1aeecafb4b4d01a/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Usuario.kt#L1-L11
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/acb072bac9980ff2aad04eb5e1aeecafb4b4d01a/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Vinculo.kt#L1-L6
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/acb072bac9980ff2aad04eb5e1aeecafb4b4d01a/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/AddVinculoDialog.kt#L1-L113
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/acb072bac9980ff2aad04eb5e1aeecafb4b4d01a/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/AlumnoDialog.kt#L1-L87
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/acb072bac9980ff2aad04eb5e1aeecafb4b4d01a/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/PermissionRequest.kt#L1-L35
+
 ### Video 
 ---
 
