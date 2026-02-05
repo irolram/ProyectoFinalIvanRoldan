@@ -303,3 +303,11 @@ https://github.com/irolram/ProyectoFinalIvanRoldan/blob/88c2bb56c6de76a7f9a3123c
 * **Seguridad:**
     * *Autorización:* Repositorio intermedio que impide el acceso a datos sin vínculo explícito.
     * *Permisos:* Solicitud de permisos de cámara en tiempo de ejecución ("Mínimo Privilegio") (**RA8.e**).
+ 
+
+### Video 
+---
+
+https://github.com/user-attachments/assets/6fa1ee5f-d8c5-4056-955f-1f9f28f384a0
+
+
