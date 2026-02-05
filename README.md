@@ -367,6 +367,8 @@ https://github.com/irolram/ProyectoFinalIvanRoldan/blob/cdbcf1c40ad8b7330517d326
 
 https://github.com/irolram/ProyectoFinalIvanRoldan/blob/cdbcf1c40ad8b7330517d326bdf46dcf282d3539/app/src/main/java/com/example/proyectofinalivanroldan/util/Roles.kt#L1-L7
 
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/681317708c88a65defc177d78f3abd91e4154625/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt#L1-L122
+
 ### Video 
 ---
 
