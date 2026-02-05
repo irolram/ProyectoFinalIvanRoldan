@@ -303,7 +303,69 @@ https://github.com/irolram/ProyectoFinalIvanRoldan/blob/88c2bb56c6de76a7f9a3123c
 * **Seguridad:**
     * *Autorización:* Repositorio intermedio que impide el acceso a datos sin vínculo explícito.
     * *Permisos:* Solicitud de permisos de cámara en tiempo de ejecución ("Mínimo Privilegio") (**RA8.e**).
- 
+
+
+### Código del proyecto
+
+---
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/e6b8d918dde3436c277859415a1d2cf9228edf0d/app/src/test/java/com/example/proyectofinalivanroldan/SafewPickLogicTest.kt#L1-L43
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/e6b8d918dde3436c277859415a1d2cf9228edf0d/app/src/main/java/com/example/proyectofinalivanroldan/data/local/jsonPersistence/JsonPersistence.kt#L1-L29
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/e6b8d918dde3436c277859415a1d2cf9228edf0d/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/AlumnoRepository.kt#L1-L69
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/e6b8d918dde3436c277859415a1d2cf9228edf0d/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/AutorizacionRepository.kt#L1-L9
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/837abfc90628ef5df34bfab646ad5efeb5b3291b/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/IAlumnoRepo.kt#L1-L11
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/837abfc90628ef5df34bfab646ad5efeb5b3291b/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/IAutorizacionRepo.kt#L1-L6
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/837abfc90628ef5df34bfab646ad5efeb5b3291b/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/IUsuarioRepo.kt#L1-L12
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/837abfc90628ef5df34bfab646ad5efeb5b3291b/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/IVinculoRepo.kt#L1-L11
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/837abfc90628ef5df34bfab646ad5efeb5b3291b/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/UsuarioRepository.kt#L1-L86
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/837abfc90628ef5df34bfab646ad5efeb5b3291b/app/src/main/java/com/example/proyectofinalivanroldan/data/repository/VinculoRepository.kt#L1-L62
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/acb072bac9980ff2aad04eb5e1aeecafb4b4d01a/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Alumno.kt#L1-L7
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/acb072bac9980ff2aad04eb5e1aeecafb4b4d01a/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Usuario.kt#L1-L11
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/acb072bac9980ff2aad04eb5e1aeecafb4b4d01a/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Vinculo.kt#L1-L6
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/acb072bac9980ff2aad04eb5e1aeecafb4b4d01a/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/AddVinculoDialog.kt#L1-L113
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/acb072bac9980ff2aad04eb5e1aeecafb4b4d01a/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/AlumnoDialog.kt#L1-L87
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/acb072bac9980ff2aad04eb5e1aeecafb4b4d01a/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/PermissionRequest.kt#L1-L35
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/847a2ff7a71ccd31e4af99dfbe9248a334d32739/app/src/main/java/com/example/proyectofinalivanroldan/ui/login/LoginScreen.kt#L1-L104
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/847a2ff7a71ccd31e4af99dfbe9248a334d32739/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt#L1-L211
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/847a2ff7a71ccd31e4af99dfbe9248a334d32739/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L1-L193
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/847a2ff7a71ccd31e4af99dfbe9248a334d32739/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/TutorScreen.kt#L1-L201
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/847a2ff7a71ccd31e4af99dfbe9248a334d32739/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/UserDialogScreen.kt#L1-L77
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/cdbcf1c40ad8b7330517d326bdf46dcf282d3539/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/AdminViewModel.kt#L1-L96
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/cdbcf1c40ad8b7330517d326bdf46dcf282d3539/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/AdminViewModelFactory.kt#L1-L22
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/cdbcf1c40ad8b7330517d326bdf46dcf282d3539/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/LoginState.kt#L1-L10
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/cdbcf1c40ad8b7330517d326bdf46dcf282d3539/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/LoginViewModel.kt#L1-L48
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/cdbcf1c40ad8b7330517d326bdf46dcf282d3539/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/LoginViewModelFactory.kt#L1-L14
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/cdbcf1c40ad8b7330517d326bdf46dcf282d3539/app/src/main/java/com/example/proyectofinalivanroldan/util/QRAnalyzer.kt#L1-L41
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/cdbcf1c40ad8b7330517d326bdf46dcf282d3539/app/src/main/java/com/example/proyectofinalivanroldan/util/QrGenerator.kt#L1-L35
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/cdbcf1c40ad8b7330517d326bdf46dcf282d3539/app/src/main/java/com/example/proyectofinalivanroldan/util/Roles.kt#L1-L7
 
 ### Video 
 ---
