@@ -9,18 +9,26 @@ Actualmente, este proceso depende en gran medida de la memoria visual del person
 # Flujo del programa
 
 El Motor de Arranque: [MainActivity.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt)  el punto de entrada. Su función es orquestar:
-•Inicializa los Repositorios: Crea las instancias que manejan los datos (UsuarioRepository, AlumnoRepository, etc.).
-•Configura la Navegación (NavHost): Define las "rutas" de la app (login, admin, tutor, conserje).
-•Inyecta Dependencias: Pasa los repositorios a los ViewModels para que estos puedan funcionar.
+- Inicializa los Repositorios: Crea las instancias que manejan los datos (UsuarioRepository, AlumnoRepository, etc.).
+- Configura la Navegación (NavHost): Define las "rutas" de la app (login, admin, tutor, conserje).
+- Inyecta Dependencias: Pasa los repositorios a los ViewModels para que estos puedan funcionar.
 
 Capa de Datos: Aquí reside la información. No saben nada de la interfaz gráfica.
-•Modelos ([Usuario](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Usuario.kt ), [Alumno](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Alumno.kt), [Vinculo](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Vinculo.kt)): Clases simples que definen qué datos tiene cada entidad.
-•Repositorios La carpeta [repository](https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/data/repository) Leen y escriben en archivos JSON locales (usando Gson).
+- Modelos ([Usuario](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Usuario.kt ), [Alumno](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Alumno.kt), [Vinculo](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Vinculo.kt)): Clases simples que definen qué datos tiene cada entidad.
+- Repositorios La carpeta [repository](https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/data/repository) Leen y escriben en archivos JSON locales (usando Gson).
 IAutorizacionRepo: Es el "juez". Verifica si un Tutor tiene permiso para recoger a un Alumno específico.
-•JsonPersistence.kt: Es la herramienta que ayuda a convertir los objetos Kotlin a texto JSON y viceversa.
+- JsonPersistence.kt: Es la herramienta que ayuda a convertir los objetos Kotlin a texto JSON y viceversa.
 
-Capa de Lógica de Interfaz: ViewModels Actúan como el "cerebro" de cada pantalla.
-•LoginViewModel: Recibe las credenciales, consulta al UsuarioRepository y le dice a la vista si el acceso es correcto o si hay un error. Maneja el estado de la sesión.
-•AdminViewModel: Gestiona la lógica de crear/borrar usuarios y alumnos. También contiene la función de generar el informe CSV.
+Capa de Lógica de Interfaz: [ViewModels](https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel) Actúan como el "cerebro" de cada pantalla.
+- [LoginViewModel](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/LoginViewModel.kt): Recibe las credenciales, consulta al UsuarioRepository y le dice a la vista si el acceso es correcto o si hay un error. Maneja el estado de la sesión.
+- [AdminViewModel](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/AdminViewModel.kt): Gestiona la lógica de crear/borrar usuarios y alumnos. También contiene la función de generar el informe CSV.
 
-Capa de Vista: Screens y ComponentsEs lo que el usuario ve y toca (Jetpack Compose).•LoginScreen.kt: Recoge los datos del usuario. Al tener éxito, el flujo vuelve a MainActivity para redirigir según el Rol.•AdminScreen.kt: Interfaz con pestañas. Usa diálogos (AddUserDialog, etc.) para modificar los datos.•TutorScreen.kt:◦Usa el QrGenerator.kt para convertir el ID del tutor en una imagen QR.◦Muestra la lista de sus alumnos vinculados.•ConserjeScreen.kt:◦Usa la cámara mediante CameraX.◦Conecta con el QrAnalyzer.kt, que usa ML Kit para "leer" el código.◦Una vez leído el ID, consulta al repositorio para confirmar si el tutor es válido y qué alumnos puede llevarse.
+Capa de Vista: Screens y ComponentsEs lo que el usuario ve y toca (Jetpack Compose).
+- [LoginScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/login): Recoge los datos del usuario. Al tener éxito, el flujo vuelve a MainActivity para redirigir según el Rol.
+
+- [AdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt): Interfaz con pestañas. Usa diálogos ([UserDialogScreen](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/UserDialogScreen.kt), etc.) para modificar los datos.
+- [TutorScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/TutorScreen.kt): Usa el [QrGenerator.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/util/QrGenerator.kt) para convertir el ID del tutor en una imagen QR. Muestra la lista de sus alumnos vinculados.
+- [ConserjeScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt): Usa la cámara mediante CameraX.◦Conecta con el [QrAnalyzer.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/util/QRAnalyzer.kt), que usa ML Kit para "leer" el código. Una vez leído el ID, consulta al repositorio para confirmar si el tutor es válido y qué alumnos puede llevarse.
+
+  
+
