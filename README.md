@@ -31,7 +31,7 @@ Capa de Vista: Screens y ComponentsEs lo que el usuario ve y toca (Jetpack Compo
 - [ConserjeScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt): Usa la cámara mediante CameraX.◦Conecta con el [QrAnalyzer.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/util/QRAnalyzer.kt), que usa ML Kit para "leer" el código. Una vez leído el ID, consulta al repositorio para confirmar si el tutor es válido y qué alumnos puede llevarse.
 
 
-### Manual de Usuario: Sistema de Gestión de Recogida Escolar
+# Manual de Usuario: Sistema de Gestión de Recogida Escolar
 
 - Este documento describe el funcionamiento de la aplicación diseñada para gestionar de forma segura la salida de alumnos del centro escolar mediante códigos QR.
 
