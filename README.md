@@ -70,16 +70,16 @@ C. Vínculos (Relación Tutor-Alumno)
 
 
 2- Perfil: Tutor 
-El tutor dispone de una interfaz simplificada para gestionar la recogida de sus menores.
+- El tutor dispone de una interfaz simplificada para gestionar la recogida de sus menores.
 
-En la pestaña "Mis alumnos" aparecerá la lista de alumnos que tienes autorizados para recoger, junto con su curso.
-Pase QR (Generación de Código)
+- En la pestaña "Mis alumnos" aparecerá la lista de alumnos que tienes autorizados para recoger, junto con su curso.
+- Pase QR (Generación de Código)
 
-Selecciona la pestaña "Pase QR" en la barra inferior.
+- Selecciona la pestaña "Pase QR" en la barra inferior.
 
-Se generará un Código QR único vinculado a tu identidad.
+- Se generará un Código QR único vinculado a tu identidad.
 
-Uso: Debes mostrar este código en la pantalla de tu móvil al personal de conserjería cuando llegues al centro.
+- Uso: Debes mostrar este código en la pantalla de tu móvil al personal de conserjería cuando llegues al centro.
 
 3-  Perfil: Conserje 
 
@@ -93,9 +93,9 @@ Al entrar, se activará la cámara del dispositivo (es necesario aceptar el perm
 
 - Resultados:
 
-Acceso Autorizado: Se mostrará un mensaje en verde y aparecerá la lista de alumnos que esa persona tiene permiso para recoger. El conserje podrá verificar visualmente a los niños antes de permitir la salida.
+- Acceso Autorizado: Se mostrará un mensaje en verde y aparecerá la lista de alumnos que esa persona tiene permiso para recoger. El conserje podrá verificar visualmente a los niños antes de permitir la salida.
 
-Acceso Denegado: Se mostrará un mensaje en rojo si el código no es válido o el tutor no tiene alumnos vinculados.
+- Acceso Denegado: Se mostrará un mensaje en rojo si el código no es válido o el tutor no tiene alumnos vinculados.
 
 - Siguiente: Pulsa el botón "Limpiar y siguiente" para resetear el escáner para el próximo tutor.
   
