@@ -15,8 +15,8 @@ El Motor de Arranque: [MainActivity.kt](https://github.com/irolram/ProyectoFinal
 
 Capa de Datos: Aquí reside la información. No saben nada de la interfaz gráfica.
 - Modelos ([Usuario](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Usuario.kt ), [Alumno](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Alumno.kt), [Vinculo](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Vinculo.kt)): Clases simples que definen qué datos tiene cada entidad.
-- Repositorios La carpeta [repository](https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/data/repository) Leen y escriben en archivos JSON locales (usando Gson).
-IAutorizacionRepo: Es el "juez". Verifica si un Tutor tiene permiso para recoger a un Alumno específico.
+- Repositorios: En la carpeta [repository](https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/data/repository) se leen y escriben en archivos JSON locales (usando Gson).
+IAutorizacionRepo: Verifica si un Tutor tiene permiso para recoger a un Alumno específico.
 - JsonPersistence.kt: Es la herramienta que ayuda a convertir los objetos Kotlin a texto JSON y viceversa.
 
 Capa de Lógica de Interfaz: [ViewModels](https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel) Actúan como el "cerebro" de cada pantalla.
