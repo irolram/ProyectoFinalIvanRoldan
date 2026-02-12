@@ -6,6 +6,10 @@ import android.Manifest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,6 +21,7 @@ import com.example.proyectofinalivanroldan.data.repository.*
 import com.example.proyectofinalivanroldan.ui.mainScreen.AdminScreen
 import com.example.proyectofinalivanroldan.ui.mainScreen.ConserjeScreen
 import com.example.proyectofinalivanroldan.ui.mainScreen.TutorScreen
+import com.example.proyectofinalivanroldan.ui.theme.SafePickTheme // <--- IMPORTANTE: Importar tu tema
 import com.example.proyectofinalivanroldan.ui.viewmodel.AdminViewModelFactory
 import com.example.proyectofinalivanroldan.ui.viewmodel.LoginViewModelFactory
 import com.example.proyectofinalivanroldan.ui.viewmodel.AdminViewModel
@@ -29,8 +34,19 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Inicialización de Repositorios
         val userRepo = UsuarioRepository(applicationContext)
+
+        if (userRepo.getAll().isEmpty()) {
+            val adminDefault = com.example.proyectofinalivanroldan.dominio.model.Usuario(
+                id = java.util.UUID.randomUUID().toString(),
+                nombre = "Administrador",
+                username = "admin",
+                password = "admin",
+                rol = com.example.proyectofinalivanroldan.util.Roles.ADMIN
+            )
+            userRepo.addUsuario(adminDefault)
+        }
+
         val alumnoRepo = AlumnoRepository(applicationContext)
         val vinculoRepo = VinculoRepository(applicationContext)
 
@@ -39,80 +55,91 @@ class MainActivity : ComponentActivity() {
         val adminFactory = AdminViewModelFactory(userRepo, alumnoRepo, vinculoRepo)
 
         setContent {
-            val navController = rememberNavController()
-            val loginViewModel: LoginViewModel = ViewModelProvider(this, loginFactory)[LoginViewModel::class.java]
-            val adminViewModel: AdminViewModel = ViewModelProvider(this, adminFactory)[AdminViewModel::class.java]
+            // 1. AQUI APLICAMOS EL TEMA (Esto es lo que te faltaba)
+            SafePickTheme {
 
-            NavHost(navController = navController, startDestination = "login") {
+                // 2. AQUI APLICAMOS EL FONDO (Para que cambie a negro en modo oscuro)
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
 
-                // LOGIN
-                composable("login") {
-                    LoginScreen(
-                        viewModel = loginViewModel,
-                        onLoginSuccess = { usuario ->
-                            // Navegación según el ROL
-                            when (usuario.rol) {
-                                Roles.ADMIN -> navController.navigate("admin")
-                                Roles.TUTOR -> navController.navigate("tutor/${usuario.id}")
-                                Roles.CONSERJE -> navController.navigate("conserje")
-                                else -> {}
+                    // A PARTIR DE AQUI ES TU CÓDIGO DE SIEMPRE
+                    val navController = rememberNavController()
+                    val loginViewModel: LoginViewModel = ViewModelProvider(this, loginFactory)[LoginViewModel::class.java]
+                    val adminViewModel: AdminViewModel = ViewModelProvider(this, adminFactory)[AdminViewModel::class.java]
+
+                    NavHost(navController = navController, startDestination = "login") {
+
+                        // LOGIN
+                        composable("login") {
+                            LoginScreen(
+                                viewModel = loginViewModel,
+                                onLoginSuccess = { usuario ->
+                                    when (usuario.rol) {
+                                        Roles.ADMIN -> navController.navigate("admin")
+                                        Roles.TUTOR -> navController.navigate("tutor/${usuario.id}")
+                                        Roles.CONSERJE -> navController.navigate("conserje")
+                                        else -> {}
+                                    }
+                                }
+                            )
+                        }
+
+                        // ADMIN
+                        composable("admin") {
+                            AdminScreen(
+                                viewModel = adminViewModel,
+                                onLogout = {
+                                    loginViewModel.resetState()
+                                    navController.navigate("login") {
+                                        popUpTo("login") { inclusive = true }
+                                    }
+                                }
+                            )
+                        }
+
+                        // TUTOR
+                        composable("tutor/{userId}") { backStackEntry ->
+                            val userId = backStackEntry.arguments?.getString("userId")
+                            val tutorUsuario = userRepo.getUsuarioById(userId ?: "")
+
+                            if (tutorUsuario != null) {
+                                TutorScreen(
+                                    tutorId = tutorUsuario.id,
+                                    tutorNombre = tutorUsuario.nombre,
+                                    alumnoRepo = alumnoRepo,
+                                    vinculoRepo = vinculoRepo,
+                                    onLogout = {
+                                        loginViewModel.resetState()
+                                        navController.navigate("login") {
+                                            popUpTo("login") { inclusive = true }
+                                        }
+                                    }
+                                )
                             }
                         }
-                    )
-                }
 
-                // ADMIN
-                composable("admin") {
-                    AdminScreen(
-                        viewModel = adminViewModel,
-                        onLogout = {
-                            loginViewModel.resetState() // LIMPIAR ESTADO PARA QUE NO REDIRIJA SOLO
-                            navController.navigate("login") {
-                                popUpTo("login") { inclusive = true }
-                            }
-                        }
-                    )
-                }
+                        // CONSERJE
+                        composable("conserje") {
+                            val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
 
-                // TUTOR
-                composable("tutor/{userId}") { backStackEntry ->
-                    val userId = backStackEntry.arguments?.getString("userId")
-                    val tutorUsuario = userRepo.getUsuarioById(userId ?: "")
-
-                    if (tutorUsuario != null) {
-                        TutorScreen(
-                            tutorId = tutorUsuario.id,
-                            tutorNombre = tutorUsuario.nombre,
-                            alumnoRepo = alumnoRepo,
-                            vinculoRepo = vinculoRepo,
-                            onLogout = {
-                                loginViewModel.resetState() // LIMPIAR ESTADO PARA QUE NO REDIRIJA SOLO
-                                navController.navigate("login") {
-                                    popUpTo("login") { inclusive = true }
+                            if (cameraPermissionState.status.isGranted) {
+                                ConserjeScreen(
+                                    alumnoRepo = alumnoRepo,
+                                    vinculoRepo = vinculoRepo,
+                                    onLogout = {
+                                        loginViewModel.resetState()
+                                        navController.navigate("login") {
+                                            popUpTo("login") { inclusive = true }
+                                        }
+                                    }
+                                )
+                            } else {
+                                PermissionRequestScreen {
+                                    cameraPermissionState.launchPermissionRequest()
                                 }
                             }
-                        )
-                    }
-                }
-
-                // CONSERJE
-                composable("conserje") {
-                    val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
-
-                    if (cameraPermissionState.status.isGranted) {
-                        ConserjeScreen(
-                            alumnoRepo = alumnoRepo,
-                            vinculoRepo = vinculoRepo,
-                            onLogout = {
-                                loginViewModel.resetState() // LIMPIAR ESTADO PARA QUE NO REDIRIJA SOLO
-                                navController.navigate("login") {
-                                    popUpTo("login") { inclusive = true }
-                                }
-                            }
-                        )
-                    } else {
-                        PermissionRequestScreen {
-                            cameraPermissionState.launchPermissionRequest()
                         }
                     }
                 }
