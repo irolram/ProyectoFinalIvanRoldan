@@ -765,3 +765,426 @@ Uso de modificadores flexibles en los layouts principales.
 
 [Ver en GitHub: LoginScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/login/LoginScreen.kt)
 
+# RA5 — Generación de informes
+
+## RA5.a — Establece la estructura del informe
+
+La aplicación implementa una estructura clara y organizada para la generación de informes y exportación de datos, siguiendo la arquitectura MVVM.
+A diferencia de sistemas basados en SQL, **SafePick** procesa la información almacenada en los repositorios JSON locales, la transforma en la capa de dominio/negocio y la presenta o exporta desde la capa de presentación.
+
+La estructura del informe se divide en:
+* **Capa de Datos:** Lectura de archivos JSON (`alumnos.json`, `usuarios.json`) mediante `Gson`.
+* **Capa de Lógica (ViewModel):** Procesamiento de listas, filtrado y formateo de cadenas para CSV.
+* **Capa de Presentación:** Botones de acción en `AdminScreen` para desencadenar la generación y visualización de totales.
+
+Esta separación permite que la lógica de generación del informe no bloquee la interfaz de usuario, utilizando Corrutinas para el procesamiento en segundo plano.
+
+### Ubicación en el código
+
+**Lógica de Negocio en ViewModel:**
+El `AdminViewModel` contiene la función encargada de orquestar la creación del informe.
+
+[Ver en GitHub: AdminViewModel.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/AdminViewModel.kt)
+
+**Repositorios de Datos:**
+Fuente de verdad de donde se extrae la información cruda.
+
+[Ver en GitHub: AlumnoRepository.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/data/repository)
+
+## RA5.b — Genera informes a partir de fuentes de datos
+
+El informe se genera a partir de **datos reales y persistentes** almacenados en el almacenamiento interno del dispositivo.
+Los valores exportados no son simulados; reflejan el estado exacto de la matriculación del centro en el momento de la consulta. El sistema recorre las listas de objetos `Alumno` y `Usuario` cargadas en memoria desde los repositorios para construir el reporte.
+
+### Ubicación en el código
+
+**Generación de CSV:**
+La función `generarInformeCSV()` en el ViewModel toma los datos vivos del repositorio y los transforma en un formato estructurado.
+
+[Ver en GitHub: AdminViewModel.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/AdminViewModel.kt)
+
+## RA5.c — Establece filtros sobre los valores a presentar
+
+El sistema de informes aplica **filtros lógicos** sobre los datos antes de presentarlos o exportarlos, asegurando que la información sea relevante.
+
+Los filtros aplicados incluyen:
+* **Filtrado por Rol:** Segregación de usuarios entre "Tutores", "Conserjes" y "Administradores" para la gestión de permisos.
+* **Filtrado por Curso:** Organización de los alumnos según su nivel educativo.
+* **Validación de Vínculos:** Verificación de qué alumnos tienen tutores asignados y cuáles están pendientes de asignación.
+
+Estos filtros se aplican utilizando funciones de colección de Kotlin (`filter`, `map`, `groupBy`) dentro del ViewModel, garantizando eficiencia y seguridad de tipos.
+
+### Ubicación en el código
+
+**Filtrado en Listas:**
+En la pantalla de administración, las listas se pueden procesar para mostrar subconjuntos de datos específicos.
+
+[Ver en GitHub: MainAdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+## RA5.d — Incluye valores calculados, recuentos o totales
+
+El panel de administración y el informe exportado incluyen **métricas y recuentos** que permiten evaluar el volumen de datos del centro escolar.
+
+Se realizan los siguientes cálculos:
+* **Total de Alumnos Matriculados:** Recuento dinámico del tamaño de la lista de alumnos (`List.size`).
+* **Total de Usuarios Registrados:** Recuento de las credenciales activas en el sistema.
+* **Relaciones Activas:** Cálculo de cuántos vínculos Tutor-Alumno existen actualmente.
+
+Estos valores se calculan en tiempo real gracias a `StateFlow`, actualizándose instantáneamente si se añade o elimina un registro.
+
+### Ubicación en el código
+
+**Cálculo en ViewModel:**
+Las variables de estado (`uiState`) mantienen los totales actualizados para su visualización.
+
+[Ver en GitHub: AdminViewModel.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/AdminViewModel.kt)
+
+## RA5.e — Visualización y Exportación de Datos
+
+La aplicación incluye mecanismos para la **visualización y exportación** de la información procesada.
+
+1.  **Visualización en Dashboard:** La pantalla `AdminScreen` actúa como un cuadro de mando visual donde se muestran los listados y totales mediante tarjetas (`AdminItemCard`) y listas con scroll (`LazyColumn`).
+2.  **Exportación a Archivo (Reporte Externo):** Se ha implementado la capacidad de generar un archivo externo (CSV/Texto) que recopila toda la información de la base de datos. Este archivo sirve como copia de seguridad y como documento de control para la dirección del centro.
+
+El formato elegido (CSV) garantiza la interoperabilidad con otras herramientas de hoja de cálculo (Excel, Google Sheets), cumpliendo con el requisito de generar informes útiles y portables.
+
+### Ubicación en el código
+
+**Botón de Generación de Informe:**
+Interfaz de usuario que dispara la acción de exportación.
+
+[Ver en GitHub: MainAdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+**Lógica de Escritura de Archivo:**
+Función interna que escribe el String formateado en el almacenamiento del dispositivo.
+
+[Ver en GitHub: AdminViewModel.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/AdminViewModel.kt)
+
+
+# RA6 – Sistemas de ayuda y documentación
+
+## RA6.a – Identifica sistemas de generación de ayudas
+
+En **SafePick** se identifican y utilizan distintos sistemas de generación de ayudas orientados tanto al usuario final (personal del centro y familias) como al desarrollador.
+Estas ayudas no se limitan a un único formato, sino que se integran de forma natural en la interfaz y en la documentación del proyecto.
+
+* **Ayudas de Interfaz (Usuario):** Se utilizan mensajes informativos en las pantallas de carga, estados vacíos ilustrados (`EmptyState`) cuando no hay alumnos o usuarios, y diálogos de confirmación críticos antes de eliminar registros para evitar pérdidas de datos accidentales.
+* **Ayudas Técnicas (Desarrollador):** El proyecto incorpora comentarios de código **KDoc** estandarizados en todas las capas (Data, Domain, UI), explicando el propósito de clases complejas como `QrAnalyzer` o `AdminViewModel`.
+
+Este enfoque dual asegura que la aplicación sea intuitiva de usar y fácil de mantener.
+
+### Ubicación en el código
+
+**Estados Vacíos Informativos:**
+Componente reutilizable que guía al usuario cuando no hay datos.
+
+[Ver en GitHub: MainAdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+**Diálogos de Confirmación:**
+Uso de `AlertDialog` para confirmar el borrado de un alumno.
+
+[Ver en GitHub: MainAdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+**Documentación de Código (KDoc):**
+Ejemplo de documentación en el analizador de imágenes.
+
+[Ver en GitHub: QrAnalyzer.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/util/QRAnalyzer.kt)
+
+## RA6.b – Genera ayudas en formatos habituales
+
+Las ayudas se generan utilizando formatos habituales y reconocibles dentro del ecosistema de aplicaciones móviles Android.
+La aplicación ofrece información al usuario mediante:
+
+1.  **Textos descriptivos en UI:** Etiquetas claras en los campos de texto (`OutlinedTextField`) como "Nombre del Alumno" o "Curso", que actúan como ayuda contextual inmediata.
+2.  **Feedback Visual (Toast/Snackbar):** Mensajes emergentes breves que confirman acciones ("Alumno creado correctamente") o informan de errores ("Error al leer el QR").
+3.  **Códigos de Color Semánticos:** Uso universal de Verde (Éxito/Autorizado) y Rojo (Error/Denegado) en la pantalla del conserje, funcionando como una ayuda visual instantánea sin necesidad de lectura.
+4.  **Documentación Externa:** Un archivo `README.md` detallado que sirve como punto de entrada para comprender el proyecto.
+
+### Ubicación
+
+**Feedback Visual y Textos:** `LoginScreen.kt` y `ConserjeScreen.kt`.
+**Documentación Externa:** Archivo `README.md` en la raíz del repositorio.
+
+## RA6.c – Genera ayudas sensibles al contexto
+
+La aplicación genera ayudas **adaptadas al contexto y al rol** del usuario logueado. No se muestra la misma información a un padre que a un conserje.
+
+Ejemplos de ayudas contextuales en **SafePick**:
+* **Contexto "Conserje":** Si la cámara detecta un QR inválido, muestra un mensaje específico de "Código no reconocido" y sugiere limpiar el escáner. Si detecta uno válido, muestra la lista de alumnos asociados.
+* **Contexto "Admin":** Si intenta borrar al usuario "admin", el sistema deshabilita el botón o muestra un aviso, protegiendo la integridad del sistema.
+* **Contexto "Tutor":** Solo ve la ayuda relacionada con *sus* hijos y *su* código QR, evitando la sobrecarga de información irrelevante.
+
+### Ubicación en el código
+
+**Lógica Condicional de UI:**
+El `ConserjeScreen` cambia su mensaje de ayuda según el estado del escaneo (`Scanning`, `Authorized`, `Denied`).
+
+[Ver en GitHub: ConserjeScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt)
+
+**Protección Contextual:**
+El `AdminItemCard` oculta el botón de borrar si el usuario es "admin".
+
+[Ver en GitHub: MainAdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+## RA6.d – Documenta la estructura de la información persistente
+
+La estructura de la información persistente está documentada de forma clara mediante la definición de **Modelos de Datos (Data Classes)** y el uso de **Repositorios**.
+Aunque se utiliza persistencia en archivos JSON (Gson) en lugar de Room, la estructura está igualmente formalizada:
+
+* **Entidades:** Las clases `Usuario`, `Alumno` y `Vinculo` definen explícitamente los campos (ID, nombre, curso, rol) y sus tipos de datos.
+* **Repositorios:** Las interfaces (`IUsuarioRepository`, etc.) documentan las operaciones disponibles (Crear, Leer, Borrar), actuando como un contrato claro de acceso a datos.
+* **Serialización:** El uso de la librería Gson y las anotaciones implícitas documentan cómo se transforman los objetos en texto JSON.
+
+### Ubicación en el código
+
+**Definición de Modelos:**
+Documentación de la estructura de datos.
+
+[Ver en GitHub: Usuario.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Usuario.kt)
+
+**Interfaces de Repositorio:**
+Documentación de las operaciones de datos.
+
+[Ver en GitHub: UsuarioRepository.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/data/repository)
+
+## RA6.e – Manual de usuario y guía de referencia
+
+El proyecto incluye un manual de usuario integrado en la documentación del repositorio (`README.md`) que actúa como guía de referencia para el uso de la aplicación.
+En este manual se explica detalladamente:
+1.  **Acceso y Roles:** Cómo iniciar sesión y qué puede hacer cada perfil (Admin, Tutor, Conserje).
+2.  **Flujo del Tutor:** Cómo generar y presentar el código QR.
+3.  **Flujo del Conserje:** Cómo utilizar el escáner de cámara y validar las salidas.
+4.  **Gestión Administrativa:** Guía paso a paso para dar de alta alumnos y crear vínculos familiares.
+
+El manual utiliza un lenguaje no técnico, adecuado para el personal del centro educativo.
+
+### Ubicación
+
+**Manual de Usuario:** Sección "Manual de Usuario" en el documento `README.md` del proyecto.
+
+## RA6.f – Manual técnico de instalación y configuración
+
+La aplicación dispone de un manual técnico orientado a desarrolladores y administradores de sistemas del centro.
+Este manual describe:
+1.  **Requisitos:** Android Studio Koala+, JDK 17, Dispositivo Android con cámara (min SDK 26).
+2.  **Dependencias:** Explicación de las librerías clave (`CameraX`, `Gson`, `Navigation Compose`, `ZXing`).
+3.  **Despliegue:** Instrucciones para clonar el repositorio, compilar el proyecto y generar el APK firmado.
+4.  **Estructura de Datos:** Ubicación de los archivos JSON en el almacenamiento interno del dispositivo.
+
+Esta documentación garantiza la reproducibilidad del entorno de desarrollo y facilita la instalación en nuevos dispositivos del colegio.
+
+### Ubicación
+
+**Configuración de Build:**
+El archivo `build.gradle.kts` documenta las dependencias técnicas necesarias.
+
+[Ver en GitHub: build.gradle.kts](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/build.gradle.kts)
+
+## RA6.g – Confecciona tutoriales
+
+Se han diseñado flujos de trabajo que actúan como tutoriales implícitos ("Onboarding") para guiar al usuario en las acciones principales:
+
+* **Flujo Guiado del Conserje:** La pantalla no es estática; guía al conserje paso a paso: "Enfoca el código" -> "Procesando..." -> "Resultado" -> "Botón Siguiente". Este diseño secuencial enseña al usuario cómo operar sin necesidad de un manual externo.
+* **Validación de Formularios:** Los diálogos de creación de usuarios impiden avanzar si faltan datos, mostrando mensajes de error ("El campo nombre es obligatorio") que enseñan al administrador qué información es necesaria.
+
+### Ubicación
+
+**Flujo Secuencial:** Lógica de estados en `ConserjeScreen.kt`.
+**Validación Guiada:** Lógica en `AddUserDialog.kt`.
+
+# RA7 — Distribución de aplicaciones
+
+## RA7.a — Empaquetado de la aplicación
+
+La aplicación **SafePick** ha sido empaquetada correctamente utilizando las herramientas oficiales de Android Studio. Se ha generado una versión de distribución en formato **APK (Android Package Kit)** en modo `release`.
+
+Este formato ha sido seleccionado por ser el estándar para la instalación directa en dispositivos de la institución (tablets de conserjería y móviles de tutores) sin necesidad de pasar obligatoriamente por una tienda pública en esta fase inicial. El proceso de construcción (`Build > Generate Signed Bundle / APK`) ha compactado el código compilado (DEX), los recursos (imágenes, layouts) y el manifiesto en un único archivo instalable.
+
+### Ubicación en el código
+
+**Configuración de Versiones:**
+El archivo de construcción define la versión del paquete (`versionCode`) y el nombre visible (`versionName`).
+
+[Ver en GitHub: build.gradle.kts](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/build.gradle.kts)
+
+## RA7.b — Personalización del instalador
+
+El instalador de la aplicación presenta una **identidad visual coherente** y profesional, fundamental para generar confianza en los padres y el personal del centro.
+
+Se han personalizado los siguientes elementos:
+* **Nombre de la aplicación:** "SafePick" (definido en `strings.xml`).
+* **Icono Adaptativo:** Se ha diseñado un icono que representa seguridad y educación, compatible con las máscaras de iconos de Android (círculo, cuadrado redondeado, lágrima) para integrarse en cualquier launcher.
+* **Tema de Inicio (Splash Screen):** La aplicación inicia con una transición suave que respeta el modo oscuro/claro del sistema.
+
+### Ubicación en el código
+
+**Definición de Icono y Etiqueta:**
+Configuración en el Manifiesto.
+
+[Ver en GitHub: AndroidManifest.xml](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/AndroidManifest.xml)
+
+## RA7.c — Paquete generado desde el entorno de desarrollo
+
+El paquete de distribución se ha generado directamente desde **Android Studio**, utilizando el sistema de construcción oficial de **Gradle (Kotlin DSL)**.
+
+El script de construcción (`build.gradle.kts`) se ha configurado para:
+1.  **Minificar:** (Opcional en debug, activo en release) para reducir el tamaño del APK.
+2.  **Optimizar recursos:** Eliminando recursos no utilizados.
+3.  **Compatibilidad:** Asegurando que el paquete funcione desde Android 8.0 (API 26) hasta la última versión (Android 14+), cubriendo la mayoría de dispositivos del mercado escolar.
+
+El resultado es un archivo `.apk` estable, optimizado y listo para su despliegue.
+
+## RA7.d — Uso de herramientas externas
+
+Para la distribución y preparación de la aplicación se han utilizado herramientas externas estándar del ecosistema Android:
+
+1.  **Android Studio (Koala/Ladybug):** IDE oficial para la gestión del proyecto y generación de artefactos.
+2.  **Gradle Build Tool:** Sistema de automatización que gestiona las dependencias (CameraX, Gson, Compose) y compila el código.
+3.  **Keytool:** Herramienta de línea de comandos (integrada en el IDE) utilizada para generar el almacén de claves criptográficas.
+
+Estas herramientas aseguran un proceso de construcción fiable, reproducible y conforme a los estándares de Google.
+
+## RA7.e — Firma digital de la aplicación
+
+La aplicación ha sido **firmada digitalmente** mediante un **Keystore (.jks)**. Este es un requisito de seguridad crítico, especialmente para una app que maneja datos de menores.
+
+La firma garantiza:
+* **Autenticidad:** Asegura al centro educativo que el APK proviene del desarrollador original y no ha sido modificado por terceros (malware).
+* **Integridad:** El sistema operativo Android rechazaría la instalación si el paquete hubiera sido alterado tras la firma.
+* **Actualizaciones:** Permite instalar nuevas versiones sobre la anterior sin perder los datos de la aplicación (siempre que se use la misma firma).
+
+El proceso se realizó mediante el asistente "Generate Signed APK" de Android Studio, creando una clave privada segura.
+
+<img width="276" height="44" alt="image" src="https://github.com/user-attachments/assets/a083608a-200b-4e89-9e2f-3f58f5380fc5" />
+
+
+## RA7.f — Instalación desatendida y manual
+
+La aplicación está preparada para dos tipos de instalación, adaptándose a la infraestructura del colegio:
+
+1.  **Instalación Manual (Sideloading):** Los tutores y conserjes pueden instalar el APK directamente descargándolo desde la intranet del colegio o recibiéndolo por correo, habilitando la opción "Orígenes desconocidos".
+2.  **Instalación Desatendida (MDM):** El paquete es compatible con sistemas de gestión de dispositivos (MDM) que podrían usar los administradores del colegio para instalar la app masivamente en las tablets de conserjería sin intervención del usuario.
+
+## RA7.g — Desinstalación de la aplicación
+
+La aplicación se desinstala correctamente utilizando los mecanismos estándar del sistema operativo Android.
+
+**Gestión de Residuos de Datos (Privacidad):**
+Dado que **SafePick** almacena datos sensibles (listas de alumnos en JSON) en el almacenamiento interno privado de la aplicación (`context.filesDir`), el sistema operativo garantiza que, al desinstalar la app, **todos estos datos se eliminan físicamente** del dispositivo. Esto es una característica de seguridad deseada ("Sandbox") que cumple con el principio de que los datos no persistan si la herramienta no está instalada.
+
+## RA7.h — Canales de distribución
+
+Se ha realizado una planificación razonada de los canales de distribución más adecuados para un entorno escolar cerrado:
+
+1.  **Distribución Interna (Principal):**
+    * *Método:* Alojamiento del APK en la web privada del colegio o servidor interno.
+    * *Justificación:* Es el método más rápido y directo para una comunidad cerrada de usuarios (padres y empleados). No requiere tiempos de revisión de Google.
+
+2.  **Google Play Store (Canal Privado/Managed Play):**
+    * *Método:* Publicación en la Play Store pero restringida a la organización (dominio del colegio).
+    * *Justificación:* Facilita las actualizaciones automáticas. Sería el siguiente paso lógico si el proyecto escala a múltiples centros educativos.
+
+Esta estrategia híbrida permite un despliegue inmediato (APK) con una ruta clara hacia una gestión más profesional (Play Store).
+
+RA8 — Pruebas avanzadas
+RA8.a — Estrategia de pruebas
+Estrategia definida
+
+El proyecto incorpora una estrategia de pruebas orientada a asegurar la estabilidad de la lógica de negocio y la correcta gestión del estado de la aplicación, un aspecto crítico al manejar datos sensibles de alumnos y tutores en un entorno escolar.
+
+La estrategia de testing se basa en tres niveles principales:
+
+Pruebas unitarias (Unit Testing):
+
+Validan la lógica de negocio contenida en los Casos de Uso (por ejemplo, verificar que no se pueda crear un alumno con datos incompletos).
+
+Verifican el comportamiento de los ViewModels (AdminViewModel, ConserjeViewModel), comprobando que el estado de la interfaz de usuario reacciona correctamente ante eventos como la carga de listas desde los archivos JSON o la gestión de errores de lectura.
+
+Herramientas: Se utilizan librerías estándar del ecosistema Android como JUnit 4, MockK (para simular el comportamiento de los repositorios) y Turbine (para validar los flujos de datos reactivos).
+
+Pruebas de regresión:
+
+Las pruebas unitarias automatizadas permiten detectar errores tras realizar modificaciones en el código. Por ejemplo, si se optimiza el algoritmo de lectura de los archivos JSON, los tests existentes aseguran que el formato de los datos sigue siendo compatible y que no se ha roto la funcionalidad de búsqueda o filtrado.
+
+Pruebas manuales funcionales:
+
+Se realizan verificaciones manuales de aquellos flujos que dependen del hardware y son difíciles de simular en un entorno de test estándar, como el escaneo de códigos QR con la cámara del dispositivo (utilizando la librería CameraX) o la generación y visualización correcta de los informes en PDF.
+
+Esta estrategia asegura que la lógica crítica de la aplicación permanezca estable durante todo el ciclo de desarrollo evolutivo del proyecto.
+
+RA8.b — Pruebas de integración
+Pruebas de integración implementadas
+
+Además de las pruebas unitarias individuales, el proyecto incorpora pruebas de integración orientadas a validar la correcta comunicación entre las distintas capas de la arquitectura Clean Architecture utilizada.
+
+Estas pruebas verifican la interacción fluida entre:
+
+Capa de Presentación (ViewModel): Donde reside la lógica de la interfaz.
+
+Capa de Dominio (UseCases): Donde residen las reglas de negocio.
+
+Capa de Datos (Repositories): Donde reside el acceso a datos basado en archivos JSON.
+
+Para realizar estas pruebas de manera eficiente, se emplea el uso de dobles de prueba (mocks) de los repositorios. Esto es vital en SafePick porque nos permite simular el comportamiento de los archivos JSON (lectura y escritura) sin necesidad de acceder al almacenamiento real del dispositivo durante los tests. Esto hace que las pruebas sean mucho más rápidas, deterministas y fiables, ya que no dependen del estado físico del sistema de archivos.
+
+Escenarios comprobados:
+
+Flujo de Carga de Datos: Se verifica que, al iniciar la pantalla de administración, el ViewModel solicita los datos al caso de uso, este a su vez invoca al repositorio, y la lista de alumnos fluye de vuelta correctamente hasta actualizar el estado de la interfaz, sustituyendo el indicador de carga por la lista de resultados reales.
+
+Gestión de Errores de Archivo: Se simula una situación donde el repositorio lanza una excepción (por ejemplo, si el archivo alumnos.json está corrupto o no existe) y se verifica que la interfaz muestra un mensaje de error legible al usuario en lugar de bloquear la aplicación.
+
+RA8.c — Pruebas de regresión
+El proyecto incorpora pruebas unitarias reales sobre los ViewModels y casos de uso, que actúan como pruebas de regresión funcionales. Estas pruebas se ejecutan automáticamente cada vez que se modifica la lógica de negocio para asegurar que las funcionalidades previamente validadas no sufran alteraciones no deseadas.
+
+Escenario de Carga en AdminViewModel
+Se verifica mediante un test que el ViewModel es capaz de transformar la lista de objetos devuelta por el repositorio en el estado visible de la interfaz. El test configura un repositorio simulado que devuelve una lista predefinida de alumnos y comprueba que, tras la carga, el estado de la UI contiene exactamente esos mismos registros con sus nombres y cursos correctos.
+
+Escenario de Lógica de Borrado
+Se valida que el sistema reacciona adecuadamente ante intentos de borrar registros no existentes. En este test, se configura el repositorio para que devuelva un fallo controlado. Luego, se verifica que el ViewModel captura ese error y actualiza el estado de la interfaz con el mensaje de advertencia correspondiente, asegurando que el usuario recibe el feedback adecuado.
+
+RA8.d — Pruebas de volumen / estrés
+Aunque no se han implementado pruebas de estrés automatizadas a gran escala, se ha realizado una evaluación técnica razonada basada en la arquitectura del proyecto:
+
+Volumen de Datos: Dado que SafePick carga los archivos JSON completos en memoria al iniciar la aplicación, se ha verificado manualmente que el sistema funciona de manera fluida y sin retardos perceptibles con listas de hasta 500 alumnos, un volumen representativo para un centro escolar de tamaño medio.
+
+Límites Identificados: Se ha documentado que, para volúmenes muy superiores (miles de registros), el tiempo de procesamiento de la librería de parseo JSON podría empezar a afectar al tiempo de arranque de la aplicación.
+
+Escalabilidad: Se concluye que esta arquitectura es eficiente para el alcance actual. Para escalar a una cantidad masiva de alumnos en el futuro, se recomienda migrar la persistencia a una base de datos indexada, una transición facilitada por el desacoplamiento entre capas que ofrece el proyecto.
+
+RA8.e — Pruebas de seguridad
+Las pruebas unitarias también contribuyen a validar la seguridad lógica y la integridad de los datos de la aplicación:
+
+Validación de Entradas: Se comprueba mediante tests que los Casos de Uso de creación rechazan sistemáticamente objetos con campos obligatorios vacíos (como el nombre del alumno o el curso). Esto evita que se corrompa el almacenamiento con datos inválidos.
+
+Consistencia de Identificadores: Se valida que la lógica de generación de identificadores únicos (UUID) funciona correctamente, evitando colisiones que podrían provocar la mezcla de datos de dos personas diferentes o la sobreescritura accidental de registros.
+
+Control de Estados: Se asegura mediante pruebas que la interfaz no muestre información sensible si la carga de datos falla o si el usuario intenta acceder a rutas protegidas sin la autenticación necesaria.
+
+RA8.f — Uso de recursos
+El uso de corrutinas controladas en las pruebas unitarias permite analizar y optimizar el uso de recursos del sistema:
+
+Gestión de Hilos: Se valida en el código y en los tests que las operaciones pesadas de lectura y escritura se realizan siempre en hilos de entrada/salida (IO), garantizando que el hilo principal de la interfaz nunca se bloquee.
+
+Cancelación de Tareas: Al utilizar alcances controlados (ViewModelScope), aseguramos que si el usuario abandona una pantalla mientras se procesa una tarea, el proceso se cancela automáticamente. Esto libera la memoria y la CPU del dispositivo, evitando el consumo innecesario de batería.
+
+RA8.g — Documentación de las pruebas
+Documentación del sistema de testing
+
+El proyecto incluye una documentación estructurada de las pruebas para facilitar el mantenimiento y la comprensión del código por parte de otros colaboradores.
+
+Estructura y Organización:
+Los archivos de test siguen la misma estructura de carpetas que la aplicación principal. Esto permite localizar rápidamente las pruebas correspondientes a cada módulo funcional (autenticación, gestión de alumnos, escaneo) sin pérdida de tiempo.
+
+Convenciones de Nombramiento:
+Se utilizan nombres de funciones descriptivos que explican el comportamiento esperado del test. Esto permite entender qué funcionalidad está fallando simplemente leyendo el informe de resultados del sistema de integración.
+
+Metodología de Documentación Interna:
+Dentro del código de los tests, se aplican comentarios para separar las tres fases fundamentales de la prueba:
+
+Preparación: Describe la configuración inicial del entorno y los datos simulados.
+
+Acción: Describe la operación específica que se está poniendo a prueba.
+
+Verificación: Describe las comprobaciones finales que confirman que el resultado es el esperado.
+
+Esta documentación técnica asegura que los requisitos funcionales estén siempre protegidos contra errores accidentales durante futuras ampliaciones del software.
