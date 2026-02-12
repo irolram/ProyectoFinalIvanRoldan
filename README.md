@@ -8,26 +8,26 @@ Actualmente, este proceso depende en gran medida de la memoria visual del person
 
 # Flujo del programa
 
-**El Motor de Arranque:** [`MainActivity.kt`](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt) es el punto de entrada. Su función es orquestar:
+**El Motor de Arranque:** `MainActivity.kt` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt es el punto de entrada. Su función es orquestar:
 * **Inicializa los Repositorios:** Crea las instancias que manejan los datos (UsuarioRepository, AlumnoRepository, etc.).
 * **Configura la Navegación (NavHost):** Define las "rutas" de la app (login, admin, tutor, conserje).
 * **Inyecta Dependencias:** Pasa los repositorios a los ViewModels para que estos puedan funcionar.
 
 **Capa de Datos:** Aquí reside la información. No saben nada de la interfaz gráfica.
-* **Modelos** ([`Usuario`](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Usuario.kt), [`Alumno`](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Alumno.kt), [`Vinculo`](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Vinculo.kt)): Clases simples que definen qué datos tiene cada entidad.
-* **Repositorios:** En la carpeta [`repository`](https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/data/repository) se leen y escriben en archivos JSON locales (usando Gson).
+* **Modelos** (`Usuario` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Usuario.kt, `Alumno` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Alumno.kt, `Vinculo` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/dominio/model/Vinculo.kt): Clases simples que definen qué datos tiene cada entidad.
+* **Repositorios:** En la carpeta `repository` https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/data/repository se leen y escriben en archivos JSON locales (usando Gson).
     * `IAutorizacionRepo`: Verifica si un Tutor tiene permiso para recoger a un Alumno específico.
     * `JsonPersistence.kt`: Es la herramienta que ayuda a convertir los objetos Kotlin a texto JSON y viceversa.
 
-**Capa de Lógica de Interfaz:** [ViewModels](https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel). Actúan como el "cerebro" de cada pantalla.
-* [`LoginViewModel`](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/LoginViewModel.kt): Recibe las credenciales, consulta al `UsuarioRepository` y le dice a la vista si el acceso es correcto o si hay un error. Maneja el estado de la sesión.
-* [`AdminViewModel`](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/AdminViewModel.kt): Gestiona la lógica de crear/borrar usuarios y alumnos. También contiene la función de generar el informe CSV.
+**Capa de Lógica de Interfaz:** `ViewModels` https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel. Actúan como el "cerebro" de cada pantalla.
+* `LoginViewModel` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/LoginViewModel.kt: Recibe las credenciales, consulta al `UsuarioRepository` y le dice a la vista si el acceso es correcto o si hay un error. Maneja el estado de la sesión.
+* `AdminViewModel` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/AdminViewModel.kt: Gestiona la lógica de crear/borrar usuarios y alumnos. También contiene la función de generar el informe CSV.
 
 **Capa de Vista:** Screens y Components. Es lo que el usuario ve y toca (Jetpack Compose).
-* [`LoginScreen.kt`](https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/login): Recoge los datos del usuario. Al tener éxito, el flujo vuelve a `MainActivity` para redirigir según el Rol.
-* [`AdminScreen.kt`](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt): Interfaz con pestañas. Usa diálogos ([`UserDialogScreen`](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/UserDialogScreen.kt), etc.) para modificar los datos.
-* [`TutorScreen.kt`](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/TutorScreen.kt): Usa el [`QrGenerator.kt`](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/util/QrGenerator.kt) para convertir el ID del tutor en una imagen QR. Muestra la lista de sus alumnos vinculados.
-* [`ConserjeScreen.kt`](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt): Usa la cámara mediante CameraX. Conecta con el [`QrAnalyzer.kt`](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/util/QRAnalyzer.kt), que usa ML Kit para "leer" el código. Una vez leído el ID, consulta al repositorio para confirmar si el tutor es válido y qué alumnos puede llevarse.
+* `LoginScreen.kt`https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/login: Recoge los datos del usuario. Al tener éxito, el flujo vuelve a `MainActivity` para redirigir según el Rol.
+* `AdminScreen.kt` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt: Interfaz con pestañas. Usa diálogos (`UserDialogScreen` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/UserDialogScreen.kt, etc.) para modificar los datos.
+* `TutorScreen.kt` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/TutorScreen.kt: Usa el `QrGenerator.kt` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/util/QrGenerator.kt para convertir el ID del tutor en una imagen QR. Muestra la lista de sus alumnos vinculados.
+* `ConserjeScreen.kt` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt: Usa la cámara mediante CameraX. Conecta con el `QrAnalyzer.kt` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/util/QRAnalyzer.kt, que usa ML Kit para "leer" el código. Una vez leído el ID, consulta al repositorio para confirmar si el tutor es válido y qué alumnos puede llevarse.
 
 # Manual de Usuario: Sistema de Gestión de Recogida Escolar
 
@@ -90,7 +90,7 @@ Para el desarrollo de la interfaz y la lógica visual, se han seleccionado herra
 * **ZXing Android Embedded:** Librería optimizada para la decodificación de matrices de datos (QR) en tiempo real.
 
 **Ubicación:**
-[build.gradle.kts (Líneas 44-73)](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/bd15794166b70649ca5fcf2f7a1a94c9aff90b75/app/build.gradle.kts#L44-L73)
+`build.gradle.kts` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/bd15794166b70649ca5fcf2f7a1a94c9aff90b75/app/build.gradle.kts#L44-L73
 
 ## RA1.b – Crea interfaz gráfica
 
@@ -100,7 +100,7 @@ La estructura de la interfaz se define en el punto de entrada de la aplicación,
 * **Navegación Condicional:** El grafo de navegación decide qué pantalla mostrar (`startDestination = "login"`) y maneja la redirección post-login mediante lambdas (`onLoginSuccess`).
 
 **Dónde ocurre en el código:**
-* **Estructura global:** [`MainActivity.kt`](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/bd15794166b70649ca5fcf2f7a1a94c9aff90b75/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt#L1-L122)
+* **Estructura global:** `MainActivity.kt` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/bd15794166b70649ca5fcf2f7a1a94c9aff90b75/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt#L1-L122
 
 ## RA1.c – Uso de layouts y posicionamiento
 
@@ -136,8 +136,8 @@ Se ha implementado un sistema de diseño propio (**Design System**) que personal
     * **Primary:** Uso del color primario de la marca en elementos interactivos clave como el `FloatingActionButton`.
 
 **Funciones clave:**
-[AdminItemCard - Ver en GitHub](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/d526d4f7ba6d02054715f5ad77955585181ca831/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L228-L292)
-[Theme - Ver en GitHub](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/45b299f32845ed203c179fe9347f07840ddd919c/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt#L57-L59)
+`AdminItemCard` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/d526d4f7ba6d02054715f5ad77955585181ca831/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L228-L292
+`Theme` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/45b299f32845ed203c179fe9347f07840ddd919c/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt#L57-L59
 
 <img width="237" height="512" alt="image" src="https://github.com/user-attachments/assets/f499f555-3cc9-48ca-b9ea-32b584ca7518" />
 <img width="240" height="498" alt="image" src="https://github.com/user-attachments/assets/9fcc6eaf-5c8c-491d-91b8-df1a70b9181d" />
@@ -157,8 +157,6 @@ El código del proyecto SafePick se estructura siguiendo el patrón de arquitect
 **Conclusión:** Esta arquitectura modular facilita el mantenimiento, ya que la lógica de negocio está desacoplada de la interfaz visual, y permite la inyección de dependencias manual a través de `ViewModelFactory` para una gestión eficiente de los recursos compartidos.
 
 ## RA1.f – Modificación del código
-
-**Calificación Objetivo:** Cambios creativos y justificados (2 puntos).
 
 Durante el desarrollo, el código base ha evolucionado significativamente mediante técnicas de refactorización para mejorar la robustez y la mantenibilidad del proyecto. Se destacan tres modificaciones críticas respecto a una implementación estándar:
 
