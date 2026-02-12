@@ -250,3 +250,31 @@ Justificación: Permite que la aplicación responda nativamente al cambio de mod
 
 <img width="420" height="530" alt="image" src="https://github.com/user-attachments/assets/27a2bb13-0220-4166-99c1-1ab0a2e6f5b8" />
 
+
+## RA1.g — Asociación de eventos
+Descripción y justificación
+
+- La aplicación implementa un modelo de Gestión de Eventos Reactiva basado en el patrón de "Elevación de Estado" (State Hoisting). Las acciones del usuario no modifican la interfaz directamente, sino que disparan eventos que son procesados por los ViewModels, garantizando un flujo de datos unidireccional y predecible.
+
+- Eventos de Interfaz (Clicks y Navegación):
+Se utilizan expresiones Lambda y funciones de orden superior para desacoplar la vista de la lógica.
+
+Ejemplo: En el Login, el evento onClick del botón no realiza la autenticación; invoca una función suspendida en el LoginViewModel (viewModel.login()), la cual gestiona la asincronía y actualiza el estado de la UI (Cargando -> Éxito/Error).
+
+- Eventos de Hardware (Sensores y Cámara):
+La aplicación gestiona eventos complejos de hardware en tiempo real.
+
+Ejemplo: En el módulo del Conserje, el evento no es provocado por un "click", sino por la detección de un patrón visual. El ImageAnalysis dispara un Callback (onQrDetected) solo cuando reconoce un código QR válido, transformando una señal de hardware en una acción lógica (validar alumno) y devolviendo feedback visual instantáneo (semáforo verde/rojo).
+
+- Eventos de Confirmación (Diálogos):
+Para acciones destructivas o de creación, se gestionan eventos de ciclo de vida de los diálogos.
+
+Ejemplo: En el Panel de Administración, los eventos onDismiss (cancelar) y onConfirm (guardar) permiten transacciones seguras, asegurando que los datos solo se persistan en el repositorio JSON cuando el usuario valida explícitamente la intención.
+
+Dónde ocurre en el código:
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/f75ae5833d280ced45a8658a8a1450384ac39fee/app/src/main/java/com/example/proyectofinalivanroldan/ui/login/LoginScreen.kt#L80-L86
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/f75ae5833d280ced45a8658a8a1450384ac39fee/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt#L117-L123
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/f75ae5833d280ced45a8658a8a1450384ac39fee/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L227-L292
