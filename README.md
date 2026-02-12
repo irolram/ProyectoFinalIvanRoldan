@@ -138,7 +138,7 @@ Navegación Condicional: El grafo de navegación decide qué pantalla mostrar (s
 - Estructura global: MainActivity.kt 
 https://github.com/irolram/ProyectoFinalIvanRoldan/blob/bd15794166b70649ca5fcf2f7a1a94c9aff90b75/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt#L1-L122
 
-# RA1.c – Uso de layouts y posicionamiento
+## RA1.c – Uso de layouts y posicionamiento
 
 Se ha implementado un diseño declarativo utilizando los contenedores nativos de Jetpack Compose para organizar los elementos de forma eficiente y responsiva:
 
@@ -150,9 +150,10 @@ Se ha implementado un diseño declarativo utilizando los contenedores nativos de
 
 - Alineación Flex (Column / Row): En LoginScreen, se combinan columnas y filas con modificadores de peso (weight) y arreglos (Arrangement.Center, Alignment.CenterHorizontally) para centrar el formulario independientemente del tamaño de la pantalla del dispositivo.
 
-##Funciones Clave: AdminScreen(): 
+### Funciones Clave: 
 
-- Implementa LazyColumn para el listado.
+- AdminScreen(): 
+Implementa LazyColumn para el listado.
 
 https://github.com/irolram/ProyectoFinalIvanRoldan/blob/bd15794166b70649ca5fcf2f7a1a94c9aff90b75/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L35-L193
 
@@ -163,3 +164,30 @@ https://github.com/irolram/ProyectoFinalIvanRoldan/blob/bd15794166b70649ca5fcf2f
 - LoginScreen(): Implementa Column con alineación centrada.
 
 https://github.com/irolram/ProyectoFinalIvanRoldan/blob/bd15794166b70649ca5fcf2f7a1a94c9aff90b75/app/src/main/java/com/example/proyectofinalivanroldan/ui/login/LoginScreen.kt#L47-L104
+
+## RA1.d – Personalización de componentes
+
+Se ha implementado un sistema de diseño propio (Design System) que personaliza la librería Material Design 3 para adaptarla a la identidad y funcionalidad de SafePick, garantizando coherencia visual y usabilidad:
+
+- Arquitectura de Componentes Reutilizables:
+En lugar de duplicar código en las vistas, se han extraído elementos comunes a componentes parametrizables. Destaca el componente AdminItemCard (en AdminScreen.kt), que unifica el diseño de las tarjetas de Usuarios, Alumnos y Vínculos. Este componente encapsula la lógica de diseño (bordes redondeados de 12.dp, elevación, iconos con fondo circular) y lógica de negocio (ocultar el botón de borrado mediante el parámetro isDeletable para proteger al usuario administrador).
+
+- Sistema de Temas Dinámico (Theming):
+La aplicación implementa un tema personalizado SafePickTheme (en Theme.kt). Este sistema detecta la configuración del dispositivo mediante isSystemInDarkTheme() y alterna automáticamente entre paletas de colores de alto contraste (LightColorScheme y DarkColorScheme), asegurando la legibilidad tanto en entornos de oficina como en exteriores nocturnos (guardia del conserje).
+
+- Feedback Visual Semántico:
+La personalización no es solo estética, sino funcional. Se utilizan colores semánticos definidos en Color.kt:
+
+Container/Surface: Uso de contenedores con distintos tonos para jerarquizar la información.
+
+Error: Uso del color rojo (ColorScheme.error) en los iconos de borrado y mensajes de alerta.
+
+Primary: Uso del color primario de la marca en elementos interactivos clave como el FloatingActionButton.
+
+### Funciones clave: 
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/d526d4f7ba6d02054715f5ad77955585181ca831/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L228-L292
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/45b299f32845ed203c179fe9347f07840ddd919c/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt#L57-L59
+
+
