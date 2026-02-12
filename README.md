@@ -323,28 +323,101 @@ Durante el desarrollo de SafePick se ha realizado un análisis consciente de las
 
 La principal herramienta NUI implementada es la Visión por Computador a través de la librería nativa CameraX y su caso de uso ImageAnalysis.
 
-Justificación: Esta herramienta permite transformar la cámara del dispositivo en un sensor activo. En lugar de obligar al conserje a introducir manualmente un código de identificación (lo que sería lento y propenso a errores), el sistema "lee" el entorno. Esto elimina la barrera entre el mundo físico (el carnet del padre) y el digital (la base de datos).
+- Justificación: Esta herramienta permite transformar la cámara del dispositivo en un sensor activo. En lugar de obligar al conserje a introducir manualmente un código de identificación (lo que sería lento y propenso a errores), el sistema "lee" el entorno. Esto elimina la barrera entre el mundo físico (el carnet del padre) y el digital (la base de datos).
 
 De forma complementaria, se han utilizado los Gestos Táctiles Nativos proporcionados por Jetpack Compose:
 
-Scroll Inercial (Vertical Swipe): Implementado en las listas LazyColumn del panel de administración, permitiendo navegar por cientos de registros de forma natural mediante deslizamiento.
+- Scroll Inercial (Vertical Swipe): Implementado en las listas LazyColumn del panel de administración, permitiendo navegar por cientos de registros de forma natural mediante deslizamiento.
 
-Tap & Long Press: Interacciones directas sobre las tarjetas (Card) para expandir información o ejecutar acciones de borrado.
+- Tap & Long Press: Interacciones directas sobre las tarjetas (Card) para expandir información o ejecutar acciones de borrado.
 
 Se han analizado otras herramientas NUI relevantes, descartadas para esta versión pero viables para el futuro:
 
-BiometricPrompt: Para el inicio de sesión del administrador mediante huella dactilar.
+- BiometricPrompt: Para el inicio de sesión del administrador mediante huella dactilar.
 
-SpeechRecognizer: Para permitir al conserje dictar incidencias por voz.
+- SpeechRecognizer: Para permitir al conserje dictar incidencias por voz.
 
-ML Kit (Face Detection): Para reconocimiento facial de alumnos (descartado por privacidad de menores).
+- ML Kit (Face Detection): Para reconocimiento facial de alumnos (descartado por privacidad de menores).
 
-Dónde ocurre en el proyecto
-1. Visión Artificial (Image Analysis): ConserjeScreen.kt
+### Dónde ocurre en el proyecto
+- Visión Artificial (Image Analysis): ConserjeScreen.kt
 Este es el núcleo NUI del proyecto. El código no solo muestra la cámara, sino que analiza cada fotograma en tiempo real para buscar patrones QR.
 
 https://github.com/irolram/ProyectoFinalIvanRoldan/blob/c83b1de680ec07de4618cae4acb6a2a7ebf685ef/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt#L112-L123
 
-2. Gestos Táctiles (Scroll y Click): AdminScreen.kt
+- Gestos Táctiles (Scroll y Click): AdminScreen.kt
 El uso de LazyColumn implementa automáticamente el gesto de deslizamiento vertical (Swipe) con física de inercia, fundamental para manejar listas largas de alumnos.
 https://github.com/irolram/ProyectoFinalIvanRoldan/blob/c83b1de680ec07de4618cae4acb6a2a7ebf685ef/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L159-L178
+
+## RA2.b — Diseño conceptual NUI
+- Diseño y enfoque conceptual
+El diseño conceptual de las interfaces NUI en SafePick se basa en la interacción con el entorno físico mediante la cámara, priorizando la velocidad de operación sobre la introducción de datos tradicional.
+
+- El objetivo principal es adaptar la interfaz al contexto real del usuario:
+
+- Conserje (Entorno de alta movilidad): Se sustituye el teclado por el escaneo visual. En la puerta de un colegio, escribir nombres es inviable; "apuntar y validar" es la interacción natural óptima.
+
+- Administrador (Entorno de gestión): Se mantiene la interacción táctil clásica (scroll y tap) para garantizar la precisión en el manejo de datos sensibles.
+
+Este enfoque no es intrusivo: la aplicación sabe cuándo desplegar la interfaz NUI (cámara) y cuándo mantener la interfaz GUI estándar (formularios), dependiendo del rol del usuario logueado.
+
+Dónde ocurre en el proyecto
+- Interacción Visual (Machine Vision): ConserjeScreen.kt
+La cámara actúa como el "ojo" del sistema. El diseño conceptual aquí es que la pantalla desaparece como interfaz y se convierte en una ventana a la realidad aumentada con información superpuesta.
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/0101fd17c2d2cc1f892b55bfade8e320c565d05c/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt#L117-L122
+
+- Navegación Gestual (Inercia): AdminScreen.kt
+Se aprovecha la física del Scroll Inercial nativo de Android para navegar por listas extensas de alumnos sin necesidad de botones de paginación "Siguiente/Anterior".
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/0101fd17c2d2cc1f892b55bfade8e320c565d05c/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L181-L195
+
+
+## RA2.c — Interacción por voz
+
+- **Análisis y Justificación de la No-Implementación**
+
+Tras evaluar la viabilidad técnica y operativa, se ha decidido **excluir explícitamente** la interacción por comandos de voz (`SpeechRecognizer`) en la versión final de **SafePick**. Esta decisión de diseño responde a tres factores críticos identificados durante el análisis del entorno real de despliegue (la puerta de un centro escolar):
+
+1.  **Contaminación Acústica (Fiabilidad):**
+    El entorno de uso principal (salida del colegio) se caracteriza por un nivel de ruido ambiente elevado (gritos, tráfico, conversaciones). Las pruebas teóricas indican que la tasa de error (Word Error Rate - WER) de las APIs de reconocimiento de voz estándar aumentaría drásticamente en este escenario, causando frustración en el conserje.
+
+2.  **Privacidad y Protección de Datos (LOPD):**
+    La interacción por voz obligaría al personal a verbalizar nombres de alumnos y tutores en un espacio público. Para garantizar la privacidad de los menores y cumplir con la normativa de protección de datos, se ha optado por una interacción **silenciosa y visual** (Escaneo QR).
+
+3.  **Eficiencia Operativa:**
+    El flujo de "Pulsar micrófono -> Hablar -> Procesar -> Confirmar texto" es significativamente más lento (aprox. 5-8 segundos) que el flujo implementado de "Apuntar cámara -> Validación automática" (< 1 segundo).
+
+- **Alternativa NUI Implementada**
+
+En lugar de la voz, se ha potenciado la **Visión Artificial (Machine Vision)** como la interfaz natural principal. Esta tecnología cumple el mismo objetivo (evitar escribir manualmente) pero de una forma más robusta, privada y adecuada al contexto ruidoso del centro educativo.
+
+### Dónde ocurre en el proyecto (Alternativa Visual)
+
+Aunque no existe código de reconocimiento de voz, la lógica que sustituye esta necesidad (la identificación sin teclado) se encuentra en el módulo de escaneo:
+
+- **Escaneo Silencioso:** ConserjeScreen.kt
+  El sistema escucha "imágenes" en lugar de "audio" para recibir instrucciones.
+
+## RA2.d — Interacción por gesto
+
+- **Implementación y Experiencia de Usuario**
+
+La interacción por gestos en **SafePick** se ha centrado en la **Navegación Vertical Inercial (Vertical Scroll/Fling)**, descartando gestos horizontales complejos para acciones críticas por motivos de seguridad.
+
+1.  **Gesto Implementado: Deslizamiento Vertical (Scroll):**
+    * Se ha implementado el gesto de arrastre vertical estándar de Android mediante el componente `LazyColumn`.
+    * **Experiencia:** Este gesto permite al administrador navegar por listas extensas de alumnos o usuarios de manera fluida. Incorpora física de inercia (Fling), donde la lista continúa moviéndose tras soltar el dedo y se detiene progresivamente, proporcionando una sensación táctil natural y esperada en interfaces móviles modernas.
+
+2.  **Justificación de Exclusión (Swipe-to-Delete):**
+    * Durante el diseño, se evaluó implementar el gesto de "Deslizar para Borrar" (Swipe-to-Dismiss). Sin embargo, se **descartó** conscientemente.
+    * **Motivo:** En una base de datos escolar, la eliminación accidental de un registro (un alumno o un tutor) es un error crítico que podría impedir la recogida de un menor. Los gestos de deslizamiento son propensos a activaciones accidentales al intentar hacer scroll.
+    * **Solución:** Se optó por una interacción explícita y deliberada (Click en icono de papelera + Confirmación), priorizando la integridad de los datos sobre la rapidez de borrado.
+
+### Dónde ocurre en el proyecto
+
+**Navegación Vertical Inercial:** `AdminScreen.kt`
+
+El contenedor `LazyColumn` encapsula la lógica de detección de gestos de arrastre (DragGestures) y la física de movimiento sin necesidad de implementación manual.
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt
