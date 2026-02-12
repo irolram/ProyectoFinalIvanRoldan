@@ -347,3 +347,421 @@ La interacción por gestos en **SafePick** se ha centrado en la **Navegación Ve
 El contenedor `LazyColumn` encapsula la lógica de detección de gestos de arrastre (DragGestures) y la física de movimiento sin necesidad de implementación manual.
 
 https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt
+
+## RA2.e — Detección facial / corporal
+
+- **Análisis y Justificación de la Exclusión**
+
+Aunque durante la fase de análisis se valoró la integración de la librería **ML Kit Face Detection** para permitir el acceso biométrico, esta funcionalidad fue **descartada deliberadamente** en favor del sistema de códigos QR por tres motivos críticos:
+
+1.  **Protección de Datos y Privacidad (RGPD):**
+    El almacenamiento y procesamiento de datos biométricos (rostros) de alumnos menores de edad y sus tutores constituye un tratamiento de datos de categoría especial. Implementar reconocimiento facial en un proyecto escolar conlleva riesgos de seguridad y privacidad (fugas de datos biométricos) que no son asumibles. El sistema QR es anónimo y revocable, mientras que el rostro no.
+
+2.  **Fiabilidad en Entornos No Controlados:**
+    El proceso de recogida se realiza a menudo en exteriores o bajo condiciones de iluminación variables (luz solar directa, atardecer en invierno, lluvia). Las pruebas teóricas indican que la detección facial pierde precisión en estas condiciones, lo que podría causar "falsos negativos" y bloquear la salida de un alumno legítimo, generando caos en la puerta.
+
+3.  **Seguridad Determinista vs. Probabilística:**
+    La visión por computador ofrece un porcentaje de coincidencia (probabilidad). En seguridad escolar, se requiere un sistema determinista (Sí/No). Un código QR criptográfico ofrece una validación binaria exacta, eliminando el riesgo de confundir a familiares con rasgos similares.
+
+- **Alternativa Implementada**
+
+Se ha sustituido la detección de **"Quién eres"** (Biometría) por la detección de **"Qué tienes"** (Token QR). Esta decisión mantiene la agilidad del proceso (es igual de rápido escanear una cara que un QR) pero elimina completamente la fricción legal y los errores técnicos derivados de la detección corporal en multitudes.
+
+## RA2.f — Realidad aumentada
+
+- **Implementación: AR Funcional (Heads-Up Display)**
+
+El proyecto implementa una capa de **Realidad Aumentada (AR) Funcional** en el módulo del Conserje. A diferencia de la AR lúdica (modelos 3D), en este entorno profesional se ha optado por un enfoque de **superposición de información crítica (Overlay)**.
+
+El sistema combina dos capas visuales en el eje Z:
+1.  **Capa Física (Fondo):** El *feed* de vídeo en tiempo real capturado por CameraX, que muestra la realidad.
+2.  **Capa Digital (Frente):** Elementos de interfaz (UI) que se dibujan dinámicamente sobre la imagen real.
+
+- **Experiencia de Usuario:**
+    Cuando el conserje enfoca un código, la aplicación "aumenta" la realidad coloreando la interfaz (Semáforo Verde/Rojo) y proyectando los nombres de los alumnos autorizados flotando sobre la imagen de la cámara. Esto permite al usuario mantener el contacto visual con el entorno mientras recibe datos del sistema.
+
+- **Tecnología Aplicada:**
+    Se utiliza el layout `Box` de Jetpack Compose para gestionar la profundidad (Z-Index). La `AndroidView` (Cámara) ocupa el fondo, mientras que los componentes informativos se renderizan encima, creando el efecto de realidad mixta sin necesidad de librerías pesadas como ARCore, optimizando así la batería del dispositivo.
+
+### Dónde ocurre en el proyecto
+
+**Superposición de Capas (Box Layout):** `ConserjeScreen.kt`
+
+El código demuestra cómo se apila la interfaz de validación sobre la vista previa de la cámara para crear la experiencia aumentada.
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt
+
+# RA3 — Componentes reutilizables y diseño modular
+
+En este apartado se describe el uso de componentes reutilizables dentro de la aplicación, así como las herramientas empleadas para su creación, configuración e integración. El objetivo principal ha sido construir una interfaz modular, mantenible y escalable, siguiendo buenas prácticas de desarrollo con Jetpack Compose.
+
+## RA3.a — Creación de componentes
+
+- **Herramientas de Diseño y Justificación**
+
+Para la construcción de la arquitectura de componentes en **SafePick**, se ha seleccionado un stack tecnológico moderno y nativo, priorizando la reactividad y la modularidad:
+
+1.  **Jetpack Compose:**
+    * *Uso:* Herramienta principal de UI.
+    * *Justificación:* Permite crear interfaces declarativas mediante funciones `@Composable`. A diferencia del sistema de Views (XML), Compose facilita la creación de componentes sin estado (stateless) que se redibujan automáticamente cuando cambian los datos.
+
+2.  **Material Design 3 (M3):**
+    * *Uso:* Sistema de diseño base.
+    * *Justificación:* Proporciona componentes pre-construidos (`Card`, `OutlinedTextField`, `Scaffold`) que garantizan accesibilidad y coherencia visual. Además, su sistema de color dinámico (`ColorScheme`) facilita la implementación automática del modo oscuro/claro.
+
+3.  **ViewModel + StateFlow:**
+    * *Uso:* Gestión de estado.
+    * *Justificación:* Se utilizan para desacoplar la lógica de negocio de la interfaz. `StateFlow` ofrece un flujo de datos observable, asegurando que los componentes visuales siempre reflejen el estado último de la base de datos sin necesidad de manipulación manual.
+
+### Dónde ocurre en el proyecto
+
+**Componentes Visuales Reutilizables:** `AdminItemCard`
+Este componente encapsula la estética de las tarjetas de la aplicación. Se define una vez mediante la función `@Composable` y utiliza `Card`, `Row`, `Column` e `Icon` de Material 3 para estructurar la información.
+
+[Ver en GitHub: AdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+## RA3.b — Componentes reutilizables
+
+- **Diseño y Reutilización (DRY)**
+
+La aplicación hace un uso intensivo de **componentes reutilizables**, diseñados para ser utilizados en múltiples contextos sin duplicar código. Se ha seguido el principio de "Single Source of Truth" para la interfaz: si se cambia el diseño de una tarjeta, se actualiza automáticamente en toda la aplicación.
+
+Algunos ejemplos claros implementados en **SafePick**:
+
+1.  **`AdminItemCard` (Tarjeta Polimórfica):**
+    Es el componente visual más importante del panel de administración. Se utiliza indistintamente para renderizar tres tipos de entidades diferentes:
+    * **Usuarios:** Muestra nombre y rol.
+    * **Alumnos:** Muestra nombre y curso.
+    * **Vínculos:** Muestra la relación Tutor-Alumno.
+    * *Ventaja:* Garantiza que todas las listas tengan la misma altura, márgenes, sombras y comportamiento, reduciendo el código de la pantalla `AdminScreen` significativamente.
+
+2.  **`EmptyState` (Estado Vacío Genérico):**
+    Componente visual que se muestra cuando una lista no tiene datos (ej: "No hay alumnos registrados"). Recibe un texto personalizado pero mantiene una alineación y estilo común, ofreciendo feedback visual consistente al usuario.
+
+3.  **Diálogos de Entrada (`Add...Dialog`):**
+    Aunque gestionan datos diferentes, los diálogos de creación mantienen una estructura visual compartida (Título, Campos de texto Outlined, Botones de Acción), asegurando una experiencia de usuario coherente.
+
+### Dónde ocurre en el proyecto
+
+**Reutilización en Acción:** `AdminScreen.kt`
+
+En este archivo se observa cómo el mismo componente `AdminItemCard` se invoca en tres pestañas diferentes (`Tab 0`, `Tab 1`, `Tab 2`), adaptándose a los datos de cada una.
+
+[Ver en GitHub: AdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+## RA3.c — Parámetros y valores por defecto
+
+- **Diseño de Parámetros**
+
+Los componentes reutilizables en **SafePick** se han diseñado con **parámetros claros y tipados**, permitiendo su adaptación a diferentes contextos sin modificar su implementación interna. Se ha seguido el principio de "Componentes sin Estado" (Stateless), donde el componente solo recibe datos primitivos y emite eventos (lambdas).
+
+Por ejemplo:
+* **`AdminItemCard`:** Recibe `title` (String), `subtitle` (String) e `icon` (ImageVector). No recibe objetos complejos (`Usuario` o `Alumno`), lo que lo hace "agnóstico" al tipo de dato que muestra.
+
+- **Valores por Defecto (Default Values)**
+
+Se han definido valores por defecto en los constructores de las funciones Composable para reducir la verbosidad del código y ofrecer un comportamiento estándar "out-of-the-box":
+
+1.  **Comportamiento de Borrado:** En `AdminItemCard`, el parámetro `isDeletable` tiene un valor por defecto `true`.
+    * *Beneficio:* Esto significa que, por defecto, todas las tarjetas muestran el botón de borrar. Solo cuando es necesario ocultarlo (como en el caso del usuario "admin"), se sobrescribe el valor a `false`. Esto simplifica las llamadas al componente en el 90% de los casos.
+
+2.  **Tema del Sistema:** En `SafePickTheme`, el parámetro `darkTheme` toma por defecto la configuración del sistema operativo (`isSystemInDarkTheme()`), evitando tener que pasar este valor manualmente.
+
+### Dónde ocurre en el proyecto
+
+**Definición de parámetros con valores por defecto:** `AdminScreen.kt`
+
+El siguiente fragmento muestra cómo se define el parámetro `isDeletable` con un valor por defecto para simplificar su uso.
+
+[Ver en GitHub: AdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+## RA3.d — Eventos en componentes
+
+- **Gestión de eventos e interacción (State Hoisting)**
+
+Los componentes de **SafePick** implementan el patrón de **Elevación de Estado (State Hoisting)**. Esto significa que los componentes visuales no modifican la base de datos directamente, sino que exponen eventos mediante **Lambdas** (funciones de callback) que suben hasta los ViewModels.
+
+Esto permite:
+1.  **Desacoplamiento:** La tarjeta de un alumno (`AdminItemCard`) no sabe cómo borrar un alumno, solo sabe avisar de que el usuario ha pulsado "Borrar".
+2.  **Centralización:** Toda la lógica de negocio se queda en el `AdminViewModel`, facilitando las pruebas y el mantenimiento.
+
+**Ejemplos de eventos gestionados:**
+* `onDelete`: Evento disparado al pulsar el icono de papelera en las tarjetas de administración.
+* `onConfirm`: Evento disparado al terminar de rellenar un formulario de diálogo (ej: Crear Alumno).
+* `onDismiss`: Evento para cerrar modales sin guardar cambios.
+
+### Dónde ocurre en el proyecto
+
+**Callbacks en `AdminItemCard`:**
+El componente define qué pasa, no cómo pasa. Se puede ver cómo recibe funciones lambda como parámetros en su constructor.
+
+[Ver en GitHub: AdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+**Eventos de Diálogo (`AddAlumnoDialog`):**
+Gestión de confirmación con paso de parámetros hacia la pantalla padre.
+
+[Ver en GitHub: AddAlumnoDialog.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/AddAlumnoDialog.kt)
+
+## RA3.f — Documentación de componentes
+
+- **Documentación y claridad (KDoc)**
+
+El código fuente de **SafePick** sigue rigurosos estándares de documentación utilizando **KDoc**. Las clases y funciones principales (`@Composable`) incluyen bloques de comentarios que describen:
+1.  **Propósito:** Qué hace el componente.
+2.  **Parámetros (@param):** Qué datos necesita para funcionar.
+3.  **Comportamiento:** Notas sobre lógica interna (ej: validaciones o autogeneración de IDs).
+
+Además, la estructura de paquetes es semántica y organizada por capas:
+* `ui.components`: Piezas visuales reutilizables (Botones, Tarjetas, Diálogos).
+* `ui.mainScreen`: Pantallas completas de la aplicación.
+* `data.repository`: Lógica de datos y persistencia.
+
+Esta documentación garantiza que el proyecto sea comprensible para futuros desarrolladores o para el mantenimiento a largo plazo.
+
+### Dónde ocurre en el proyecto
+
+**Documentación en Diálogos:**
+En el archivo del diálogo de alumnos se documenta la funcionalidad de autogeneración de UUID y la validación de campos vacíos.
+
+[Ver en GitHub: AddAlumnoDialog.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/AddAlumnoDialog.kt)
+
+**Documentación en Repositorios:**
+Se explica la función de las interfaces de dominio para desacoplar la implementación de JSON.
+
+[Ver en GitHub: UsuarioRepository.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/data/repository)
+
+## RA3.h — Integración de componentes en la app
+
+- **Integración global y Coherencia**
+
+Los componentes reutilizables no son islas aisladas; están orquestados para funcionar como un sistema unificado. La integración se produce en tres niveles:
+
+1.  **Nivel Visual (Theme):** Todos los componentes (`Card`, `Button`, `TopAppBar`) heredan automáticamente los colores y tipografías definidos en el tema principal de la aplicación, asegurando coherencia estética.
+2.  **Nivel Lógico (Navigation):** El `NavHost` integra las pantallas (`AdminScreen`, `ConserjeScreen`) permitiendo el paso de argumentos y la gestión de la pila de navegación (BackStack).
+3.  **Nivel Funcional (Inyección):** Los componentes complejos consumen datos reales gracias a la integración de los `ViewModels` que, a su vez, integran los Repositorios de datos.
+
+El resultado es una aplicación donde un cambio en el repositorio de alumnos se refleja inmediatamente en la tarjeta `AdminItemCard` de la pantalla de administración y en la validación QR del conserje.
+
+### Dónde ocurre en el proyecto
+
+**Integración en `MainAdminScreen`:**
+Aquí convergen el ViewModel, el `LazyColumn` y el componente `AdminItemCard` para mostrar la lista de usuarios.
+
+[Ver en GitHub: MainAdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+**Navegación Centralizada en `MainActivity`:**
+El punto de unión de todas las pantallas y componentes, donde se define el grafo de navegación de la app.
+
+[Ver en GitHub: MainActivity.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt)
+
+
+# RA4 — Usabilidad, diseño visual y experiencia de usuario
+
+En este apartado se analiza la aplicación desde el punto de vista de la **usabilidad**, el **diseño visual** y la **experiencia de usuario (UX)**, aplicando estándares reconocidos de diseño de interfaces móviles y buenas prácticas propias del ecosistema Android con Jetpack Compose y Material Design 3. Dado que SafePick es una herramienta de seguridad y gestión, se ha priorizado la claridad y la rapidez de respuesta visual.
+
+## RA4.a — Aplicación de estándares
+
+- **Uso de estándares de diseño**
+
+La aplicación aplica de forma consistente los **estándares de diseño de Android** a través del uso de **Material Design 3 (M3)** y Jetpack Compose. Se respetan principios fundamentales como:
+* **Jerarquía visual clara:** Títulos grandes para contextos (ej: "Escaneando..."), subtítulos para detalles y tarjetas elevadas para elementos de lista.
+* **Contraste adecuado:** Uso de esquemas de color de alto contraste (Light/Dark Theme) para garantizar la legibilidad en exteriores (puerta del colegio).
+* **Componentes coherentes:** Uso de `MaterialTheme`, `Scaffold`, `Card`, `FloatingActionButton` y `TopAppBar` para ofrecer una interfaz que el usuario reconoce instintivamente como "nativa".
+
+### Dónde ocurre en el proyecto
+
+**Uso global de MaterialTheme:**
+El archivo de tema define la paleta de colores y tipografías que heredan todos los componentes.
+
+[Ver en GitHub: Theme.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/theme/Theme.kt)
+
+**Componentes Material en Pantallas:**
+Implementación de `Scaffold` y `Surface` en las pantallas principales.
+
+[Ver en GitHub: MainActivity.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt)
+
+## RA4.b — Valoración de los estándares aplicados
+
+- **Reflexión y justificación**
+
+No solo se aplican los estándares, sino que se **valoran y adaptan** al contexto crítico de la aplicación. Por ejemplo:
+* **Adaptación al entorno (Conserje):** Se ha maximizado el área de visión de la cámara y se han utilizado códigos de color universales (Verde/Rojo) para validar el acceso, permitiendo una interpretación instantánea sin necesidad de leer texto detallado bajo la luz del sol.
+* **Adaptación al flujo (Admin):** Se prioriza la densidad de información en las listas mediante el uso de `LazyColumn`, permitiendo al administrador ver más alumnos de un vistazo.
+* **Feedback háptico y visual:** Los botones y acciones tienen estados de "pulsado" (Ripple effect) estándar de Android para confirmar la interacción.
+
+### Dónde ocurre en el proyecto
+
+**Interfaz de Alto Contraste:**
+La pantalla del conserje utiliza superposiciones de color semántico sobre la cámara para validación rápida.
+
+[Ver en GitHub: ConserjeScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt)
+
+**Listas Optimizadas:**
+La pantalla de administración usa estándares de listas para gestión eficiente.
+
+[Ver en GitHub: MainAdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+## RA4.c — Menús de navegación
+
+- **Diseño y coherencia**
+
+La aplicación cuenta con un sistema de navegación **claro, coherente y segmentado por roles**, compuesto por:
+* **Navegación por Pestañas (Tabs):** En el panel de Administrador, se utiliza un `TabRow` para alternar rápidamente entre la gestión de Usuarios, Alumnos y Vínculos sin cambiar de pantalla.
+* **Barra Inferior (BottomBar):** En el perfil del Tutor, se usa para separar la vista de "Mis Alumnos" de la vista de "Mi Pase QR".
+* **Enrutamiento Automático:** El `NavHost` gestiona la navegación inicial, dirigiendo al usuario a su pantalla específica según su rol, simplificando la experiencia al eliminar opciones irrelevantes.
+
+### Dónde ocurre en el proyecto
+
+**Navegación por Pestañas:**
+Implementación de `TabRow` en la pantalla de administración.
+
+[Ver en GitHub: MainAdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+**Enrutamiento Lógico:**
+Definición del grafo de navegación en la actividad principal.
+
+[Ver en GitHub: MainActivity.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt)
+
+## RA4.d — Distribución de acciones
+
+- **Claridad y accesibilidad**
+
+Las acciones principales están colocadas de forma **estratégica según la frecuencia de uso** y la ergonomía (Ley de Fitts):
+* **Acción Principal (FAB):** El botón flotante `+` en la pantalla de administración está anclado en la esquina inferior derecha, facilitando la creación de nuevos registros con una sola mano.
+* **Acciones de Lista:** Los iconos de borrado y edición se encuentran a la derecha de cada tarjeta, siguiendo el patrón de lectura occidental y evitando clicks accidentales.
+* **Acción de Reseteo:** En la pantalla del conserje, el botón "Siguiente" es grande y está situado en la parte inferior, permitiendo un flujo continuo de escaneo.
+
+### Dónde ocurre en el proyecto
+
+**Botón Flotante (FAB):**
+Ubicación accesible para añadir entidades.
+
+[Ver en GitHub: MainAdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+**Botón de Acción de Cámara:**
+Botón de ancho completo para facilitar la interacción rápida.
+
+[Ver en GitHub: ConserjeScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt)
+
+## RA4.e — Distribución de controles
+
+- **Orden y jerarquía**
+
+Los controles están organizados de forma lógica siguiendo el flujo de lectura (Z-Pattern o F-Pattern):
+1.  **Login:** Campos de texto ordenados verticalmente (Usuario -> Contraseña) seguidos del botón de acción (Entrar).
+2.  **Tarjetas:** Icono identificativo a la izquierda, información textual (Nombre/Curso) en el centro y acciones secundarias (Borrar) a la derecha.
+3.  **Diálogos:** Título descriptivo arriba, formulario en el centro y botones de confirmación/cancelación abajo a la derecha, siguiendo las guías de Material Design.
+
+Se aplica un uso consistente de `Spacer` y `Padding` para evitar la saturación visual y agrupar elementos relacionados.
+
+### Dónde ocurre en el proyecto
+
+**Layout de Login:**
+Uso de `Column` con espaciado vertical para guiar la entrada de datos.
+
+[Ver en GitHub: LoginScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/login/LoginScreen.kt)
+
+**Layout de Tarjetas:**
+Uso de `Row` para alinear información y acciones.
+
+[Ver en GitHub: MainAdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+## RA4.f — Elección de controles
+
+- **Justificación de los componentes utilizados**
+
+Los controles elegidos son los más adecuados para su función específica, priorizando la usabilidad nativa:
+* **`LazyColumn`:** Elegido sobre `Column` simple para garantizar el rendimiento y el scroll fluido en listas que pueden crecer indefinidamente (alumnos).
+* **`OutlinedTextField`:** Utilizado en formularios (Login, Diálogos) porque delimita claramente el área táctil y mejora la accesibilidad visual.
+* **`Dialog` (Modal):** Elegido para la creación de registros en lugar de navegar a una pantalla nueva, manteniendo al usuario en contexto.
+* **`AndroidView` (PreviewView):** Imprescindible para integrar el feed de cámara de CameraX dentro de la interfaz de Compose.
+
+### Dónde ocurre en el proyecto
+
+**Listas Eficientes:**
+Implementación de `LazyColumn` para listas de datos.
+
+[Ver en GitHub: MainAdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+**Integración de Cámara:**
+Uso de `AndroidView` para componentes nativos.
+
+[Ver en GitHub: ConserjeScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt)
+
+## RA4.g — Diseño visual
+
+- **Atractivo y coherencia visual**
+
+El diseño visual es moderno y coherente gracias a la implementación centralizada de **Material Theming**:
+* **Paleta Semántica:**
+    * **Primary:** Acciones principales y elementos activos.
+    * **Error:** Usado exclusivamente para estados críticos (Borrar, Acceso Denegado).
+    * **Surface/Background:** Adaptables al modo oscuro para reducir la fatiga visual.
+* **Tipografía:** Uso de jerarquías de texto (`titleMedium`, `bodySmall`) para diferenciar nombres de alumnos de detalles secundarios como el curso.
+* **Formas:** Uso consistente de esquinas redondeadas (`RoundedCornerShape`) en tarjetas y botones, suavizando la interfaz.
+
+### Dónde ocurre en el proyecto
+
+**Definición de Tema:**
+Configuración de colores y formas.
+
+[Ver en GitHub: Theme.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/theme/Theme.kt)
+
+**Estilado de Tarjetas:**
+Aplicación de colores de superficie y formas.
+
+[Ver en GitHub: MainAdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+## RA4.h — Claridad de mensajes
+
+- **Comunicación con el usuario**
+
+Los mensajes mostrados son claros, concisos y orientados a la seguridad:
+* **Feedback de Seguridad:** El conserje recibe mensajes explícitos ("ACCESO AUTORIZADO" en verde o "DENEGADO" en rojo), eliminando la ambigüedad.
+* **Estados Vacíos (`EmptyState`):** Si no hay datos, se informa al usuario ("No hay alumnos registrados") en lugar de mostrar una pantalla en blanco que podría parecer un error.
+* **Validación de Formularios:** Se impide el envío de formularios vacíos, guiando al usuario para completar la información necesaria.
+
+### Dónde ocurre en el proyecto
+
+**Mensajes de Estado de Escaneo:**
+Feedback visual inmediato tras leer un QR.
+
+[Ver en GitHub: ConserjeScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt)
+
+**Componente EmptyState:**
+Información contextual cuando no hay listas.
+
+[Ver en GitHub: MainAdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+
+## RA4.i — Pruebas de usabilidad
+
+- **Evaluación funcional**
+
+Se han realizado pruebas de usabilidad funcionales durante el desarrollo para validar los flujos críticos:
+1.  **Prueba de Estrés QR:** Verificación de que el escáner lee códigos rápidamente sin necesidad de enfocar perfectamente, vital para evitar colas en el colegio.
+2.  **Prueba de Roles:** Verificación de que un usuario "Tutor" nunca puede acceder a las pantallas de "Admin", garantizando la seguridad.
+3.  **Flujo de Creación:** Validación de que crear un vínculo Tutor-Alumno es intuitivo y se refleja inmediatamente en el sistema.
+
+### Dónde se evidencia
+
+**Lógica de Navegación Segura:**
+Ajustes en el `NavHost` para proteger rutas.
+
+[Ver en GitHub: MainActivity.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt)
+
+## RA4.j — Evaluación en distintos dispositivos
+
+- **Adaptación y pruebas**
+
+La aplicación ha sido evaluada para garantizar su robustez en distintos escenarios:
+* **Responsive Layouts:** El uso de modificadores como `fillMaxWidth` y `weight` asegura que las tarjetas y botones se adapten al ancho de pantalla, ya sea un móvil compacto o uno de gran formato.
+* **Camera Aspect Ratio:** La vista previa de la cámara se adapta a las proporciones del dispositivo sin distorsionar la imagen, asegurando una lectura correcta de los códigos QR.
+* **Modo Oscuro:** Verificación de que todos los textos son legibles tanto en modo claro (día) como oscuro (noche/interiores).
+
+### Dónde ocurre en el proyecto
+
+**Diseño Adaptable:**
+Uso de modificadores flexibles en los layouts principales.
+
+[Ver en GitHub: LoginScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/login/LoginScreen.kt)
+
