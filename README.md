@@ -278,3 +278,73 @@ https://github.com/irolram/ProyectoFinalIvanRoldan/blob/f75ae5833d280ced45a8658a
 https://github.com/irolram/ProyectoFinalIvanRoldan/blob/f75ae5833d280ced45a8658a8a1450384ac39fee/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt#L117-L123
 
 https://github.com/irolram/ProyectoFinalIvanRoldan/blob/f75ae5833d280ced45a8658a8a1450384ac39fee/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L227-L292
+
+## RA1.h — Aplicación integrada
+- Descripción y justificación:
+SafePick funciona como un sistema cohesionado y robusto donde todos los módulos operan sobre una única fuente de verdad. El flujo de la aplicación garantiza una experiencia continua:
+
+- Unificación de Roles:
+  La aplicación integra tres perfiles distintos (Administrador, Tutor, Conserje) en un solo ejecutable. El sistema de enrutamiento detecta el rol tras la autenticación y despacha al usuario a su interfaz específica sin fricción.
+
+- Consistencia de Datos: 
+La integración no es solo visual, sino lógica. Cuando un Administrador registra un alumno o genera un vínculo, esa información está inmediatamente disponible para el Conserje (para validar el escaneo QR) y para el Tutor (para ver a su hijo), gracias a la inyección de repositorios compartidos (UsuarioRepository, AlumnoRepository).
+
+- Ciclo de Vida de Sesión:
+  El sistema gestiona la seguridad de la navegación, impidiendo el retorno a pantallas protegidas tras el cierre de sesión (Logout), garantizando que la aplicación se comporte como un producto profesional y seguro.
+
+### Dónde ocurre en el código
+- Integración Global y Enrutamiento (MainActivity)
+Es el "cerebro" que conecta el Login con los distintos módulos según el rol.
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/c83b1de680ec07de4618cae4acb6a2a7ebf685ef/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt#L32-L148
+
+- Interconexión de Funcionalidades (Admin -> Datos -> Conserje)
+El sistema demuestra integración porque las acciones del Admin (crear alumno) habilitan las acciones del Conserje (leer alumno). Esto ocurre gracias a que comparten los mismos Repositorios.
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/c83b1de680ec07de4618cae4acb6a2a7ebf685ef/app/src/main/java/com/example/proyectofinalivanroldan/ui/viewmodel/AdminViewModel.kt#L50-L53
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/c83b1de680ec07de4618cae4acb6a2a7ebf685ef/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt#L44-L48
+
+### Evidencias:
+
+<img width="339" height="752" alt="image" src="https://github.com/user-attachments/assets/bc674ed1-bb16-4609-9348-c143beb1cc9e" />
+<img width="358" height="799" alt="image" src="https://github.com/user-attachments/assets/0958fbdc-9c16-494a-b5e9-6b4aeb1a863c" />
+<img width="358" height="765" alt="image" src="https://github.com/user-attachments/assets/d3fdee1d-9adc-4329-90d6-4241a4e793d2" />
+
+## RA2 — Interfaces Naturales de Usuario (NUI)
+
+- Descripción y justificación
+  
+En este apartado se analizan las interfaces naturales de usuario (NUI) integradas en el ecosistema SafePick. El objetivo principal ha sido trascender la interacción tradicional basada en formularios y teclados (GUI), incorporando mecanismos de Visión Artificial que hacen el uso de la aplicación más intuitivo, rápido y cercano a la realidad física del centro escolar.
+
+La aplicación está orientada a un entorno crítico: el control de seguridad y recogida de alumnos, un escenario donde la velocidad es vital para evitar aglomeraciones en el colegio. Por ello, se ha priorizado la reducción de la fricción cognitiva y motora.
+
+## RA2.a — Herramientas NUI
+- Análisis y justificación
+  
+Durante el desarrollo de SafePick se ha realizado un análisis consciente de las herramientas de Interfaz Natural de Usuario (NUI) disponibles en el ecosistema Android, seleccionando aquellas que aportan agilidad operativa en un entorno de seguridad escolar.
+
+La principal herramienta NUI implementada es la Visión por Computador a través de la librería nativa CameraX y su caso de uso ImageAnalysis.
+
+Justificación: Esta herramienta permite transformar la cámara del dispositivo en un sensor activo. En lugar de obligar al conserje a introducir manualmente un código de identificación (lo que sería lento y propenso a errores), el sistema "lee" el entorno. Esto elimina la barrera entre el mundo físico (el carnet del padre) y el digital (la base de datos).
+
+De forma complementaria, se han utilizado los Gestos Táctiles Nativos proporcionados por Jetpack Compose:
+
+Scroll Inercial (Vertical Swipe): Implementado en las listas LazyColumn del panel de administración, permitiendo navegar por cientos de registros de forma natural mediante deslizamiento.
+
+Tap & Long Press: Interacciones directas sobre las tarjetas (Card) para expandir información o ejecutar acciones de borrado.
+
+Se han analizado otras herramientas NUI relevantes, descartadas para esta versión pero viables para el futuro:
+
+BiometricPrompt: Para el inicio de sesión del administrador mediante huella dactilar.
+
+SpeechRecognizer: Para permitir al conserje dictar incidencias por voz.
+
+ML Kit (Face Detection): Para reconocimiento facial de alumnos (descartado por privacidad de menores).
+
+Dónde ocurre en el proyecto
+1. Visión Artificial (Image Analysis): ConserjeScreen.kt
+Este es el núcleo NUI del proyecto. El código no solo muestra la cámara, sino que analiza cada fotograma en tiempo real para buscar patrones QR.
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/c83b1de680ec07de4618cae4acb6a2a7ebf685ef/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt#L112-L123
+
+2. Gestos Táctiles (Scroll y Click): AdminScreen.kt
+El uso de LazyColumn implementa automáticamente el gesto de deslizamiento vertical (Swipe) con física de inercia, fundamental para manejar listas largas de alumnos.
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/c83b1de680ec07de4618cae4acb6a2a7ebf685ef/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L159-L178
