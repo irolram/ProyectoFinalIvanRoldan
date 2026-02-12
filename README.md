@@ -248,3 +248,5 @@ Situación Inicial: El uso de colores fijos (Color.White, Color.Black) impedía 
 Modificación: Se reemplazaron todas las referencias estáticas por referencias semánticas del tema (MaterialTheme.colorScheme.surface). Además, se envolvió el NavHost dentro de un Surface contenedor en la actividad principal.
 Justificación: Permite que la aplicación responda nativamente al cambio de modo claro/oscuro del sistema operativo sin reiniciar la actividad, cumpliendo con los estándares de accesibilidad modernos.
 
+<img width="420" height="530" alt="image" src="https://github.com/user-attachments/assets/27a2bb13-0220-4166-99c1-1ab0a2e6f5b8" />
+
