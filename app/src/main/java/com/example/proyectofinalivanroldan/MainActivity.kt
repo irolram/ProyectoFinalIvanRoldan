@@ -55,16 +55,15 @@ class MainActivity : ComponentActivity() {
         val adminFactory = AdminViewModelFactory(userRepo, alumnoRepo, vinculoRepo)
 
         setContent {
-            // 1. AQUI APLICAMOS EL TEMA (Esto es lo que te faltaba)
+
             SafePickTheme {
 
-                // 2. AQUI APLICAMOS EL FONDO (Para que cambie a negro en modo oscuro)
+                // AQUI APLICAMOS EL FONDO (Para que cambie a negro en modo oscuro)
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                    // A PARTIR DE AQUI ES TU CÓDIGO DE SIEMPRE
                     val navController = rememberNavController()
                     val loginViewModel: LoginViewModel = ViewModelProvider(this, loginFactory)[LoginViewModel::class.java]
                     val adminViewModel: AdminViewModel = ViewModelProvider(this, adminFactory)[AdminViewModel::class.java]

@@ -229,7 +229,7 @@ fun AdminItemCard(
     title: String,
     subtitle: String,
     icon: ImageVector,
-    isDeletable: Boolean = true, 
+    isDeletable: Boolean = true,
     onDelete: () -> Unit
 ) {
     Card(
