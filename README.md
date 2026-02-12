@@ -190,4 +190,61 @@ https://github.com/irolram/ProyectoFinalIvanRoldan/blob/d526d4f7ba6d02054715f5ad
 
 https://github.com/irolram/ProyectoFinalIvanRoldan/blob/45b299f32845ed203c179fe9347f07840ddd919c/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt#L57-L59
 
+<img width="237" height="512" alt="image" src="https://github.com/user-attachments/assets/f499f555-3cc9-48ca-b9ea-32b584ca7518" />
+<img width="240" height="498" alt="image" src="https://github.com/user-attachments/assets/9fcc6eaf-5c8c-491d-91b8-df1a70b9181d" />
+
+
+## RA1.e — Análisis del código
+Descripción y justificación
+
+El código del proyecto SafePick se estructura siguiendo el patrón de arquitectura MVVM (Model-View-ViewModel) junto con el patrón Repository, garantizando una clara separación de responsabilidades y un flujo de datos unidireccional:
+
+- Capa de Presentación (UI Declarativa):
+Implementada con Jetpack Compose. Las vistas (Screens) son funciones "sin estado" que se limitan a renderizar la información proporcionada por los ViewModels. Se utiliza el patrón de Elevación de Estado (State Hoisting), donde los eventos (clicks, entradas de texto) suben hacia el ViewModel y el estado baja hacia la vista, asegurando que la UI sea puramente reactiva.
+
+- Capa de Lógica y Estado (ViewModel):
+Los ViewModels (AdminViewModel, LoginViewModel) actúan como gestores de estado. No contienen referencias a las vistas (evitando fugas de memoria) y exponen los datos mediante flujos observables (StateFlow). Esto permite que la interfaz se actualice automáticamente ante cualquier cambio en los datos sin necesidad de manipulación manual del DOM o findViewById.
+
+- Capa de Datos (Repositorios):
+La persistencia de datos se abstrae mediante Repositorios (UsuarioRepository, VinculoRepository). Esta capa encapsula la lógica de lectura y escritura en el sistema de ficheros local (JSON Parsing).
+
+- Justificación: Al centralizar el acceso a datos en repositorios, el resto de la aplicación desconoce si los datos vienen de una API, una base de datos SQL o un archivo de texto. Esto hace que el código sea escalable y facilita futuras migraciones (por ejemplo, pasar de JSON a una base de datos Room) sin romper la interfaz gráfica.
+
+- Conclusión:
+Esta arquitectura modular facilita el mantenimiento, ya que la lógica de negocio está desacoplada de la interfaz visual, y permite la inyección de dependencias manual a través de ViewModelFactory para una gestión eficiente de los recursos compartidos.
+
+
+
+
+
+## RA1.f – Modificación del código
+Calificación Objetivo: Cambios creativos y justificados (2 puntos).
+
+Durante el desarrollo, el código base ha evolucionado significativamente mediante técnicas de refactorización para mejorar la robustez y la mantenibilidad del proyecto. Se destacan tres modificaciones críticas respecto a una implementación estándar:
+
+- Refactorización a Componentes Polimórficos (DRY)
+Situación Inicial: El archivo AdminScreen.kt contenía bloques de código repetidos (Card { ... }) para mostrar usuarios, alumnos y vínculos, lo que dificultaba el mantenimiento.
+Modificación: Se implementó el patrón de Composición creando un componente único y reutilizable: AdminItemCard.
+Justificación:
+
+Escalabilidad: Al modificar el diseño de este componente único (ej: cambiar el redondeo de las esquinas), el cambio se propaga automáticamente a las tres listas de gestión, garantizando coherencia visual inmediata.
+
+- Programación Defensiva en la Interfaz (Seguridad)
+Situación Inicial: Todos los elementos de la lista incluían incondicionalmente un botón de borrado, permitiendo accidentalmente eliminar al usuario "Administrador" y bloquear el acceso a la App.
+Modificación: Se inyectó lógica condicional en la UI.
+
+Kotlin
+val isDeletable = !usuario.username.equals("admin", ignoreCase = true)
+Se modificó el componente visual para aceptar un parámetro booleano isDeletable. Si este es falso, el botón de la papelera no se renderiza.
+Justificación: Previene errores críticos de usuario ("User Lockout") desde la propia capa de presentación, mejorando la seguridad del sistema.
+
+- Inyección de Resiliencia de Datos 
+Situación Inicial: Al borrar los datos de la aplicación o instalarla por primera vez, la base de datos (JSON) estaba vacía, impidiendo el inicio de sesión.
+Modificación: Se modificó el ciclo de vida onCreate en MainActivity.kt para incluir una comprobación de arranque.
+Justificación: El sistema ahora se "autorepara". Si detecta que no existen usuarios, inyecta automáticamente las credenciales de administrador por defecto, facilitando el despliegue y las pruebas sin necesidad de configuración manual externa.
+
+- Integración Reactiva del Tema (Theming)
+Situación Inicial: El uso de colores fijos (Color.White, Color.Black) impedía la adaptación al entorno.
+Modificación: Se reemplazaron todas las referencias estáticas por referencias semánticas del tema (MaterialTheme.colorScheme.surface). Además, se envolvió el NavHost dentro de un Surface contenedor en la actividad principal.
+Justificación: Permite que la aplicación responda nativamente al cambio de modo claro/oscuro del sistema operativo sin reiniciar la actividad, cumpliendo con los estándares de accesibilidad modernos.
 
