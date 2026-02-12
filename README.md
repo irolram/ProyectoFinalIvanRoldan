@@ -108,3 +108,58 @@ Privacidad del QR: El código QR es personal. No envíes capturas de pantalla a 
 Cerrar Sesión: Si utilizas un dispositivo compartido, asegúrate de pulsar el botón de Salir (icono de puerta) para cerrar tu sesión al finalizar.
 
 
+# Criterios de Evaluación 
+
+## RA1 — Interfaz, estructura y comportamiento de la aplicación
+Para el desarrollo de la interfaz y la lógica visual, se han seleccionado herramientas modernas que garantizan escalabilidad y rendimiento nativo:
+
+- Jetpack Compose: Se ha descartado el sistema clásico de XML en favor de Compose para crear una UI declarativa, lo que reduce el código repetitivo y facilita la reactividad del estado (ej: cambiar de pantalla roja a verde instantáneamente).
+
+- Material Design 3: Librería de componentes visuales que asegura coherencia estética y accesibilidad (colores dinámicos, tipografía adaptable).
+
+- CameraX: Seleccionada sobre la API de cámara antigua por su compatibilidad con el ciclo de vida de la actividad.
+
+- ZXing Android Embedded: Librería optimizada para la decodificación de matrices de datos (QR) en tiempo real.
+
+# Ubicación:
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/bd15794166b70649ca5fcf2f7a1a94c9aff90b75/app/build.gradle.kts#L44-L73
+
+## RA1.b – Crea interfaz gráfica 
+
+La estructura de la interfaz se define en el punto de entrada de la aplicación, utilizando Jetpack Compose Navigation. En lugar de múltiples actividades, se utiliza una "Single Activity Architecture" donde un NavHost gestiona el intercambio de pantallas (Login, Admin, Tutor, Conserje) basándose en el estado de autenticación y el rol del usuario.
+
+Gestión de Estado: Los ViewModels (LoginViewModel, AdminViewModel) se instancian al inicio y se pasan a las pantallas correspondientes.
+
+Navegación Condicional: El grafo de navegación decide qué pantalla mostrar (startDestination = "login") y maneja la redirección post-login mediante lambdas (onLoginSuccess).
+
+### Dónde ocurre en el código:
+
+- Estructura global: MainActivity.kt 
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/bd15794166b70649ca5fcf2f7a1a94c9aff90b75/app/src/main/java/com/example/proyectofinalivanroldan/MainActivity.kt#L1-L122
+
+# RA1.c – Uso de layouts y posicionamiento
+
+Se ha implementado un diseño declarativo utilizando los contenedores nativos de Jetpack Compose para organizar los elementos de forma eficiente y responsiva:
+
+- Estructura Base (Scaffold): Se utiliza en todas las pantallas principales para proporcionar "slots" estandarizados para la barra superior (TopAppBar), el botón flotante (FloatingActionButton) y el contenido principal, gestionando automáticamente los márgenes seguros del sistema (paddingValues).
+
+- Listas Eficientes (LazyColumn): En la AdminScreen, se utiliza LazyColumn en lugar de un Column con scroll. Esto permite renderizar solo los elementos visibles en pantalla, optimizando la memoria cuando la lista de usuarios o alumnos crece.
+
+- Superposición (Box): Fundamental en la ConserjeScreen. El layout Box permite apilar elementos en el eje Z. Se usa para superponer la interfaz de usuario (mensajes de "Escaneando..." o bordes de colores) encima de la vista previa de la cámara (AndroidView).
+
+- Alineación Flex (Column / Row): En LoginScreen, se combinan columnas y filas con modificadores de peso (weight) y arreglos (Arrangement.Center, Alignment.CenterHorizontally) para centrar el formulario independientemente del tamaño de la pantalla del dispositivo.
+
+##Funciones Clave: AdminScreen(): 
+
+- Implementa LazyColumn para el listado.
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/bd15794166b70649ca5fcf2f7a1a94c9aff90b75/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L35-L193
+
+- ConserjeScreen(): Implementa Box para la cámara.
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/bd15794166b70649ca5fcf2f7a1a94c9aff90b75/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt#L79-L141
+
+- LoginScreen(): Implementa Column con alineación centrada.
+
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/bd15794166b70649ca5fcf2f7a1a94c9aff90b75/app/src/main/java/com/example/proyectofinalivanroldan/ui/login/LoginScreen.kt#L47-L104
