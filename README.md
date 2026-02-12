@@ -33,9 +33,9 @@ Capa de Vista: Screens y ComponentsEs lo que el usuario ve y toca (Jetpack Compo
 
 # Manual de Usuario: Sistema de Gestión de Recogida Escolar
 
-- Este documento describe el funcionamiento de la aplicación diseñada para gestionar de forma segura la salida de alumnos del centro escolar mediante códigos QR.
+Este documento describe el funcionamiento de la aplicación diseñada para gestionar de forma segura la salida de alumnos del centro escolar mediante códigos QR.
 
- Acceso al Sistema (Login)
+- Acceso al Sistema (Login)
 Al abrir la aplicación, se presentará la pantalla de inicio de sesión.
 
 - Introduce tu Usuario y Contraseña.
