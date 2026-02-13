@@ -1197,3 +1197,13 @@ Acción: Describe la operación específica que se está poniendo a prueba.
 Verificación: Describe las comprobaciones finales que confirman que el resultado es el esperado.
 
 Esta documentación técnica asegura que los requisitos funcionales estén siempre protegidos contra errores accidentales durante futuras ampliaciones del software.
+
+# Video 
+
+
+https://github.com/user-attachments/assets/883e4da3-f650-4116-8c91-740017083bff
+
+
+
+
+
