@@ -1003,9 +1003,6 @@ Password: admin
 
 Rol: ADMIN
 
-### 5.2. Permisos en el Manifiesto
-El archivo AndroidManifest.xml debe contener las siguientes declaraciones para el correcto funcionamiento del escáner y la exportación:
-
 ## RA6.g – Confecciona tutoriales
 
 Se han diseñado flujos de trabajo que actúan como tutoriales implícitos ("Onboarding") para guiar al usuario en las acciones principales:
