@@ -21,12 +21,11 @@ import com.example.proyectofinalivanroldan.data.repository.*
 import com.example.proyectofinalivanroldan.ui.mainScreen.AdminScreen
 import com.example.proyectofinalivanroldan.ui.mainScreen.ConserjeScreen
 import com.example.proyectofinalivanroldan.ui.mainScreen.TutorScreen
-import com.example.proyectofinalivanroldan.ui.theme.SafePickTheme // <--- IMPORTANTE: Importar tu tema
+import com.example.proyectofinalivanroldan.ui.theme.SafePickTheme
 import com.example.proyectofinalivanroldan.ui.viewmodel.AdminViewModelFactory
 import com.example.proyectofinalivanroldan.ui.viewmodel.LoginViewModelFactory
 import com.example.proyectofinalivanroldan.ui.viewmodel.AdminViewModel
 import com.example.proyectofinalivanroldan.ui.viewmodel.LoginViewModel
-
 import com.example.proyectofinalivanroldan.util.Roles
 
 class MainActivity : ComponentActivity() {
@@ -42,7 +41,7 @@ class MainActivity : ComponentActivity() {
                 nombre = "Administrador",
                 username = "admin",
                 password = "admin",
-                rol = com.example.proyectofinalivanroldan.util.Roles.ADMIN
+                rol = Roles.ADMIN
             )
             userRepo.addUsuario(adminDefault)
         }
@@ -50,55 +49,53 @@ class MainActivity : ComponentActivity() {
         val alumnoRepo = AlumnoRepository(applicationContext)
         val vinculoRepo = VinculoRepository(applicationContext)
 
-        // Factories para ViewModels
         val loginFactory = LoginViewModelFactory(userRepo)
         val adminFactory = AdminViewModelFactory(userRepo, alumnoRepo, vinculoRepo)
 
         setContent {
-
             SafePickTheme {
-
-                // AQUI APLICAMOS EL FONDO (Para que cambie a negro en modo oscuro)
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
                     val navController = rememberNavController()
-                    val loginViewModel: LoginViewModel = ViewModelProvider(this, loginFactory)[LoginViewModel::class.java]
-                    val adminViewModel: AdminViewModel = ViewModelProvider(this, adminFactory)[AdminViewModel::class.java]
+                    val loginViewModel: LoginViewModel =
+                        ViewModelProvider(this, loginFactory)[LoginViewModel::class.java]
+                    val adminViewModel: AdminViewModel =
+                        ViewModelProvider(this, adminFactory)[AdminViewModel::class.java]
 
                     NavHost(navController = navController, startDestination = "login") {
 
-                        // LOGIN
                         composable("login") {
                             LoginScreen(
                                 viewModel = loginViewModel,
                                 onLoginSuccess = { usuario ->
-                                    when (usuario.rol) {
-                                        Roles.ADMIN -> navController.navigate("admin")
-                                        Roles.TUTOR -> navController.navigate("tutor/${usuario.id}")
-                                        Roles.CONSERJE -> navController.navigate("conserje")
-                                        else -> {}
+                                    val ruta = when (usuario.rol) {
+                                        Roles.ADMIN -> "admin"
+                                        Roles.TUTOR -> "tutor/${usuario.id}"
+                                        Roles.CONSERJE -> "conserje"
+                                        else -> "login"
                                     }
-                                }
-                            )
-                        }
-
-                        // ADMIN
-                        composable("admin") {
-                            AdminScreen(
-                                viewModel = adminViewModel,
-                                onLogout = {
-                                    loginViewModel.resetState()
-                                    navController.navigate("login") {
+                                    navController.navigate(ruta) {
                                         popUpTo("login") { inclusive = true }
                                     }
                                 }
                             )
                         }
 
-                        // TUTOR
+                        composable(route = "admin") {
+                            AdminScreen(
+                                navController = navController,
+                                viewModel = adminViewModel,
+                                onLogout = {
+                                    loginViewModel.resetState()
+                                    navController.navigate("login") {
+                                        popUpTo(0) { inclusive = true }
+                                    }
+                                }
+                            )
+                        }
+
                         composable("tutor/{userId}") { backStackEntry ->
                             val userId = backStackEntry.arguments?.getString("userId")
                             val tutorUsuario = userRepo.getUsuarioById(userId ?: "")
@@ -112,14 +109,13 @@ class MainActivity : ComponentActivity() {
                                     onLogout = {
                                         loginViewModel.resetState()
                                         navController.navigate("login") {
-                                            popUpTo("login") { inclusive = true }
+                                            popUpTo(0) { inclusive = true }
                                         }
                                     }
                                 )
                             }
                         }
 
-                        // CONSERJE
                         composable("conserje") {
                             val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
 
@@ -130,7 +126,7 @@ class MainActivity : ComponentActivity() {
                                     onLogout = {
                                         loginViewModel.resetState()
                                         navController.navigate("login") {
-                                            popUpTo("login") { inclusive = true }
+                                            popUpTo(0) { inclusive = true }
                                         }
                                     }
                                 )
