@@ -321,8 +321,7 @@ Aunque no existe código de reconocimiento de voz, la lógica que sustituye esta
 
 * **Escaneo Silencioso:** `ConserjeScreen.kt`
     El sistema escucha "imágenes" en lugar de "audio" para recibir instrucciones.
-    https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt
-
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/152db8ae8d4d7f1c2cd2dc742df9a9e974fe813b/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt#L1-L211
 ## RA2.d — Interacción por gesto
 
 **Implementación y Experiencia de Usuario**
@@ -344,8 +343,7 @@ La interacción por gestos en **SafePick** se ha centrado en la **Navegación Ve
 
 El contenedor `LazyColumn` encapsula la lógica de detección de gestos de arrastre (DragGestures) y la física de movimiento sin necesidad de implementación manual.
 
-https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt
-
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/152db8ae8d4d7f1c2cd2dc742df9a9e974fe813b/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L1-L306
 ## RA2.e — Detección facial / corporal
 
 - **Análisis y Justificación de la Exclusión**
@@ -387,7 +385,7 @@ El sistema combina dos capas visuales en el eje Z:
 
 El código demuestra cómo se apila la interfaz de validación sobre la vista previa de la cámara para crear la experiencia aumentada.
 
-https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/152db8ae8d4d7f1c2cd2dc742df9a9e974fe813b/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt#L1-L211
 
 # RA3 — Componentes reutilizables y diseño modular
 
@@ -416,11 +414,11 @@ Para la construcción de la arquitectura de componentes en **SafePick**, se ha s
 **Componentes Visuales Reutilizables:** `AdminItemCard`
 Este componente encapsula la estética de las tarjetas de la aplicación. Se define una vez mediante la función `@Composable` y utiliza `Card`, `Row`, `Column` e `Icon` de Material 3 para estructurar la información.
 
-[Ver en GitHub: AdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/152db8ae8d4d7f1c2cd2dc742df9a9e974fe813b/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L227-L292
 
 ## RA3.b — Componentes reutilizables
 
-- **Diseño y Reutilización (DRY)**
+- **Diseño y Reutilización **
 
 La aplicación hace un uso intensivo de **componentes reutilizables**, diseñados para ser utilizados en múltiples contextos sin duplicar código. Se ha seguido el principio de "Single Source of Truth" para la interfaz: si se cambia el diseño de una tarjeta, se actualiza automáticamente en toda la aplicación.
 
@@ -445,7 +443,7 @@ Algunos ejemplos claros implementados en **SafePick**:
 
 En este archivo se observa cómo el mismo componente `AdminItemCard` se invoca en tres pestañas diferentes (`Tab 0`, `Tab 1`, `Tab 2`), adaptándose a los datos de cada una.
 
-[Ver en GitHub: AdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/152db8ae8d4d7f1c2cd2dc742df9a9e974fe813b/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L227-L292
 
 ## RA3.c — Parámetros y valores por defecto
 
@@ -471,7 +469,7 @@ Se han definido valores por defecto en los constructores de las funciones Compos
 
 El siguiente fragmento muestra cómo se define el parámetro `isDeletable` con un valor por defecto para simplificar su uso.
 
-[Ver en GitHub: AdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/152db8ae8d4d7f1c2cd2dc742df9a9e974fe813b/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt#L227-L232
 
 ## RA3.d — Eventos en componentes
 
@@ -495,10 +493,10 @@ El componente define qué pasa, no cómo pasa. Se puede ver cómo recibe funcion
 
 [Ver en GitHub: AdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
 
-**Eventos de Diálogo (`AddAlumnoDialog`):**
+**Eventos de Diálogo (`AlumnoDialog`):**
 Gestión de confirmación con paso de parámetros hacia la pantalla padre.
 
-[Ver en GitHub: AddAlumnoDialog.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/AddAlumnoDialog.kt)
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/152db8ae8d4d7f1c2cd2dc742df9a9e974fe813b/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/AlumnoDialog.kt#L21-L87
 
 ## RA3.f — Documentación de componentes
 
@@ -521,12 +519,8 @@ Esta documentación garantiza que el proyecto sea comprensible para futuros desa
 **Documentación en Diálogos:**
 En el archivo del diálogo de alumnos se documenta la funcionalidad de autogeneración de UUID y la validación de campos vacíos.
 
-[Ver en GitHub: AddAlumnoDialog.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/AddAlumnoDialog.kt)
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/152db8ae8d4d7f1c2cd2dc742df9a9e974fe813b/app/src/main/java/com/example/proyectofinalivanroldan/ui/components/AlumnoDialog.kt#L21-L87
 
-**Documentación en Repositorios:**
-Se explica la función de las interfaces de dominio para desacoplar la implementación de JSON.
-
-[Ver en GitHub: UsuarioRepository.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/tree/main/app/src/main/java/com/example/proyectofinalivanroldan/data/repository)
 
 ## RA3.h — Integración de componentes en la app
 
@@ -571,7 +565,7 @@ La aplicación aplica de forma consistente los **estándares de diseño de Andro
 **Uso global de MaterialTheme:**
 El archivo de tema define la paleta de colores y tipografías que heredan todos los componentes.
 
-[Ver en GitHub: Theme.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/theme/Theme.kt)
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/152db8ae8d4d7f1c2cd2dc742df9a9e974fe813b/app/src/main/java/com/example/proyectofinalivanroldan/ui/theme/Theme.kt#L1-L47
 
 **Componentes Material en Pantallas:**
 Implementación de `Scaffold` y `Surface` en las pantallas principales.
@@ -631,15 +625,10 @@ Las acciones principales están colocadas de forma **estratégica según la frec
 
 ### Dónde ocurre en el proyecto
 
-**Botón Flotante (FAB):**
+**Botón Flotante:**
 Ubicación accesible para añadir entidades.
 
 [Ver en GitHub: MainAdminScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/MainAdminScreen.kt)
-
-**Botón de Acción de Cámara:**
-Botón de ancho completo para facilitar la interacción rápida.
-
-[Ver en GitHub: ConserjeScreen.kt](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt)
 
 ## RA4.e — Distribución de controles
 
