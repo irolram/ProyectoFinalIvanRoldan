@@ -51,7 +51,7 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Proyecto Instituto QR", style = MaterialTheme.typography.headlineMedium)
+        Text(text = "SafePick", style = MaterialTheme.typography.headlineMedium)
 
         Spacer(modifier = Modifier.height(16.dp))
 
