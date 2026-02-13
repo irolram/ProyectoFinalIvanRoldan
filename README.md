@@ -29,55 +29,6 @@ Actualmente, este proceso depende en gran medida de la memoria visual del person
 * `TutorScreen.kt` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/7c61f9b5c98ab9a4d31d8263b5fb507318791d6c/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/TutorScreen.kt#L1-L201 Usa el `QrGenerator.kt` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/7c61f9b5c98ab9a4d31d8263b5fb507318791d6c/app/src/main/java/com/example/proyectofinalivanroldan/util/QrGenerator.kt#L1-L35 para convertir el ID del tutor en una imagen QR. Muestra la lista de sus alumnos vinculados.
 * `ConserjeScreen.kt` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/7c61f9b5c98ab9a4d31d8263b5fb507318791d6c/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt#L1-L211 Usa la cámara mediante CameraX. Conecta con el `QrAnalyzer.kt` https://github.com/irolram/ProyectoFinalIvanRoldan/blob/7c61f9b5c98ab9a4d31d8263b5fb507318791d6c/app/src/main/java/com/example/proyectofinalivanroldan/util/QRAnalyzer.kt#L1-L41, que usa ML Kit para "leer" el código. Una vez leído el ID, consulta al repositorio para confirmar si el tutor es válido y qué alumnos puede llevarse.
 
-# Manual de Usuario: Sistema de Gestión de Recogida Escolar
-
-Este documento describe el funcionamiento de la aplicación diseñada para gestionar de forma segura la salida de alumnos del centro escolar mediante códigos QR.
-
-### Acceso al Sistema (Login)
-Al abrir la aplicación, se presentará la pantalla de inicio de sesión.
-1.  **Introduce tu Usuario y Contraseña.**
-    * El instituto le deberá de dar su usuario y contraseña con la cual luego deberá iniciar sesión.
-2.  La aplicación detectará automáticamente tu perfil (Administrador, Tutor o Conserje) y te dirigirá a tu panel correspondiente.
-
-### 1. Perfil: Administrador
-El administrador es el encargado de gestionar la base de datos del centro. El panel se divide en tres pestañas:
-
-**A. Gestión de Usuarios**
-* **Visualizar:** Lista de todos los usuarios registrados (Tutores, Conserjes y otros Admins).
-* **Añadir:** Pulsa el botón flotante `+` para crear un nuevo usuario asignándole un nombre, nombre de usuario, contraseña y rol.
-* **Eliminar:** Pulsa el icono de la papelera en el usuario que desees dar de baja.
-
-**B. Gestión de Alumnos**
-* **Visualizar:** Lista de alumnos matriculados y su curso.
-* **Añadir:** Pulsa el botón `+` para registrar un nuevo alumno con su nombre completo y curso actual.
-* **Eliminar:** Pulsa el icono de la papelera para borrar el registro de un alumno.
-
-**C. Vínculos (Relación Tutor-Alumno)**
-* **Propósito:** Aquí se define qué tutor tiene permiso para recoger a qué alumno.
-* **Crear Vínculo:** Pulsa `+`, selecciona un tutor de la lista y el alumno al que está autorizado a recoger.
-* **Eliminar Vínculo:** Pulsa el icono de borrar para revocar un permiso de recogida específico.
-
-### 2. Perfil: Tutor
-El tutor dispone de una interfaz simplificada para gestionar la recogida de sus menores.
-* En la pestaña "Mis alumnos" aparecerá la lista de alumnos que tienes autorizados para recoger, junto con su curso.
-* **Pase QR (Generación de Código):**
-    1.  Selecciona la pestaña "Pase QR" en la barra inferior.
-    2.  Se generará un Código QR único vinculado a tu identidad.
-    3.  **Uso:** Debes mostrar este código en la pantalla de tu móvil al personal de conserjería cuando llegues al centro.
-
-### 3. Perfil: Conserje
-El conserje es el encargado de validar las salidas físicamente en la puerta del centro.
-* **Escaneo de Seguridad:** Al entrar, se activará la cámara del dispositivo (es necesario aceptar el permiso de cámara).
-* **Validación:** Enfoca el código QR que presente el tutor.
-* **Resultados:**
-    * **Acceso Autorizado:** Se mostrará un mensaje en verde y aparecerá la lista de alumnos que esa persona tiene permiso para recoger. El conserje podrá verificar visualmente a los niños antes de permitir la salida.
-    * **Acceso Denegado:** Se mostrará un mensaje en rojo si el código no es válido o el tutor no tiene alumnos vinculados.
-* **Siguiente:** Pulsa el botón "Limpiar y siguiente" para resetear el escáner para el próximo tutor.
-
-### 4. Recomendaciones de Seguridad
-* **No compartas tus credenciales:** Cada usuario es responsable de las acciones realizadas con su cuenta.
-* **Privacidad del QR:** El código QR es personal. No envíes capturas de pantalla a personas no autorizadas.
-* **Cerrar Sesión:** Si utilizas un dispositivo compartido, asegúrate de pulsar el botón de Salir (icono de puerta) para cerrar tu sesión al finalizar.
 
 # Criterios de Evaluación
 
@@ -890,7 +841,8 @@ La aplicación ofrece información al usuario mediante:
 ### Ubicación
 
 **Feedback Visual y Textos:** `LoginScreen.kt` y `ConserjeScreen.kt`.
-**Documentación Externa:** Archivo `README.md` en la raíz del repositorio.
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/cde3dbcd4cd72d76d89bd214e668a5ccf39b0274/app/src/main/java/com/example/proyectofinalivanroldan/ui/login/LoginScreen.kt#L1-L104
+https://github.com/irolram/ProyectoFinalIvanRoldan/blob/cde3dbcd4cd72d76d89bd214e668a5ccf39b0274/app/src/main/java/com/example/proyectofinalivanroldan/ui/mainScreen/ConserjeScreen.kt#L1-L211
 
 ## RA6.c – Genera ayudas sensibles al contexto
 
@@ -936,36 +888,123 @@ Documentación de las operaciones de datos.
 
 ## RA6.e – Manual de usuario y guía de referencia
 
-El proyecto incluye un manual de usuario integrado en la documentación del repositorio (`README.md`) que actúa como guía de referencia para el uso de la aplicación.
-En este manual se explica detalladamente:
-1.  **Acceso y Roles:** Cómo iniciar sesión y qué puede hacer cada perfil (Admin, Tutor, Conserje).
-2.  **Flujo del Tutor:** Cómo generar y presentar el código QR.
-3.  **Flujo del Conserje:** Cómo utilizar el escáner de cámara y validar las salidas.
-4.  **Gestión Administrativa:** Guía paso a paso para dar de alta alumnos y crear vínculos familiares.
+Este documento describe el funcionamiento de la aplicación diseñada para gestionar de forma segura la salida de alumnos del centro escolar mediante códigos QR.
+
+### Acceso al Sistema (Login)
+Al abrir la aplicación, se presentará la pantalla de inicio de sesión.
+1.  **Introduce tu Usuario y Contraseña.**
+    * El instituto le deberá de dar su usuario y contraseña con la cual luego deberá iniciar sesión.
+2.  La aplicación detectará automáticamente tu perfil (Administrador, Tutor o Conserje) y te dirigirá a tu panel correspondiente.
+
+### 1. Perfil: Administrador
+El administrador es el encargado de gestionar la base de datos del centro. El panel se divide en tres pestañas:
+
+**A. Gestión de Usuarios**
+* **Visualizar:** Lista de todos los usuarios registrados (Tutores, Conserjes y otros Admins).
+* **Añadir:** Pulsa el botón flotante `+` para crear un nuevo usuario asignándole un nombre, nombre de usuario, contraseña y rol.
+* **Eliminar:** Pulsa el icono de la papelera en el usuario que desees dar de baja.
+
+**B. Gestión de Alumnos**
+* **Visualizar:** Lista de alumnos matriculados y su curso.
+* **Añadir:** Pulsa el botón `+` para registrar un nuevo alumno con su nombre completo y curso actual.
+* **Eliminar:** Pulsa el icono de la papelera para borrar el registro de un alumno.
+
+**C. Vínculos (Relación Tutor-Alumno)**
+* **Propósito:** Aquí se define qué tutor tiene permiso para recoger a qué alumno.
+* **Crear Vínculo:** Pulsa `+`, selecciona un tutor de la lista y el alumno al que está autorizado a recoger.
+* **Eliminar Vínculo:** Pulsa el icono de borrar para revocar un permiso de recogida específico.
+
+### 2. Perfil: Tutor
+El tutor dispone de una interfaz simplificada para gestionar la recogida de sus menores.
+* En la pestaña "Mis alumnos" aparecerá la lista de alumnos que tienes autorizados para recoger, junto con su curso.
+* **Pase QR (Generación de Código):**
+    1.  Selecciona la pestaña "Pase QR" en la barra inferior.
+    2.  Se generará un Código QR único vinculado a tu identidad.
+    3.  **Uso:** Debes mostrar este código en la pantalla de tu móvil al personal de conserjería cuando llegues al centro.
+
+### 3. Perfil: Conserje
+El conserje es el encargado de validar las salidas físicamente en la puerta del centro.
+* **Escaneo de Seguridad:** Al entrar, se activará la cámara del dispositivo (es necesario aceptar el permiso de cámara).
+* **Validación:** Enfoca el código QR que presente el tutor.
+* **Resultados:**
+    * **Acceso Autorizado:** Se mostrará un mensaje en verde y aparecerá la lista de alumnos que esa persona tiene permiso para recoger. El conserje podrá verificar visualmente a los niños antes de permitir la salida.
+    * **Acceso Denegado:** Se mostrará un mensaje en rojo si el código no es válido o el tutor no tiene alumnos vinculados.
+* **Siguiente:** Pulsa el botón "Limpiar y siguiente" para resetear el escáner para el próximo tutor.
+
+### 4. Recomendaciones de Seguridad
+* **No compartas tus credenciales:** Cada usuario es responsable de las acciones realizadas con su cuenta.
+* **Privacidad del QR:** El código QR es personal. No envíes capturas de pantalla a personas no autorizadas.
+* **Cerrar Sesión:** Si utilizas un dispositivo compartido, asegúrate de pulsar el botón de Salir (icono de puerta) para cerrar tu sesión al finalizar.
 
 El manual utiliza un lenguaje no técnico, adecuado para el personal del centro educativo.
 
-### Ubicación
-
-**Manual de Usuario:** Sección "Manual de Usuario" en el documento `README.md` del proyecto.
 
 ## RA6.f – Manual técnico de instalación y configuración
 
-La aplicación dispone de un manual técnico orientado a desarrolladores y administradores de sistemas del centro.
-Este manual describe:
-1.  **Requisitos:** Android Studio Koala+, JDK 17, Dispositivo Android con cámara (min SDK 26).
-2.  **Dependencias:** Explicación de las librerías clave (`CameraX`, `Gson`, `Navigation Compose`, `ZXing`).
-3.  **Despliegue:** Instrucciones para clonar el repositorio, compilar el proyecto y generar el APK firmado.
-4.  **Estructura de Datos:** Ubicación de los archivos JSON en el almacenamiento interno del dispositivo.
+## 1. Introducción
+**SafePick** es una aplicación móvil desarrollada para la plataforma Android destinada a la gestión de seguridad escolar. Permite la administración de usuarios, registro de alumnos y supervisión de salidas mediante un sistema de vinculación tutor-alumno, garantizando que solo personas autorizadas retiren a los estudiantes.
 
-Esta documentación garantiza la reproducibilidad del entorno de desarrollo y facilita la instalación en nuevos dispositivos del colegio.
+---
 
-### Ubicación
+## 2. Especificaciones Técnicas
 
-**Configuración de Build:**
-El archivo `build.gradle.kts` documenta las dependencias técnicas necesarias.
+### 2.1. Tecnologías Utilizadas
+* **Lenguaje:** Kotlin 1.9.x
+* **Framework UI:** Jetpack Compose (Material Design 3)
+* **Arquitectura:** MVVM (Model-View-ViewModel) con patrón Repository.
+* **Navegación:** Compose Navigation con gestión de pila (Stack Management).
+* **Gestión de Permisos:** Accompanist Permissions (para el módulo de cámara).
 
-[Ver en GitHub: build.gradle.kts](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/build.gradle.kts)
+### 2.2. Requisitos del Sistema
+* **SO Mínimo:** Android 8.0 (Oreo) - API 26.
+* **SO Target:** Android 14.0 (Upside Down Cake) - API 34.
+* **IDE Recomendado:** Android Studio Ladybug | 2024.2.1 o superior.
+* **JDK:** Versión 17.
+
+---
+
+## 3. Instalación del Entorno de Desarrollo
+
+1. **Clonación del Repositorio:**
+
+   git clone [https://github.com/IvanRoldan/ProyectoFinalSafePick.git](https://github.com/IvanRoldan/ProyectoFinalSafePick.git)
+
+
+
+2. **Configuración de Android Studio:** 
+
+- Importar el proyecto desde File > Open.
+
+- Verificar en Settings > Build, Execution, Deployment > Build Tools > Gradle que el Gradle JDK esté apuntando a Java 17.
+
+3. **Sincronización:**
+
+- Ejecutar Sync Project with Gradle Files y esperar a que las dependencias se descarguen correctamente.
+
+## 4. Estructura de Paquetes
+com.example.proyectofinalivanroldan.dominio.model: Definición de las entidades de datos (Usuario, Alumno, Vinculo).
+
+com.example.proyectofinalivanroldan.data.repository: Lógica de persistencia local y manejo de datos.
+
+com.example.proyectofinalivanroldan.ui.mainScreen: Pantallas principales por roles (Admin, Tutor, Conserje).
+
+com.example.proyectofinalivanroldan.ui.components: Componentes reutilizables (Diálogos, Cards, Filtros).
+
+com.example.proyectofinalivanroldan.ui.viewmodel: Lógica de negocio y gestión de estados de la UI.
+
+## 5. Configuración y Seguridad
+
+### 5.1. Usuario Maestro
+El sistema cuenta con un activador automático en MainActivity.kt. Si la base de datos de usuarios está vacía, se genera el siguiente acceso:
+
+Username: admin
+
+Password: admin
+
+Rol: ADMIN
+
+### 5.2. Permisos en el Manifiesto
+El archivo AndroidManifest.xml debe contener las siguientes declaraciones para el correcto funcionamiento del escáner y la exportación:
 
 ## RA6.g – Confecciona tutoriales
 
@@ -1000,15 +1039,7 @@ El instalador de la aplicación presenta una **identidad visual coherente** y pr
 
 Se han personalizado los siguientes elementos:
 * **Nombre de la aplicación:** "SafePick" (definido en `strings.xml`).
-* **Icono Adaptativo:** Se ha diseñado un icono que representa seguridad y educación, compatible con las máscaras de iconos de Android (círculo, cuadrado redondeado, lágrima) para integrarse en cualquier launcher.
 * **Tema de Inicio (Splash Screen):** La aplicación inicia con una transición suave que respeta el modo oscuro/claro del sistema.
-
-### Ubicación en el código
-
-**Definición de Icono y Etiqueta:**
-Configuración en el Manifiesto.
-
-[Ver en GitHub: AndroidManifest.xml](https://github.com/irolram/ProyectoFinalIvanRoldan/blob/main/app/src/main/AndroidManifest.xml)
 
 ## RA7.c — Paquete generado desde el entorno de desarrollo
 
@@ -1025,7 +1056,7 @@ El resultado es un archivo `.apk` estable, optimizado y listo para su despliegue
 
 Para la distribución y preparación de la aplicación se han utilizado herramientas externas estándar del ecosistema Android:
 
-1.  **Android Studio (Koala/Ladybug):** IDE oficial para la gestión del proyecto y generación de artefactos.
+1.  **Android Studio (Koala):** IDE oficial para la gestión del proyecto y generación de artefactos.
 2.  **Gradle Build Tool:** Sistema de automatización que gestiona las dependencias (CameraX, Gson, Compose) y compila el código.
 3.  **Keytool:** Herramienta de línea de comandos (integrada en el IDE) utilizada para generar el almacén de claves criptográficas.
 
@@ -1073,15 +1104,14 @@ Se ha realizado una planificación razonada de los canales de distribución más
 
 Esta estrategia híbrida permite un despliegue inmediato (APK) con una ruta clara hacia una gestión más profesional (Play Store).
 
-RA8 — Pruebas avanzadas
-RA8.a — Estrategia de pruebas
-Estrategia definida
+# RA8 — Pruebas avanzadas
+## RA8.a — Estrategia de pruebas
 
 El proyecto incorpora una estrategia de pruebas orientada a asegurar la estabilidad de la lógica de negocio y la correcta gestión del estado de la aplicación, un aspecto crítico al manejar datos sensibles de alumnos y tutores en un entorno escolar.
 
-La estrategia de testing se basa en tres niveles principales:
+- La estrategia de testing se basa en tres niveles principales:
 
-Pruebas unitarias (Unit Testing):
+- Pruebas unitarias (Unit Testing):
 
 Validan la lógica de negocio contenida en los Casos de Uso (por ejemplo, verificar que no se pueda crear un alumno con datos incompletos).
 
@@ -1089,7 +1119,12 @@ Verifican el comportamiento de los ViewModels (AdminViewModel, ConserjeViewModel
 
 Herramientas: Se utilizan librerías estándar del ecosistema Android como JUnit 4, MockK (para simular el comportamiento de los repositorios) y Turbine (para validar los flujos de datos reactivos).
 
-Pruebas de regresión:
+<img width="1012" height="729" alt="image" src="https://github.com/user-attachments/assets/3c03f466-3ec9-4070-948a-2826e0c9dce4" />
+<img width="1021" height="653" alt="image" src="https://github.com/user-attachments/assets/48a4a49d-d9a0-4438-b36d-f207a768a1a6" />
+<img width="1024" height="883" alt="image" src="https://github.com/user-attachments/assets/c3925522-43e4-4162-ba1f-39f6c3d3e429" />
+
+
+- Pruebas de regresión:
 
 Las pruebas unitarias automatizadas permiten detectar errores tras realizar modificaciones en el código. Por ejemplo, si se optimiza el algoritmo de lectura de los archivos JSON, los tests existentes aseguran que el formato de los datos sigue siendo compatible y que no se ha roto la funcionalidad de búsqueda o filtrado.
 
@@ -1100,34 +1135,20 @@ Se realizan verificaciones manuales de aquellos flujos que dependen del hardware
 Esta estrategia asegura que la lógica crítica de la aplicación permanezca estable durante todo el ciclo de desarrollo evolutivo del proyecto.
 
 RA8.b — Pruebas de integración
-Pruebas de integración implementadas
 
-Además de las pruebas unitarias individuales, el proyecto incorpora pruebas de integración orientadas a validar la correcta comunicación entre las distintas capas de la arquitectura Clean Architecture utilizada.
+Durante el desarrollo del proyecto SafePick, la ejecución de las pruebas de integración automáticas (Instrumented Tests) se ha visto interrumpida por problemas críticos de compatibilidad en el entorno de desarrollo. A continuación, se detallan los motivos técnicos por los cuales este apartado no ha podido completarse mediante scripts automatizados:
 
-Estas pruebas verifican la interacción fluida entre:
-
-Capa de Presentación (ViewModel): Donde reside la lógica de la interfaz.
-
-Capa de Dominio (UseCases): Donde residen las reglas de negocio.
-
-Capa de Datos (Repositories): Donde reside el acceso a datos basado en archivos JSON.
-
-Para realizar estas pruebas de manera eficiente, se emplea el uso de dobles de prueba (mocks) de los repositorios. Esto es vital en SafePick porque nos permite simular el comportamiento de los archivos JSON (lectura y escritura) sin necesidad de acceder al almacenamiento real del dispositivo durante los tests. Esto hace que las pruebas sean mucho más rápidas, deterministas y fiables, ya que no dependen del estado físico del sistema de archivos.
-
-Escenarios comprobados:
-
-Flujo de Carga de Datos: Se verifica que, al iniciar la pantalla de administración, el ViewModel solicita los datos al caso de uso, este a su vez invoca al repositorio, y la lista de alumnos fluye de vuelta correctamente hasta actualizar el estado de la interfaz, sustituyendo el indicador de carga por la lista de resultados reales.
-
-Gestión de Errores de Archivo: Se simula una situación donde el repositorio lanza una excepción (por ejemplo, si el archivo alumnos.json está corrupto o no existe) y se verifica que la interfaz muestra un mensaje de error legible al usuario en lugar de bloquear la aplicación.
+Conflicto de Versiones (Dependency Hell)
+Se detectó una incompatibilidad severa entre las versiones de la librería Compose BOM y las dependencias necesarias para las pruebas de integración, específicamente con JUnit 4 y Espresso Core. A pesar de intentar forzar una resolución consistente en el archivo build.gradle.kts, Gradle generaba errores de tipo "Consistent Resolution", impidiendo la compilación del módulo de test.
 
 RA8.c — Pruebas de regresión
-El proyecto incorpora pruebas unitarias reales sobre los ViewModels y casos de uso, que actúan como pruebas de regresión funcionales. Estas pruebas se ejecutan automáticamente cada vez que se modifica la lógica de negocio para asegurar que las funcionalidades previamente validadas no sufran alteraciones no deseadas.
+El proyecto incorpora pruebas unitarias reales sobre los ViewModels. Estas pruebas se ejecutan automáticamente cada vez que se modifica la lógica de negocio para asegurar que las funcionalidades previamente validadas no sufran alteraciones no deseadas.
 
 Escenario de Carga en AdminViewModel
 Se verifica mediante un test que el ViewModel es capaz de transformar la lista de objetos devuelta por el repositorio en el estado visible de la interfaz. El test configura un repositorio simulado que devuelve una lista predefinida de alumnos y comprueba que, tras la carga, el estado de la UI contiene exactamente esos mismos registros con sus nombres y cursos correctos.
 
-Escenario de Lógica de Borrado
-Se valida que el sistema reacciona adecuadamente ante intentos de borrar registros no existentes. En este test, se configura el repositorio para que devuelva un fallo controlado. Luego, se verifica que el ViewModel captura ese error y actualiza el estado de la interfaz con el mensaje de advertencia correspondiente, asegurando que el usuario recibe el feedback adecuado.
+<img width="1034" height="887" alt="image" src="https://github.com/user-attachments/assets/95a7abb5-6a24-48c3-87cd-cecb27ce369e" />
+
 
 RA8.d — Pruebas de volumen / estrés
 Aunque no se han implementado pruebas de estrés automatizadas a gran escala, se ha realizado una evaluación técnica razonada basada en la arquitectura del proyecto:
