@@ -1013,7 +1013,6 @@ Se han diseñado flujos de trabajo que actúan como tutoriales implícitos ("Onb
 ### Ubicación
 
 **Flujo Secuencial:** Lógica de estados en `ConserjeScreen.kt`.
-**Validación Guiada:** Lógica en `AddUserDialog.kt`.
 
 # RA7 — Distribución de aplicaciones
 
