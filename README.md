@@ -1158,6 +1158,8 @@ Volumen de Datos: Dado que SafePick carga los archivos JSON completos en memoria
 Límites Identificados: Se ha documentado que, para volúmenes muy superiores (miles de registros), el tiempo de procesamiento de la librería de parseo JSON podría empezar a afectar al tiempo de arranque de la aplicación.
 
 Escalabilidad: Se concluye que esta arquitectura es eficiente para el alcance actual. Para escalar a una cantidad masiva de alumnos en el futuro, se recomienda migrar la persistencia a una base de datos indexada, una transición facilitada por el desacoplamiento entre capas que ofrece el proyecto.
+<img width="994" height="816" alt="image" src="https://github.com/user-attachments/assets/f3474ae2-127e-443e-b48f-f89f7d348590" />
+
 
 RA8.e — Pruebas de seguridad
 Las pruebas unitarias también contribuyen a validar la seguridad lógica y la integridad de los datos de la aplicación:
@@ -1167,6 +1169,9 @@ Validación de Entradas: Se comprueba mediante tests que los Casos de Uso de cre
 Consistencia de Identificadores: Se valida que la lógica de generación de identificadores únicos (UUID) funciona correctamente, evitando colisiones que podrían provocar la mezcla de datos de dos personas diferentes o la sobreescritura accidental de registros.
 
 Control de Estados: Se asegura mediante pruebas que la interfaz no muestre información sensible si la carga de datos falla o si el usuario intenta acceder a rutas protegidas sin la autenticación necesaria.
+
+<img width="1027" height="749" alt="image" src="https://github.com/user-attachments/assets/39ce7c4e-49c8-4143-b62c-bc4a02304bde" />
+
 
 RA8.f — Uso de recursos
 El uso de corrutinas controladas en las pruebas unitarias permite analizar y optimizar el uso de recursos del sistema:
