@@ -1204,6 +1204,9 @@ Esta documentación técnica asegura que los requisitos funcionales estén siemp
 https://github.com/user-attachments/assets/883e4da3-f650-4116-8c91-740017083bff
 
 
+## Imagenes que no se han podido ver en el Video
 
+![8cb99be3-19e7-46a8-9788-73c11fac7947](https://github.com/user-attachments/assets/b398bc91-a45e-4d28-af54-9d13d04960d9)
 
+![e9d9a3ef-6c66-47c4-b5ff-7b7a79ff34c4](https://github.com/user-attachments/assets/ddb447d8-9c10-486e-a9dc-5cacc40691e6)
 
